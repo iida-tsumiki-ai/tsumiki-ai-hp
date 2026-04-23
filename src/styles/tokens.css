@@ -1,0 +1,162 @@
+/*
+ * ツミキAI Design Tokens
+ * Source: 共有ドライブ/ツミキAI/03_デザイン・アセット/DESIGN.md
+ * ベース思想: Notion × Stripe + 積み木モチーフ + 和の工芸品の手触り
+ */
+
+:root {
+  /* ========================================
+   * §2 Color Palette
+   * ======================================== */
+
+  /* Brand Core */
+  --color-primary: #1A3A5F;
+  --color-primary-hover: #142E4B;
+  --color-accent: #FF6B35;
+  --color-accent-soft: #FFE5D6;
+
+  /* Neutrals */
+  --color-bg: #FFFFFF;
+  --color-bg-subtle: #F5F5F5;
+  --color-bg-warm: #FAF7F2;
+  --color-border: #E5E7EB;
+  --color-text: #1A3A5F;
+  --color-text-body: #4B5563;
+  --color-text-muted: #6C757D;
+  --color-text-subtle: #999999;
+
+  /* Semantic */
+  --color-success: #2F855A;
+  --color-warning: #D97706;
+  --color-error: #C53030;
+  --color-info: #0099FF;
+
+  /* ========================================
+   * §3 Typography - Font Family
+   * ======================================== */
+
+  --font-jp: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --font-jp-serif: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-en: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+
+  /* ========================================
+   * §3 Typography - Type Scale
+   * 日本語本文は line-height 1.75〜1.8
+   * ======================================== */
+
+  --text-display: 56px;
+  --text-h1: 40px;
+  --text-h2: 32px;
+  --text-h3: 24px;
+  --text-h4: 20px;
+  --text-body-lg: 18px;
+  --text-body: 16px;
+  --text-body-sm: 14px;
+  --text-caption: 12px;
+
+  --leading-display: 1.2;
+  --leading-h1: 1.3;
+  --leading-h2: 1.35;
+  --leading-h3: 1.4;
+  --leading-h4: 1.45;
+  --leading-body-lg: 1.75;
+  --leading-body: 1.8;
+  --leading-body-sm: 1.7;
+  --leading-caption: 1.5;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 900;
+
+  /* letter-spacing（見出しは -0.01em / 日本語は 0）*/
+  --tracking-heading: -0.01em;
+  --tracking-body: 0;
+
+  /* ========================================
+   * §4 Layout & Spacing
+   * ======================================== */
+
+  /* Container（サービス/料金=1120px、記事本文=720px）*/
+  --container-lg: 1120px;
+  --container-md: 720px;
+
+  /* Grid */
+  --gutter: 24px;
+  --column-gap: 32px;
+
+  /* Breakpoints（参照用。CSS内の @media 直書き推奨）*/
+  --bp-sm: 640px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+
+  /* Spacing Scale (8pt base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* Section padding（デスクトップ=96px・モバイル=64pxを基準、Lセクション想定）*/
+  --section-py-desktop: 96px;
+  --section-py-desktop-md: 64px;
+  --section-py-mobile: 64px;
+  --section-py-mobile-md: 40px;
+
+  /* ========================================
+   * §6 Elevation & Radius
+   * ======================================== */
+
+  /* Radius Scale */
+  --radius-sm: 6px;
+  --radius-md: 10px;   /* Button */
+  --radius-lg: 16px;   /* Card */
+  --radius-xl: 24px;
+  --radius-full: 999px; /* Badge */
+
+  /* Shadow Scale（ネイビーベース）*/
+  --shadow-xs: 0 1px 2px rgba(26, 58, 95, 0.05);
+  --shadow-sm: 0 1px 3px rgba(26, 58, 95, 0.08);
+  --shadow-md: 0 4px 12px rgba(26, 58, 95, 0.08);
+  --shadow-lg: 0 8px 24px rgba(26, 58, 95, 0.10);
+
+  /* Button 専用 Shadow（§5）*/
+  --shadow-button: 0 1px 2px rgba(26, 58, 95, 0.08);
+  /* Card 専用 Shadow（§5）*/
+  --shadow-card: 0 1px 3px rgba(26, 58, 95, 0.06);
+  --shadow-card-hover: 0 8px 24px rgba(26, 58, 95, 0.10);
+
+  /* ========================================
+   * §5 Component Tokens（主要値のみ）
+   * ======================================== */
+
+  /* Button */
+  --button-height-sm: 36px;
+  --button-height-md: 44px;
+  --button-height-lg: 52px;
+  --button-px: 24px;
+  --button-py: 12px;
+
+  /* Header */
+  --header-height: 72px;
+
+  /* Form Input */
+  --input-height: 44px;
+
+  /* ========================================
+   * §8 Motion
+   * ======================================== */
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-hover: 150ms;
+  --duration-page: 300ms;
+  --duration-reveal: 500ms;
+}

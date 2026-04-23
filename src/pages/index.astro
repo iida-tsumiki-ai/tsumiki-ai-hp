@@ -5,6 +5,7 @@ import Container from "../components/Container.astro";
 import DifferentiationPoints from "../components/DifferentiationPoints.astro";
 import PriceTierChart from "../components/PriceTierChart.astro";
 import ProductMatrix from "../components/ProductMatrix.astro";
+import FlagshipSummary from "../components/FlagshipSummary.astro";
 ---
 
 <Layout>
@@ -41,6 +42,13 @@ import ProductMatrix from "../components/ProductMatrix.astro";
     <Section size="l" background="subtle" id="product-matrix">
       <Container>
         <ProductMatrix />
+      </Container>
+    </Section>
+
+    <!-- §4. 3系統の主力商品サマリー（B6 / D案§4 / 論点4） -->
+    <Section size="l" background="default" id="flagship-summary">
+      <Container>
+        <FlagshipSummary />
       </Container>
     </Section>
   </main>

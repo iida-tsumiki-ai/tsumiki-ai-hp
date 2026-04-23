@@ -1,0 +1,353 @@
+---
+/**
+ * FlagshipSummary — ホーム §4「3系統の主力商品サマリー」
+ * 設計書: 11_HPリニューアル_設計書.md §1 §4（D案 新設 / 2026-04-23）
+ *
+ * 目的:
+ *   - §3 マトリックスの全俯瞰のあと、"どの関わり方から始める？" の3択に絞り込む
+ *   - 旧D案で削除した B伴走詳細セクション を 1カードに格下げ（Lv1-2 経営者の萎縮回避）
+ *   - 3カードは低 → 高価格で並べて価格アンカリング
+ */
+
+type Flagship = {
+  id: string;
+  tagline: string;
+  title: string;
+  subtitle: string;
+  priceBlock: {
+    headline: string;
+    note?: string;
+  };
+  bullets: string[];
+  ctaHref: string;
+  ctaLabel: string;
+  variant: "course" | "seminar" | "support";
+};
+
+const flagships: Flagship[] = [
+  {
+    id: "courses",
+    tagline: "まず読んで学ぶ",
+    title: "A講座シリーズ",
+    subtitle: "自分で読み進めて、自分の業務に落とす",
+    priceBlock: {
+      headline: "無料 + ¥3,000 × 4",
+      note: "ロードマップ講座（無料）+ Lv1-Lv4 各 ¥3,000",
+    },
+    bullets: [
+      "ロードマップ講座（無料）で4ステージの地図を掴む",
+      "Lv1-Lv4 講座で自社の現在Lvから一つずつ進める",
+      "各講座は読了＝成果物が手元に残る「作る」型",
+    ],
+    ctaHref: "/courses/",
+    ctaLabel: "A講座シリーズを見る",
+    variant: "course",
+  },
+  {
+    id: "seminar",
+    tagline: "他社経営者と学ぶ",
+    title: "経営者合同セミナー",
+    subtitle: "1日で四半期の投資方針を言語化する",
+    priceBlock: {
+      headline: "¥50万 / 日",
+      note: "¥5万 × 10名 / Phase 3（2026 Q4）開催予告",
+    },
+    bullets: [
+      "Lv3「戦略を描く」経営者が10名集まるピアラーニング",
+      "基幹系・全社戦略・組織設計の視点を同時に整理",
+      "Lv3講座を副読本として事前配布（参加者限定）",
+    ],
+    ctaHref: "/seminar/",
+    ctaLabel: "合同セミナーの詳細",
+    variant: "seminar",
+  },
+  {
+    id: "support-b",
+    tagline: "社外CTOと一緒に作る",
+    title: "B伴走支援",
+    subtitle: "戦略→実装→運用→卒業まで一気通貫",
+    priceBlock: {
+      headline: "月 ¥20〜30万",
+      note: "半年〜1年で卒業 / 既存主力",
+    },
+    bullets: [
+      "4フェーズ（Strategy / Build / Operate / Graduation）で内製化",
+      "弥生240万社規模のバックオフィス知見 × AI実装力",
+      "卒業後はOBコミュニティで孤立しない設計",
+    ],
+    ctaHref: "/support-b/",
+    ctaLabel: "B伴走の詳細",
+    variant: "support",
+  },
+];
+---
+
+<div class="flagship-block">
+  <header class="flagship-head">
+    <p class="kicker">§4 3系統の主力</p>
+    <h2 class="flagship-title">"どの関わり方から始める？" の 3択。</h2>
+    <p class="flagship-lead">
+      10マス全体を俯瞰したうえで、ツミキAI では<strong>関わり方で3つの主力</strong>を用意しています。
+      価格も関わり方もまったく違うので、迷ったらまず <a href="/diagnose/">DX診断</a> で自社の現在地を確認してください。
+    </p>
+  </header>
+
+  <ul class="flagship-grid">
+    {
+      flagships.map((f) => (
+        <li class={`card card--${f.variant}`}>
+          <div class="card-head">
+            <span class="card-tagline">{f.tagline}</span>
+            <h3 class="card-title">{f.title}</h3>
+            <p class="card-subtitle">{f.subtitle}</p>
+          </div>
+
+          <div class="card-price">
+            <span class="card-price-main">{f.priceBlock.headline}</span>
+            {f.priceBlock.note && <span class="card-price-note">{f.priceBlock.note}</span>}
+          </div>
+
+          <ul class="card-bullets">
+            {f.bullets.map((b) => (
+              <li class="card-bullet">{b}</li>
+            ))}
+          </ul>
+
+          <a class="card-cta" href={f.ctaHref}>
+            {f.ctaLabel} <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .flagship-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  /* Head */
+  .flagship-head {
+    max-width: 720px;
+  }
+  .kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-3) 0;
+  }
+  .flagship-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .flagship-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .flagship-lead strong {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+  .flagship-lead a {
+    color: var(--color-accent);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* Grid */
+  .flagship-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Card */
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: var(--space-8) var(--space-6) var(--space-6);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    transition:
+      box-shadow var(--duration-hover) var(--ease-out-quint),
+      transform var(--duration-hover) var(--ease-out-quint);
+  }
+  .card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+
+  /* 左上の積み木帯（バリアント別色） */
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: var(--space-6);
+    width: 64px;
+    height: 4px;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  }
+  .card--course::before {
+    background: var(--color-primary);
+  }
+  .card--seminar::before {
+    background: var(--color-accent);
+  }
+  .card--support::before {
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  }
+
+  .card-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .card-tagline {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .card-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    line-height: var(--leading-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0;
+  }
+  .card-subtitle {
+    font-family: var(--font-jp);
+    font-size: var(--text-body);
+    line-height: 1.5;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+
+  /* Price block */
+  .card-price {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-accent);
+  }
+  .card-price-main {
+    font-family: var(--font-en), var(--font-jp);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    color: #B84A1E;
+    font-feature-settings: "tnum";
+    letter-spacing: 0.01em;
+  }
+  .card-price-note {
+    font-family: var(--font-jp);
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  /* Bullets */
+  .card-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex-grow: 1;
+  }
+  .card-bullet {
+    position: relative;
+    padding-left: var(--space-6);
+    font-size: var(--text-body-sm);
+    line-height: 1.65;
+    color: var(--color-text-body);
+  }
+  .card-bullet::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent);
+    border-radius: 2px;
+  }
+
+  /* CTA */
+  .card-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-primary);
+    color: #fff;
+    border-radius: var(--radius-md);
+    font-family: var(--font-jp);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    box-shadow: var(--shadow-button);
+    transition:
+      background-color var(--duration-hover) var(--ease-out-quint),
+      transform var(--duration-hover) var(--ease-out-quint);
+  }
+  .card-cta:hover {
+    background: var(--color-primary-hover);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  /* バリアント別の微差（アクセントカードだけ CTA をオレンジに） */
+  .card--seminar .card-cta {
+    background: var(--color-accent);
+  }
+  .card--seminar .card-cta:hover {
+    background: #E55A2B;
+  }
+
+  /* ========================================
+   * Responsive
+   * ======================================== */
+  @media (max-width: 1023px) {
+    .flagship-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .flagship-title {
+      font-size: var(--text-h2);
+    }
+    .card {
+      padding: var(--space-6);
+    }
+  }
+</style>

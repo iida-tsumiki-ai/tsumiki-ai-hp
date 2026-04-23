@@ -1,0 +1,30 @@
+---
+/**
+ * Container — コンテンツ最大幅を揃える共通ラッパ
+ * DESIGN.md §4: サービス/料金 1120px / 記事本文 720px
+ */
+
+interface Props {
+  width?: "lg" | "md";
+  class?: string;
+}
+
+const { width = "lg", class: className = "" } = Astro.props;
+---
+
+<div class:list={["container", `container--${width}`, className]}>
+  <slot />
+</div>
+
+<style>
+  .container {
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+  .container--lg {
+    max-width: var(--container-lg);
+  }
+  .container--md {
+    max-width: var(--container-md);
+  }
+</style>

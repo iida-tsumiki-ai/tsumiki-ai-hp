@@ -1,0 +1,63 @@
+---
+/**
+ * Section — DESIGN.md §4 のセクション余白規則を適用
+ * Lセクション: desktop 96px / mobile 64px
+ * Mセクション: desktop 64px / mobile 40px
+ * 背景バリアント: default / subtle (#F5F5F5) / warm (#FAF7F2)
+ */
+
+interface Props {
+  size?: "l" | "m";
+  background?: "default" | "subtle" | "warm";
+  id?: string;
+  class?: string;
+}
+
+const { size = "l", background = "default", id, class: className = "" } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={[
+    "section",
+    `section--${size}`,
+    `section--bg-${background}`,
+    className,
+  ]}
+>
+  <slot />
+</section>
+
+<style>
+  .section {
+    width: 100%;
+  }
+  .section--l {
+    padding-top: var(--section-py-desktop);
+    padding-bottom: var(--section-py-desktop);
+  }
+  .section--m {
+    padding-top: var(--section-py-desktop-md);
+    padding-bottom: var(--section-py-desktop-md);
+  }
+  .section--bg-default {
+    background-color: var(--color-bg);
+  }
+  .section--bg-subtle {
+    background-color: var(--color-bg-subtle);
+  }
+  .section--bg-warm {
+    background-color: var(--color-bg-warm);
+  }
+
+  @media (max-width: 768px) {
+    .section--l {
+      padding-top: var(--section-py-mobile);
+      padding-bottom: var(--section-py-mobile);
+    }
+    .section--m {
+      padding-top: var(--section-py-mobile-md);
+      padding-bottom: var(--section-py-mobile-md);
+    }
+  }
+</style>

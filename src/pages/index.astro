@@ -1,133 +1,67 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Section from "../components/Section.astro";
+import Container from "../components/Container.astro";
+import ProductMatrix from "../components/ProductMatrix.astro";
 ---
 
-<Layout title="ツミキAI｜DESIGN.md トークン確認ページ">
-  <main class="container">
-    <section class="section">
-      <p class="kicker">Token check — A5 ローカル開発環境</p>
-      <h1 class="display">小さく始めて、一つずつ積み上げる。</h1>
-      <p class="lead">
-        このページは DESIGN.md のデザイントークンが正しく適用されているかを確認するためのサンプルです。
-        見出しは Shippori Mincho（明朝）、本文は Noto Sans JP（ゴシック）、ボタンはネイビー角丸10px で表示されることを目視確認します。
-      </p>
-    </section>
+<Layout>
+  <main>
+    <!-- 仮HERO（§1の本実装は別タスク / B1検証用の最小ヒーロー） -->
+    <Section size="l" background="default">
+      <Container>
+        <div class="hero-placeholder">
+          <p class="kicker">ツミキAI — HP リニューアル / ローカル開発版</p>
+          <h1 class="display">小さく始めて、一つずつ積み上げる。</h1>
+          <p class="lead">
+            中小企業がAIを「当たり前のツール」にするための伴走者。
+            診断で現在地がわかり、作って終われる。そして卒業できる。
+          </p>
+        </div>
+      </Container>
+    </Section>
 
-    <section class="section">
-      <h2>Typography</h2>
-      <h1>h1: ページタイトル（明朝 40px）</h1>
-      <h2>h2: セクション見出し（明朝 32px）</h2>
-      <h3>h3: サブ見出し（ゴシック 24px）</h3>
-      <h4>h4: カードタイトル（ゴシック 20px）</h4>
-      <p>
-        本文は Noto Sans JP、行間 1.8 で表示されます。日本語の本文は読みやすさ優先で行間を広めに取ります。
-        英数字（e.g. Astro 5.0 / TypeScript / 2026-04-23）は Inter にフォールバックします。
-      </p>
-      <p class="caption">caption: 12px / weight 500 / 補助ラベル用</p>
-    </section>
-
-    <section class="section">
-      <h2>Buttons</h2>
-      <div class="button-row">
-        <button class="btn btn-primary">主要 CTA（primary）</button>
-        <button class="btn btn-accent">申し込み（accent）</button>
-        <button class="btn btn-secondary">サブアクション</button>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Color tokens</h2>
-      <div class="swatch-grid">
-        <div class="swatch" style="background-color: var(--color-primary); color: #fff;">
-          primary<br /><span class="mono">#1A3A5F</span>
-        </div>
-        <div class="swatch" style="background-color: var(--color-accent); color: #fff;">
-          accent<br /><span class="mono">#FF6B35</span>
-        </div>
-        <div class="swatch" style="background-color: var(--color-accent-soft); color: var(--color-text);">
-          accent-soft<br /><span class="mono">#FFE5D6</span>
-        </div>
-        <div class="swatch" style="background-color: var(--color-bg-warm); color: var(--color-text);">
-          bg-warm<br /><span class="mono">#FAF7F2</span>
-        </div>
-      </div>
-    </section>
+    <!-- §3. 4ステージ × 商品マトリックス 統合（B1 / D案§3） -->
+    <Section size="l" background="subtle" id="product-matrix">
+      <Container>
+        <ProductMatrix />
+      </Container>
+    </Section>
   </main>
 </Layout>
 
 <style>
-  .container {
-    max-width: var(--container-lg);
-    margin: 0 auto;
-    padding: 0 var(--gutter);
+  .hero-placeholder {
+    max-width: 720px;
   }
-
-  .section {
-    padding-top: var(--section-py-desktop);
-    padding-bottom: var(--section-py-desktop);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .section:last-child {
-    border-bottom: none;
-  }
-
   .kicker {
     font-family: var(--font-en);
     font-size: var(--text-caption);
-    font-weight: var(--weight-medium);
+    font-weight: var(--weight-semibold);
     color: var(--color-accent);
-    text-transform: uppercase;
     letter-spacing: 0.08em;
+    text-transform: uppercase;
     margin: 0 0 var(--space-4) 0;
   }
-
+  .display {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-text);
+    margin: 0 0 var(--space-6) 0;
+  }
   .lead {
     font-size: var(--text-body-lg);
     line-height: var(--leading-body-lg);
     color: var(--color-text-body);
-    max-width: 640px;
-  }
-
-  .caption {
-    font-size: var(--text-caption);
-    font-weight: var(--weight-medium);
-    line-height: var(--leading-caption);
-    color: var(--color-text-muted);
-  }
-
-  .button-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-4);
-    margin-top: var(--space-6);
-  }
-
-  .swatch-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: var(--space-4);
-    margin-top: var(--space-6);
-  }
-
-  .swatch {
-    padding: var(--space-8) var(--space-6);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    font-weight: var(--weight-semibold);
-  }
-
-  .mono {
-    font-family: var(--font-mono);
-    font-size: var(--text-body-sm);
-    font-weight: var(--weight-regular);
-    opacity: 0.8;
+    margin: 0;
   }
 
   @media (max-width: 768px) {
-    .section {
-      padding-top: var(--section-py-mobile);
-      padding-bottom: var(--section-py-mobile);
+    .display {
+      font-size: var(--text-h1);
     }
   }
 </style>

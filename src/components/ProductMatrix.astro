@@ -1,0 +1,520 @@
+---
+/**
+ * ProductMatrix — ホーム §3「4ステージ × 商品マトリックス 統合」
+ * 設計書: 11_HPリニューアル_設計書.md §1 §3 (D案9ブロック構成)
+ * データ: src/data/products.ts（10マスモデル + ロードマップ講座）
+ *
+ * レスポンシブ方針:
+ *   - PC (≥ 900px): 4ステージ × 3形態 のフルグリッド表示
+ *   - モバイル: ステージ選択タブで該当ステージの3マスを表示
+ */
+
+import {
+  productCells,
+  roadmapCourse,
+  stageLabels,
+  formLabels,
+  type Form,
+  type Stage,
+} from "../data/products";
+
+const stages: Stage[] = [1, 2, 3, 4];
+const forms: Form[] = ["course", "training", "support"];
+---
+
+<div class="matrix-block">
+  <header class="matrix-head">
+    <p class="kicker">§3 全商品マップ</p>
+    <h2 class="display-sm">あなたに合った関わり方を選ぶ</h2>
+    <p class="lead">
+      4段階の<strong>ステージ</strong>（どこにいるか） × 3つの<strong>形態</strong>（どう作るか）＝10マス。
+      加えて、全ステージ共通の無料入口として<strong>ロードマップ講座</strong>を用意しています。
+    </p>
+  </header>
+
+  <!-- ロードマップ講座（10マス外・無料入口） -->
+  <a class="roadmap-card" href={roadmapCourse.href}>
+    <div class="roadmap-badge">無料 / 全ステージ共通</div>
+    <div class="roadmap-body">
+      <h3 class="roadmap-title">{roadmapCourse.name}</h3>
+      <p class="roadmap-desc">{roadmapCourse.description}</p>
+    </div>
+    <span class="roadmap-cta" aria-hidden="true">読む →</span>
+  </a>
+
+  <!-- モバイル: ステージ選択タブ -->
+  <div class="stage-tabs" role="tablist" aria-label="ステージを選ぶ">
+    {
+      stages.map((s) => (
+        <button
+          type="button"
+          class="stage-tab"
+          role="tab"
+          aria-selected={s === 1 ? "true" : "false"}
+          data-stage={s}
+        >
+          {stageLabels[s].short}
+        </button>
+      ))
+    }
+  </div>
+
+  <!-- グリッド本体 -->
+  <div class="matrix-grid" role="table" aria-label="4ステージ × 3形態 の商品マップ">
+    <!-- 列ヘッダ: 形態 -->
+    <div class="grid-corner" aria-hidden="true"></div>
+    {
+      forms.map((f) => (
+        <div class="form-header" role="columnheader">
+          <span class="form-name">{formLabels[f].label}</span>
+          <span class="form-eq">= {formLabels[f].equation}</span>
+        </div>
+      ))
+    }
+
+    <!-- 4ステージ × 3形態 のセル群 -->
+    {
+      stages.map((s) => (
+        <>
+          <div class="stage-label" data-stage={s} role="rowheader">
+            <span class="stage-label-inner">{stageLabels[s].full}</span>
+          </div>
+          {forms.map((f) => {
+            const cell = productCells.find((c) => c.stage === s && c.form === f);
+            if (!cell) return null;
+            const classes = [
+              "cell",
+              cell.isFlagship ? "cell--flagship" : "",
+              cell.isOz ? "cell--oz" : "",
+              cell.isUnavailable ? "cell--unavailable" : "",
+            ]
+              .filter(Boolean)
+              .join(" ");
+
+            const content = (
+              <>
+                {cell.isFlagship && <span class="cell-badge">★ 主力</span>}
+                {cell.isOz && <span class="cell-tag">オズ方式</span>}
+                {cell.isUnavailable && <span class="cell-tag">販売なし</span>}
+                <div class="cell-name">{cell.name}</div>
+                <div class="cell-price">
+                  {cell.price}
+                  {cell.priceNote && <small class="cell-price-note">（{cell.priceNote}）</small>}
+                </div>
+                <p class="cell-desc">{cell.description}</p>
+              </>
+            );
+
+            return cell.href ? (
+              <a href={cell.href} class={classes} data-stage={s} data-form={f}>
+                {content}
+              </a>
+            ) : (
+              <div class={classes} data-stage={s} data-form={f}>
+                {content}
+              </div>
+            );
+          })}
+        </>
+      ))
+    }
+  </div>
+
+  <!-- セクションCTA -->
+  <div class="matrix-cta">
+    <a class="btn btn-primary" href="/products/">全商品を見る</a>
+    <a class="btn btn-secondary" href="/diagnose/">DX診断で現在地を知る</a>
+  </div>
+
+  <p class="matrix-note">
+    ★ = 主力3マス（2026〜2027年内実装）／<em>オズ方式</em> = 目次先行・引き合いで中身化
+  </p>
+</div>
+
+<script>
+  // モバイル: ステージタブの切替
+  const tabs = document.querySelectorAll<HTMLButtonElement>(".stage-tab");
+  const matrixGrid = document.querySelector<HTMLElement>(".matrix-grid");
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const stage = tab.dataset.stage;
+      if (!stage || !matrixGrid) return;
+
+      tabs.forEach((t) => t.setAttribute("aria-selected", "false"));
+      tab.setAttribute("aria-selected", "true");
+      matrixGrid.dataset.activeStage = stage;
+    });
+  });
+
+  if (matrixGrid) {
+    matrixGrid.dataset.activeStage = "1";
+  }
+</script>
+
+<style>
+  .matrix-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  /* Section Header */
+  .matrix-head {
+    max-width: 720px;
+  }
+  .kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-3) 0;
+  }
+  .display-sm {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+    letter-spacing: var(--tracking-heading);
+  }
+  .lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .lead strong {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* ロードマップカード（10マス外 / 無料入口） */
+  .roadmap-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-6) var(--space-8);
+    background: var(--color-bg-warm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--shadow-card);
+    transition:
+      box-shadow var(--duration-hover) var(--ease-out-quint),
+      transform var(--duration-hover) var(--ease-out-quint);
+  }
+  .roadmap-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+    color: inherit;
+  }
+  .roadmap-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-accent-soft);
+    color: #B84A1E;
+    border-radius: var(--radius-full);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-semibold);
+    white-space: nowrap;
+  }
+  .roadmap-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2) 0;
+  }
+  .roadmap-desc {
+    font-size: var(--text-body);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .roadmap-cta {
+    font-family: var(--font-en);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    white-space: nowrap;
+  }
+
+  /* ステージタブ（モバイル専用） */
+  .stage-tabs {
+    display: none;
+    gap: var(--space-2);
+    overflow-x: auto;
+    padding-bottom: var(--space-2);
+  }
+  .stage-tab {
+    flex-shrink: 0;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-family: var(--font-jp);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition:
+      background-color var(--duration-hover) var(--ease-out-quint),
+      color var(--duration-hover) var(--ease-out-quint);
+  }
+  .stage-tab[aria-selected="true"] {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+  }
+
+  /* マトリックスグリッド（PC: 4ステージ × 3形態） */
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: 140px repeat(3, 1fr);
+    gap: var(--space-3);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-card);
+  }
+
+  .grid-corner {
+    /* 左上の空セル */
+  }
+
+  /* 列ヘッダ（形態） */
+  .form-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    padding: var(--space-3) var(--space-2);
+  }
+  .form-name {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-semibold);
+    color: var(--color-primary);
+  }
+  .form-eq {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    margin-top: 2px;
+  }
+
+  /* 行ヘッダ（ステージ） */
+  .stage-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-2);
+    min-height: 140px;
+  }
+  .stage-label-inner {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: var(--color-primary);
+    writing-mode: vertical-rl;
+    letter-spacing: 0.05em;
+  }
+
+  /* セル */
+  .cell {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    min-height: 140px;
+    color: inherit;
+    text-decoration: none;
+    transition:
+      box-shadow var(--duration-hover) var(--ease-out-quint),
+      transform var(--duration-hover) var(--ease-out-quint),
+      border-color var(--duration-hover) var(--ease-out-quint);
+  }
+  a.cell:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
+    color: inherit;
+  }
+  .cell--flagship {
+    border: 2px solid var(--color-accent);
+    background: linear-gradient(180deg, #fff 0%, var(--color-accent-soft) 120%);
+  }
+  .cell--oz {
+    background: var(--color-bg-warm);
+    border-style: dashed;
+  }
+  .cell--unavailable {
+    opacity: 0.65;
+    background: var(--color-bg-subtle);
+    border-style: dotted;
+    cursor: default;
+  }
+
+  .cell-badge {
+    position: absolute;
+    top: -10px;
+    right: var(--space-3);
+    padding: 2px 10px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    border-radius: var(--radius-full);
+    letter-spacing: 0.05em;
+  }
+  .cell-tag {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 1px 8px;
+    font-size: 10px;
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-muted);
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.04em;
+  }
+  .cell--oz .cell-tag {
+    color: #B84A1E;
+    background: var(--color-accent-soft);
+  }
+
+  .cell-name {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-body-lg);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    line-height: 1.35;
+  }
+  .cell-price {
+    font-family: var(--font-en), var(--font-jp);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-bold);
+    color: #B84A1E;
+    font-feature-settings: "tnum";
+  }
+  .cell-price-note {
+    font-family: var(--font-jp);
+    font-weight: var(--weight-regular);
+    color: var(--color-text-muted);
+    font-size: var(--text-caption);
+  }
+  .cell-desc {
+    font-size: var(--text-body-sm);
+    line-height: 1.6;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+
+  /* セクションCTA */
+  .matrix-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    justify-content: center;
+    padding-top: var(--space-4);
+  }
+
+  .matrix-note {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    text-align: center;
+    margin: 0;
+  }
+  .matrix-note em {
+    font-style: normal;
+    color: #B84A1E;
+    font-weight: var(--weight-semibold);
+  }
+
+  /* ========================================
+   * モバイル (< 900px): タブ切替方式
+   * ======================================== */
+  @media (max-width: 899px) {
+    .display-sm {
+      font-size: var(--text-h2);
+    }
+    .roadmap-card {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+      padding: var(--space-6);
+    }
+    .roadmap-cta {
+      text-align: right;
+    }
+
+    .stage-tabs {
+      display: flex;
+    }
+
+    .matrix-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+      padding: var(--space-4);
+    }
+
+    .grid-corner,
+    .form-header {
+      display: none;
+    }
+
+    /* ステージラベルをブロック見出し風に */
+    .stage-label {
+      writing-mode: horizontal-tb;
+      min-height: auto;
+      padding: var(--space-3) var(--space-4);
+      justify-content: flex-start;
+    }
+    .stage-label-inner {
+      writing-mode: horizontal-tb;
+      font-size: var(--text-h4);
+    }
+
+    /* アクティブなステージ以外は隠す */
+    .stage-label[data-stage]:not([data-stage="1"]),
+    .cell[data-stage]:not([data-stage="1"]) {
+      display: none;
+    }
+    .matrix-grid[data-active-stage="1"] [data-stage="1"] {
+      display: flex;
+    }
+    .matrix-grid[data-active-stage="2"] [data-stage] {
+      display: none;
+    }
+    .matrix-grid[data-active-stage="2"] [data-stage="2"] {
+      display: flex;
+    }
+    .matrix-grid[data-active-stage="3"] [data-stage] {
+      display: none;
+    }
+    .matrix-grid[data-active-stage="3"] [data-stage="3"] {
+      display: flex;
+    }
+    .matrix-grid[data-active-stage="4"] [data-stage] {
+      display: none;
+    }
+    .matrix-grid[data-active-stage="4"] [data-stage="4"] {
+      display: flex;
+    }
+
+    .cell {
+      min-height: auto;
+    }
+  }
+</style>

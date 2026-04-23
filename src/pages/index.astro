@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Section from "../components/Section.astro";
 import Container from "../components/Container.astro";
 import DifferentiationPoints from "../components/DifferentiationPoints.astro";
+import PriceTierChart from "../components/PriceTierChart.astro";
 import ProductMatrix from "../components/ProductMatrix.astro";
 ---
 
@@ -26,6 +27,13 @@ import ProductMatrix from "../components/ProductMatrix.astro";
     <Section size="l" background="warm" id="differentiation">
       <Container>
         <DifferentiationPoints />
+      </Container>
+    </Section>
+
+    <!-- §2.5. 4ステージ × 価格帯 帯グラフ（B7 / D案§2.5 / 論点5） -->
+    <Section size="l" background="default" id="price-tiers">
+      <Container>
+        <PriceTierChart />
       </Container>
     </Section>
 

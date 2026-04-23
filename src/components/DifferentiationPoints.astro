@@ -1,0 +1,198 @@
+---
+/**
+ * DifferentiationPoints — ホーム §2「差別化3点セット」
+ * 設計書: 11_HPリニューアル_設計書.md §1 §2 / 02_商品戦略_10マスモデル.md の差別化3点セット
+ *
+ * 原則:
+ *   - 全LPで共通訴求する3つのブランド柱
+ *   - HERO直下（ファーストビュー下端）に配置
+ *   - カードは "成果物"（診断／作る／卒業）にフォーカス
+ */
+
+type Point = {
+  num: string;
+  title: string;
+  description: string;
+  href?: string;
+  hrefLabel?: string;
+};
+
+const points: Point[] = [
+  {
+    num: "01",
+    title: "診断で現在地がわかる",
+    description:
+      "STEP 0 に無料のDX診断。自社が4ステージのどこにいるかを把握してから商品を選べます。",
+    href: "/diagnose/",
+    hrefLabel: "DX診断へ",
+  },
+  {
+    num: "02",
+    title: "作って終わる",
+    description:
+      "読むだけ・聞くだけの研修では終わらせません。3形態すべて「作る」軸で統一。手元に成果物が残ります。",
+  },
+  {
+    num: "03",
+    title: "卒業できる",
+    description:
+      "ベンダーロックしません。半年〜1年で内製化して卒業する伴走設計。OBコミュニティで孤立も回避。",
+  },
+];
+---
+
+<div class="diff-block">
+  <header class="diff-head">
+    <p class="kicker">§2 ツミキAIの差別化</p>
+    <h2 class="diff-title">読むだけのDXは、卒業できない。</h2>
+    <p class="diff-lead">
+      中小企業の経営者が「小さく始めて、一つずつ積み上げる」ために、
+      私たちは3つの原則で関わり方を設計しています。
+    </p>
+  </header>
+
+  <ul class="diff-grid">
+    {
+      points.map((p) => (
+        <li class="diff-card">
+          <span class="diff-num">{p.num}</span>
+          <h3 class="diff-card-title">{p.title}</h3>
+          <p class="diff-card-desc">{p.description}</p>
+          {p.href && (
+            <a class="diff-card-link" href={p.href}>
+              {p.hrefLabel ?? "詳しく"} →
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .diff-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .diff-head {
+    max-width: 720px;
+  }
+  .kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-3) 0;
+  }
+  .diff-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .diff-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+
+  /* 3カードグリッド */
+  .diff-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .diff-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-8) var(--space-6) var(--space-6);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    transition:
+      box-shadow var(--duration-hover) var(--ease-out-quint),
+      transform var(--duration-hover) var(--ease-out-quint);
+  }
+  .diff-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+
+  /* §5「積み木モチーフ」— セクション頭の 48×4px 帯を小さく装飾として */
+  .diff-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: var(--space-6);
+    width: 48px;
+    height: 4px;
+    background: var(--color-accent);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  }
+
+  .diff-num {
+    font-family: var(--font-en);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    letter-spacing: 0.1em;
+  }
+  .diff-card-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    line-height: var(--leading-h3);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    margin: 0;
+  }
+  .diff-card-desc {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .diff-card-link {
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: var(--space-3);
+    font-family: var(--font-jp);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .diff-card-link:hover {
+    color: var(--color-primary-hover);
+  }
+
+  /* ========================================
+   * Responsive
+   * ======================================== */
+  @media (max-width: 899px) {
+    .diff-title {
+      font-size: var(--text-h2);
+    }
+    .diff-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+    .diff-card {
+      padding: var(--space-6);
+    }
+  }
+</style>

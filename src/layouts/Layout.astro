@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 
 interface Props {
@@ -29,6 +30,7 @@ const {
     />
   </head>
   <body>
+    <SiteHeader />
     <slot />
     <SiteFooter />
   </body>

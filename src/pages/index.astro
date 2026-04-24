@@ -6,6 +6,7 @@ import DifferentiationPoints from "../components/DifferentiationPoints.astro";
 import PriceTierChart from "../components/PriceTierChart.astro";
 import ProductMatrix from "../components/ProductMatrix.astro";
 import FlagshipSummary from "../components/FlagshipSummary.astro";
+import RepMessage from "../components/RepMessage.astro";
 ---
 
 <Layout>
@@ -49,6 +50,13 @@ import FlagshipSummary from "../components/FlagshipSummary.astro";
     <Section size="l" background="default" id="flagship-summary">
       <Container>
         <FlagshipSummary />
+      </Container>
+    </Section>
+
+    <!-- §5. 代表メッセージ（エピソード型 / D案§5 前倒し / 誠実さ②） -->
+    <Section size="l" background="warm" id="rep-message">
+      <Container>
+        <RepMessage />
       </Container>
     </Section>
   </main>

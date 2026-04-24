@@ -2,98 +2,80 @@
 import Layout from "../layouts/Layout.astro";
 import Section from "../components/Section.astro";
 import Container from "../components/Container.astro";
+import Hero from "../components/Hero.astro";
 import DifferentiationPoints from "../components/DifferentiationPoints.astro";
 import PriceTierChart from "../components/PriceTierChart.astro";
 import ProductMatrix from "../components/ProductMatrix.astro";
 import FlagshipSummary from "../components/FlagshipSummary.astro";
 import RepMessage from "../components/RepMessage.astro";
+import FAQ from "../components/FAQ.astro";
+import NoteFeed from "../components/NoteFeed.astro";
+import FinalCTA from "../components/FinalCTA.astro";
 ---
 
 <Layout>
   <main>
-    <!-- 仮HERO（§1の本実装は別タスク / B1検証用の最小ヒーロー） -->
-    <Section size="l" background="default">
+    <!-- §1. HERO（本実装 / 積み木ビジュアル + ダブルCTA） -->
+    <Section size="l" background="default" id="hero">
       <Container>
-        <div class="hero-placeholder">
-          <p class="kicker">ツミキAI — HP リニューアル / ローカル開発版</p>
-          <h1 class="display">小さく始めて、一つずつ積み上げる。</h1>
-          <p class="lead">
-            中小企業がAIを「当たり前のツール」にするための伴走者。
-            診断で現在地がわかり、作って終われる。そして卒業できる。
-          </p>
-        </div>
+        <Hero />
       </Container>
     </Section>
 
-    <!-- §2. 差別化3点セット（B3 / D案§2） -->
+    <!-- §2. 差別化3点セット -->
     <Section size="l" background="warm" id="differentiation">
       <Container>
         <DifferentiationPoints />
       </Container>
     </Section>
 
-    <!-- §2.5. 4ステージ × 価格帯 帯グラフ（B7 / D案§2.5 / 論点5） -->
+    <!-- §2.5. 4ステージ × 価格帯 帯グラフ -->
     <Section size="l" background="default" id="price-tiers">
       <Container>
         <PriceTierChart />
       </Container>
     </Section>
 
-    <!-- §3. 4ステージ × 商品マトリックス 統合（B1 / D案§3） -->
+    <!-- §3. 4ステージ × 商品マトリックス 統合 -->
     <Section size="l" background="subtle" id="product-matrix">
       <Container>
         <ProductMatrix />
       </Container>
     </Section>
 
-    <!-- §4. 3系統の主力商品サマリー（B6 / D案§4 / 論点4） -->
+    <!-- §4. 3系統の主力商品サマリー -->
     <Section size="l" background="default" id="flagship-summary">
       <Container>
         <FlagshipSummary />
       </Container>
     </Section>
 
-    <!-- §5. 代表メッセージ（エピソード型 / D案§5 前倒し / 誠実さ②） -->
+    <!-- §5. 代表メッセージ（エピソード型） -->
     <Section size="l" background="warm" id="rep-message">
       <Container>
         <RepMessage />
       </Container>
     </Section>
+
+    <!-- §6. よくある7つの質問（FAQ 中核） -->
+    <Section size="l" background="default" id="faq">
+      <Container>
+        <FAQ />
+      </Container>
+    </Section>
+
+    <!-- §7. note最新記事ブロック -->
+    <Section size="l" background="subtle" id="note-feed">
+      <Container>
+        <NoteFeed />
+      </Container>
+    </Section>
+
+    <!-- §8. 最終CTA（段階化） -->
+    <Section size="l" background="default" id="final-cta">
+      <Container>
+        <FinalCTA />
+      </Container>
+    </Section>
   </main>
 </Layout>
-
-<style>
-  .hero-placeholder {
-    max-width: 720px;
-  }
-  .kicker {
-    font-family: var(--font-en);
-    font-size: var(--text-caption);
-    font-weight: var(--weight-semibold);
-    color: var(--color-accent);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin: 0 0 var(--space-4) 0;
-  }
-  .display {
-    font-family: var(--font-jp-serif);
-    font-size: var(--text-display);
-    line-height: var(--leading-display);
-    font-weight: var(--weight-bold);
-    letter-spacing: var(--tracking-heading);
-    color: var(--color-text);
-    margin: 0 0 var(--space-6) 0;
-  }
-  .lead {
-    font-size: var(--text-body-lg);
-    line-height: var(--leading-body-lg);
-    color: var(--color-text-body);
-    margin: 0;
-  }
-
-  @media (max-width: 768px) {
-    .display {
-      font-size: var(--text-h1);
-    }
-  }
-</style>

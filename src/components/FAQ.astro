@@ -1,0 +1,231 @@
+---
+/**
+ * FAQ — ホーム §6「よくある7つの質問（FAQ 中核）」
+ * 設計書: 11_HPリニューアル_設計書.md §1 §6（D案で末尾ではなく中盤に配置 / Cone式）
+ *
+ * 目的:
+ *   - 判断材料をすべてテーブルに並べる
+ *   - Q7 に「できないこと」を必ず入れる（誠実さ①）
+ *   - 末尾ではなく §5 代表メッセージの直後（信頼→疑問解消の自然な流れ）
+ *
+ * NOTE: 回答文は **下書き（placeholder）**。後続タスク I6（できないこと言語化）/ I7（FAQ 7問原稿）
+ *       で本文を整形する想定。
+ */
+
+type QA = { q: string; a: string };
+
+const qas: QA[] = [
+  {
+    q: "なぜ千葉に特化しているのですか？",
+    a: "代表の飯田が千葉県印西市を拠点にしているためです。地域の経営者と直接会って話せるフットワークを大事にしていて、訪問対応も可能です。ただし千葉以外のご相談もオンラインで受けていますので、所在地だけで線を引くことはありません。",
+  },
+  {
+    q: "大手コンサルとの違いは何ですか？",
+    a: "3つあります。①個人事業主のフットワーク：打ち合わせ〜実装までの距離が短い。②失敗経験を持つ現場感：代表はEC事業経営の失敗体験があり、「効率化の大変さ」を語れます。③卒業モデル：半年〜1年で内製化して卒業する設計のため、永続的な契約を前提としません。",
+  },
+  {
+    q: "本当に\"卒業\"できるのですか？",
+    a: "B伴走支援は 4フェーズ（Strategy → Build → Operate → Graduation）で、最後のフェーズ「卒業」を設計に組み込んでいます。半年〜1年で内製化が回る状態を作り、契約終了後は OBコミュニティ（卒業生の勉強会・スポット相談権）で孤立しない仕組みを用意しています。",
+  },
+  {
+    q: "Microsoft 365 環境でも大丈夫ですか？",
+    a: "はい。Lv1・Lv2 の講座は Google Workspace 版と Microsoft 365 版の両方を用意する予定です。研修・伴走でも両環境に対応します。ただし MS Graph API を使った深い自動化は現在研究中で、一部 GWS 先行のメニューがあります。判断できない部分は正直にお伝えします。",
+  },
+  {
+    q: "何から始めればいいですか？",
+    a: "まず無料の DX 診断（10問 / 3分）で自社のレベル（Lv1〜Lv4）を特定してください。そのあと、全Lv共通のロードマップ講座（無料）を読み、該当Lvの講座に進むのが標準ルートです。話したい方は無料個別相談へ。営業トークではなく、現在の困りごとを一緒に言語化する時間としてお使いください。",
+  },
+  {
+    q: "費用感とROIはどう考えればいいですか？",
+    a: "価格レンジは 無料〜月30万 です（§2.5 の帯グラフを参照）。ROI は\"作って終わる\"方針のため、講座は読み切り＋成果物、研修はチーム共通プロンプト、伴走は内製化と、契約終了後も手元に残る資産を重視しています。導入規模に応じた見積もりは個別相談で出せます。",
+  },
+  {
+    q: "ツミキAIが\"できないこと\"は何ですか？",
+    a: "正直にお伝えします。①半年で劇的な変化：効率化は想像より遥かに大変で、劇的訴求はしません。②永続契約：卒業モデルなので、ずっと月額を払い続けるご提案はしません。③業種適合外：業界特化の基幹パッケージ開発や、AI研究開発は対象外です。④すべての MS Graph 深掘り：一部研究中のため、現時点で請け負えない部分があります。",
+  },
+];
+---
+
+<div class="faq-block">
+  <header class="faq-head">
+    <p class="kicker">§6 FAQ</p>
+    <h2 class="faq-title">判断材料を、すべてテーブルに並べます。</h2>
+    <p class="faq-lead">
+      中小企業の経営者が「問い合わせるかどうか」を判断するのに必要な7つの質問を、先にお見せします。
+      <strong>Q7 には「できないこと」も必ず含めています</strong>（誠実さ①：情報の非対称性を残さない）。
+    </p>
+  </header>
+
+  <ul class="faq-list">
+    {
+      qas.map((qa, i) => (
+        <li class="faq-item">
+          <details open={i === 0}>
+            <summary class="faq-q">
+              <span class="faq-q-num">Q{i + 1}</span>
+              <span class="faq-q-text">{qa.q}</span>
+              <span class="faq-q-icon" aria-hidden="true">
+                ＋
+              </span>
+            </summary>
+            <div class="faq-a">
+              <p>{qa.a}</p>
+            </div>
+          </details>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="faq-note">
+    ※ 回答は 2026-04 時点の下書きです。運用を通じて随時アップデートします。
+    &nbsp;/&nbsp;それでも解消しない疑問は、下部の<a href="/contact/">個別相談</a>へ。
+  </p>
+</div>
+
+<style>
+  .faq-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  /* Head */
+  .faq-head {
+    max-width: 720px;
+  }
+  .kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-3) 0;
+  }
+  .faq-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .faq-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .faq-lead strong {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* List */
+  .faq-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .faq-item {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    transition: box-shadow var(--duration-hover) var(--ease-out-quint);
+  }
+  .faq-item:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .faq-item details[open] {
+    background: linear-gradient(180deg, #fff 0%, var(--color-bg-warm) 100%);
+    border-radius: var(--radius-lg);
+  }
+
+  /* Q */
+  .faq-q {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    cursor: pointer;
+    list-style: none;
+  }
+  .faq-q::-webkit-details-marker {
+    display: none;
+  }
+  .faq-q-num {
+    font-family: var(--font-en);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+    min-width: 28px;
+  }
+  .faq-q-text {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h4);
+    line-height: 1.4;
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+  }
+  .faq-q-icon {
+    font-family: var(--font-en);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-regular);
+    color: var(--color-text-muted);
+    transition: transform var(--duration-hover) var(--ease-out-quint);
+  }
+  details[open] .faq-q-icon {
+    transform: rotate(45deg);
+  }
+
+  /* A */
+  .faq-a {
+    padding: 0 var(--space-6) var(--space-5) calc(var(--space-6) + 28px + var(--space-4));
+    border-top: 1px solid var(--color-border);
+    margin-top: 0;
+  }
+  .faq-a p {
+    margin: var(--space-4) 0 0 0;
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-body);
+  }
+
+  .faq-note {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+  .faq-note a {
+    color: var(--color-accent);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* ========================================
+   * Responsive
+   * ======================================== */
+  @media (max-width: 768px) {
+    .faq-title {
+      font-size: var(--text-h2);
+    }
+    .faq-q {
+      padding: var(--space-4);
+      gap: var(--space-3);
+    }
+    .faq-q-text {
+      font-size: var(--text-body);
+    }
+    .faq-a {
+      padding: 0 var(--space-4) var(--space-4) var(--space-4);
+    }
+  }
+</style>

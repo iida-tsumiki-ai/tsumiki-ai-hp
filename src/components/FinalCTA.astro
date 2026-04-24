@@ -1,0 +1,190 @@
+---
+/**
+ * FinalCTA — ホーム §8「最終CTA（段階化）」
+ * 設計書: 11_HPリニューアル_設計書.md §1 §8 / 誠実さ③「CTAを段階化」
+ *
+ * 設計方針:
+ *   - L1（0円・メアド不要）: DX診断
+ *   - L3（有料商談前提でない無料相談）: 個別相談
+ *   - 「お気軽にご相談ください」単独CTA は禁止（DESIGN.md §10.5）
+ */
+---
+
+<div class="cta-block">
+  <div class="cta-inner">
+    <p class="kicker">§8 次のアクション</p>
+    <h2 class="cta-title">まずは現在地を知るところから。</h2>
+    <p class="cta-lead">
+      急いで契約する必要はありません。段階的に関われます。
+    </p>
+
+    <div class="cta-grid">
+      <a class="cta-card cta-card--l1" href="/diagnose/">
+        <span class="cta-level">L1 / 0円・メアド不要</span>
+        <h3 class="cta-card-title">無料DX診断を受ける</h3>
+        <p class="cta-card-desc">
+          10問・3分で自社のレベル（Lv1〜Lv4）を判定。処方箋として推奨商品もお見せします。
+        </p>
+        <span class="cta-card-link">診断を始める →</span>
+      </a>
+
+      <a class="cta-card cta-card--l3" href="/contact/">
+        <span class="cta-level">L3 / 無料個別相談</span>
+        <h3 class="cta-card-title">無料個別相談で話す</h3>
+        <p class="cta-card-desc">
+          営業トークはしません。現在の困りごとを一緒に言語化する 45分。
+          相談後にしつこい営業連絡もしません。
+        </p>
+        <span class="cta-card-link">相談を申し込む →</span>
+      </a>
+    </div>
+
+    <p class="cta-note">
+      L2（ロードマップ講座 無料note）も用意しています：<a href="/courses/roadmap/">ロードマップ講座を読む</a>
+    </p>
+  </div>
+</div>
+
+<style>
+  .cta-block {
+    padding: var(--space-12) var(--gutter);
+    background: var(--color-primary);
+    border-radius: var(--radius-xl);
+    color: #fff;
+  }
+
+  .cta-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .cta-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-heading);
+    color: #fff;
+    margin: 0;
+  }
+  .cta-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 var(--space-4) 0;
+  }
+
+  /* Grid */
+  .cta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-top: var(--space-4);
+  }
+
+  .cta-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    text-align: left;
+    transition:
+      transform var(--duration-hover) var(--ease-out-quint),
+      box-shadow var(--duration-hover) var(--ease-out-quint);
+  }
+  .cta-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .cta-card--l1 {
+    background: #fff;
+    color: var(--color-text);
+  }
+  .cta-card--l3 {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .cta-card--l3:hover {
+    color: #fff;
+  }
+
+  .cta-level {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.05em;
+    color: inherit;
+    opacity: 0.75;
+  }
+  .cta-card-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    line-height: var(--leading-h3);
+    font-weight: var(--weight-bold);
+    color: inherit;
+    margin: 0;
+  }
+  .cta-card-desc {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: inherit;
+    opacity: 0.9;
+    margin: 0;
+    flex-grow: 1;
+  }
+  .cta-card-link {
+    font-family: var(--font-jp);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: inherit;
+    margin-top: var(--space-2);
+  }
+
+  .cta-note {
+    font-size: var(--text-body-sm);
+    color: rgba(255, 255, 255, 0.7);
+    margin: var(--space-4) 0 0 0;
+  }
+  .cta-note a {
+    color: #fff;
+    font-weight: var(--weight-semibold);
+    text-decoration: underline;
+  }
+  .cta-note a:hover {
+    color: var(--color-accent-soft);
+  }
+
+  /* ========================================
+   * Responsive
+   * ======================================== */
+  @media (max-width: 768px) {
+    .cta-block {
+      padding: var(--space-8) var(--space-4);
+    }
+    .cta-title {
+      font-size: var(--text-h2);
+    }
+    .cta-grid {
+      grid-template-columns: 1fr;
+    }
+    .cta-card {
+      padding: var(--space-6);
+    }
+  }
+</style>

@@ -33,13 +33,7 @@ const ctaSecondaryLabel = "無料個別相談";
 <header class="site-header" data-header>
   <div class="header-inner">
     <a class="brand" href="/" aria-label="ツミキAI ホームへ">
-      <span class="brand-mark" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="16" width="20" height="8" rx="2" fill="#FAF7F2" stroke="#E5E7EB" />
-          <rect x="7" y="10" width="14" height="7" rx="2" fill="#FFE5D6" />
-          <rect x="10" y="4" width="8" height="7" rx="2" fill="#1A3A5F" />
-        </svg>
-      </span>
+      <img class="brand-logo" src="/images/logo-mark.png" alt="ツミキAI" width="36" height="36" />
       <span class="brand-text">ツミキAI</span>
     </a>
 
@@ -339,12 +333,12 @@ const ctaSecondaryLabel = "無料個別相談";
       transform var(--duration-hover) var(--ease-out-quint);
   }
   .header-cta--primary {
-    background: var(--color-accent);
+    background: var(--color-primary);
     color: #fff;
     box-shadow: var(--shadow-button);
   }
   .header-cta--primary:hover {
-    background: #E55A2B;
+    background: var(--color-primary-hover);
     color: #fff;
     transform: translateY(-1px);
   }
@@ -467,7 +461,7 @@ const ctaSecondaryLabel = "無料個別相談";
     text-decoration: none;
   }
   .mobile-cta--primary {
-    background: var(--color-accent);
+    background: var(--color-primary);
     color: #fff;
     box-shadow: var(--shadow-button);
   }

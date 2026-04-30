@@ -49,16 +49,16 @@
   <div class="hero-visual" aria-hidden="true">
     <div class="stack">
       <div class="block block--4">
-        <span class="block-label">❹ AIネイティブ</span>
+        <span class="block-num">04</span><span class="block-name">AIネイティブ</span>
       </div>
       <div class="block block--3">
-        <span class="block-label">❸ 戦略を描く</span>
+        <span class="block-num">03</span><span class="block-name">戦略を描く</span>
       </div>
       <div class="block block--2">
-        <span class="block-label">❷ 活用を広げる</span>
+        <span class="block-num">02</span><span class="block-name">活用を広げる</span>
       </div>
       <div class="block block--1">
-        <span class="block-label">❶ 土台を組む</span>
+        <span class="block-num">01</span><span class="block-name">土台を組む</span>
       </div>
     </div>
   </div>
@@ -210,16 +210,25 @@
   .block {
     display: flex;
     align-items: center;
+    gap: var(--space-3);
     padding: var(--space-4) var(--space-6);
     border-radius: var(--radius-md);
-    font-family: var(--font-jp-serif);
-    font-weight: var(--weight-semibold);
     color: var(--color-text);
     box-shadow: var(--shadow-sm);
     animation: block-in var(--duration-reveal) var(--ease-out-quint) both;
   }
-  .block-label {
+  .block-num {
+    font-family: var(--font-en);
+    font-weight: var(--weight-bold);
     font-size: var(--text-body);
+    font-feature-settings: "tnum" 1;
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+  }
+  .block-name {
+    font-family: var(--font-jp-serif);
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-body-lg);
   }
   .block--1 {
     width: 96%;

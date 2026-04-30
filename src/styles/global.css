@@ -60,14 +60,14 @@ h1 {
   font-family: var(--font-jp-serif);
   font-size: var(--text-h1);
   line-height: var(--leading-h1);
-  font-weight: var(--weight-bold);
+  font-weight: var(--weight-semibold);
 }
 
 h2 {
   font-family: var(--font-jp-serif);
   font-size: var(--text-h2);
   line-height: var(--leading-h2);
-  font-weight: var(--weight-bold);
+  font-weight: var(--weight-medium);
 }
 
 h3 {
@@ -91,12 +91,17 @@ p {
 }
 
 a {
-  color: var(--color-info);
-  text-decoration: none;
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-color: rgba(26, 58, 95, 0.3);
+  text-underline-offset: 2px;
+  transition: color var(--duration-hover) var(--ease-out-quint),
+              text-decoration-color var(--duration-hover) var(--ease-out-quint);
 }
 
 a:hover {
-  color: var(--color-accent);
+  color: var(--color-primary-hover);
+  text-decoration-color: var(--color-primary);
 }
 
 /* display（ヒーロー見出し用・class指定）*/
@@ -128,6 +133,7 @@ a:hover {
   cursor: pointer;
   transition:
     background-color var(--duration-hover) var(--ease-out-quint),
+    box-shadow var(--duration-hover) var(--ease-out-quint),
     transform var(--duration-hover) var(--ease-out-quint);
 }
 
@@ -150,7 +156,7 @@ a:hover {
 }
 
 .btn-accent:hover {
-  background-color: #E55A2B;
+  background-color: var(--color-accent-hover);
   color: #FFFFFF;
   transform: translateY(-1px);
 }

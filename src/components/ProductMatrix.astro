@@ -43,9 +43,9 @@ const categories: Category[] = ["learn", "deploy", "execute"];
     <details class="matrix-callout">
       <summary>4ステージの考え方</summary>
       <p>
-        <strong>❶ 土台を組む → ❷ 活用を広げる → ❸ 戦略を描く → ❹ AIネイティブになる</strong> の4段の階段。
-        前半 <strong>❶❷ は DX領域</strong>（業務をデジタル化する段階）、後半 <strong>❸❹ は AI領域</strong>（AIで会社を動かす経営=AI駆動経営へ進化する段階）。
-        到達点 ❹ が、AI内製化が定着して企業価値を高め続けられる「<strong>AIネイティブな会社</strong>」です。
+        <strong>Lv.1 土台を組む → Lv.2 活用を広げる → Lv.3 戦略を描く → Lv.4 AIネイティブになる</strong> の4段の階段。
+        前半 <strong>Lv.1-Lv.2 は DX領域</strong>（業務をデジタル化する段階）、後半 <strong>Lv.3-Lv.4 は AI領域</strong>（AIで会社を動かす経営=AI駆動経営へ進化する段階）。
+        到達点 Lv.4 が、AI内製化が定着して企業価値を高め続けられる「<strong>AIネイティブな会社</strong>」です。
       </p>
     </details>
   </header>
@@ -149,7 +149,7 @@ const categories: Category[] = ["learn", "deploy", "execute"];
                 >
                   <p class="empty-note">
                     {cat === "deploy" && s >= 3
-                      ? "❸❹は経営者が自ら学ぶ／一緒に実行するフェーズです。担当者向け研修は❶❷までとなります。"
+                      ? "Lv.3-Lv.4 は経営者が自ら学ぶ／一緒に実行するフェーズです。担当者向け研修は Lv.1-Lv.2 までとなります。"
                       : "—"}
                   </p>
                 </div>
@@ -522,21 +522,23 @@ const categories: Category[] = ["learn", "deploy", "execute"];
     padding: var(--space-4) var(--space-2);
     min-height: 140px;
   }
-  /* DX領域 (❶❷) のゾーン色 */
+  /* DX領域 (Lv.1-Lv.2) のゾーン色 — フラット背景 + 左帯 */
   .stage-label--dx {
-    background: linear-gradient(180deg, rgba(120,120,140,0.05) 0%, rgba(120,120,140,0.10) 100%);
+    background: var(--color-bg-subtle);
+    border-left: 3px solid rgba(120,120,140,0.4);
   }
   .stage-label--dx .stage-zone-tag {
     background: rgba(120,120,140,0.18);
     color: #4a4a55;
   }
-  /* AI領域 (❸❹) のゾーン色 */
+  /* AI領域 (Lv.3-Lv.4) のゾーン色 — フラット背景 + 左帯 */
   .stage-label--ai {
-    background: linear-gradient(180deg, rgba(255,107,53,0.05) 0%, rgba(255,107,53,0.12) 100%);
+    background: rgba(255,107,53,0.06);
+    border-left: 3px solid var(--color-accent);
   }
   .stage-label--ai .stage-zone-tag {
     background: rgba(255,107,53,0.18);
-    color: var(--color-accent-dark);
+    color: var(--color-accent);
   }
   .stage-zone-tag {
     display: inline-block;
@@ -627,16 +629,13 @@ const categories: Category[] = ["learn", "deploy", "execute"];
   }
   .cell--span {
     justify-content: center;
-    background: linear-gradient(
-      180deg,
-      #fff 0%,
-      var(--color-accent-soft) 100%
-    );
-    border: 2px solid var(--color-accent);
+    background: var(--color-bg-warm);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-accent); /* 積み木モチーフ準拠 / 大面積オレンジ回避 */
   }
   .cell-tag--span {
-    color: var(--color-accent-dark, #B84A1E);
-    background: rgba(255, 107, 53, 0.14);
+    color: var(--color-accent-hover);
+    background: var(--color-accent-soft);
     font-weight: var(--weight-semibold);
   }
 
@@ -767,9 +766,9 @@ const categories: Category[] = ["learn", "deploy", "execute"];
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
-    .cell-group.cat-learn::before { content: "👨‍💼 A. 経営者が先に学ぶ"; }
-    .cell-group.cat-deploy::before { content: "👥 B. 組織に入れる"; }
-    .cell-group.cat-execute::before { content: "🤝 C. 一緒に実行する"; }
+    .cell-group.cat-learn::before { content: "A. 経営者が先に学ぶ"; }
+    .cell-group.cat-deploy::before { content: "B. 組織に入れる"; }
+    .cell-group.cat-execute::before { content: "C. 一緒に実行する"; }
 
     /* アクティブなステージ以外は隠す。data-span-all はステージ問わず常時表示 */
     .stage-label[data-stage]:not([data-stage="1"]),

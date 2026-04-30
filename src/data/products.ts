@@ -22,11 +22,11 @@ export type Category = "learn" | "deploy" | "execute";
 export type Form = "course" | "training" | "support";
 export type Stage = 1 | 2 | 3 | 4;
 
-export const stageLabels: Record<Stage, { short: string; full: string }> = {
-  1: { short: "❶土台", full: "❶ 土台を組む" },
-  2: { short: "❷広げる", full: "❷ 活用を広げる" },
-  3: { short: "❸描く", full: "❸ 戦略を描く" },
-  4: { short: "❹AIネイティブ", full: "❹ AIネイティブになる" },
+export const stageLabels: Record<Stage, { short: string; full: string; num: string }> = {
+  1: { short: "Lv.1 土台", full: "Lv.1 土台を組む", num: "01" },
+  2: { short: "Lv.2 広げる", full: "Lv.2 活用を広げる", num: "02" },
+  3: { short: "Lv.3 描く", full: "Lv.3 戦略を描く", num: "03" },
+  4: { short: "Lv.4 ネイティブ", full: "Lv.4 AIネイティブになる", num: "04" },
 };
 
 export const categoryLabels: Record<
@@ -48,7 +48,7 @@ export const categoryLabels: Record<
     label: "A. 経営者が先に学ぶ",
     short: "学ぶ",
     user: "経営者本人",
-    userIcon: "👨‍💼",
+    userIcon: "A",
     effect: "地図を持つ／視野を広げる",
     tagline: "解像度が上がり、次の一手を自分で選べる",
     forms: "講座（経営者一人で）／集合学習（経営者同士）",
@@ -60,7 +60,7 @@ export const categoryLabels: Record<
     label: "B. 組織に入れる",
     short: "入れる",
     user: "担当者チーム",
-    userIcon: "👥",
+    userIcon: "B",
     effect: "組織に共通言語が入る",
     tagline: "現場が自走できる状態になる",
     forms: "研修（チーム集合）",
@@ -72,7 +72,7 @@ export const categoryLabels: Record<
     label: "C. 一緒に実行する",
     short: "実行する",
     user: "経営者+現場×ツミキAI",
-    userIcon: "🤝",
+    userIcon: "C",
     effect: "業務そのものを変える",
     tagline: "内製化の型が会社に残る",
     forms: "伴走（プロジェクト）",
@@ -217,7 +217,7 @@ export const productCells: ProductCell[] = [
     price: "月 ¥10〜30万",
     priceNote: "半年で自走 / Lv1-Lv4 共通",
     description:
-      "社外CTOとして戦略→実装→運用→自走まで一気通貫。Lv1なら導入設計、Lv2なら業務棚卸し、Lv3なら基幹再設計、Lv4なら自律運用へ──現在地に応じた進め方で、最終的に自社で内製化できる状態まで伴走します。",
+      "社外CTOとして、戦略・実装・運用・自走まで段階的に伴走します。Lv1なら導入設計、Lv2なら業務棚卸し、Lv3なら基幹再設計、Lv4なら自律運用へ──現在地に応じた進め方で、内製化の型を会社に残します。",
     href: "/support/",
     isFlagship: true,
   },

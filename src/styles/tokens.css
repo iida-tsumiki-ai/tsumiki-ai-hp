@@ -29,13 +29,14 @@
   --color-success: #2F855A;
   --color-warning: #D97706;
   --color-error: #C53030;
-  --color-info: #0099FF;
+  --color-info: #3B5F8A;
+  --color-accent-hover: #E55A2B;
 
   /* ========================================
    * §3 Typography - Font Family
    * ======================================== */
 
-  --font-jp: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --font-jp: "Inter", "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
   --font-jp-serif: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --font-en: "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
@@ -62,6 +63,7 @@
   --leading-h4: 1.45;
   --leading-body-lg: 1.75;
   --leading-body: 1.8;
+  --leading-body-long: 1.75; /* 長文ページ（about / privacy 等）専用 */
   --leading-body-sm: 1.7;
   --leading-caption: 1.5;
 

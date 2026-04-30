@@ -32,8 +32,15 @@ const ctaSecondaryLabel = "無料個別相談";
 
 <header class="site-header" data-header>
   <div class="header-inner">
-    <a class="brand" href="/" aria-label="ツミキAI ホームへ">
-      <img class="brand-logo" src="/images/logo-horizontal.png" alt="ツミキAI" height="44" />
+    <a class="brand" href="/" aria-label="積み木AI ホームへ">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="16" width="20" height="8" rx="2" fill="#FAF7F2" stroke="#E5E7EB" />
+          <rect x="7" y="10" width="14" height="7" rx="2" fill="#FFE5D6" />
+          <rect x="10" y="4" width="8" height="7" rx="2" fill="#1A3A5F" />
+        </svg>
+      </span>
+      <span class="brand-text">積み木AI</span>
     </a>
 
     <nav class="desktop-nav" aria-label="主要ナビゲーション">
@@ -266,6 +273,7 @@ const ctaSecondaryLabel = "無料個別相談";
   .brand {
     display: inline-flex;
     align-items: center;
+    gap: var(--space-3);
     text-decoration: none;
     color: inherit;
     transition: transform var(--duration-hover) var(--ease-out-quint);
@@ -273,10 +281,16 @@ const ctaSecondaryLabel = "無料個別相談";
   .brand:hover {
     transform: translateY(-1px);
   }
-  .brand-logo {
-    height: 44px;
-    width: auto;
-    display: block;
+  .brand-mark {
+    display: inline-flex;
+  }
+  .brand-text {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-primary);
+    letter-spacing: 0.02em;
+    line-height: 1;
   }
 
   /* Desktop Nav */
@@ -331,7 +345,8 @@ const ctaSecondaryLabel = "無料個別相談";
   .header-cta {
     display: inline-flex;
     align-items: center;
-    padding: var(--space-3) var(--space-5);
+    height: var(--button-height-md);
+    padding: 0 var(--space-6);
     border-radius: var(--radius-md);
     font-family: var(--font-jp);
     font-size: var(--text-body-sm);
@@ -341,7 +356,8 @@ const ctaSecondaryLabel = "無料個別相談";
     transition:
       background-color var(--duration-hover) var(--ease-out-quint),
       color var(--duration-hover) var(--ease-out-quint),
-      transform var(--duration-hover) var(--ease-out-quint);
+      transform var(--duration-hover) var(--ease-out-quint),
+      box-shadow var(--duration-hover) var(--ease-out-quint);
   }
   .header-cta--primary {
     background: var(--color-primary);
@@ -352,6 +368,7 @@ const ctaSecondaryLabel = "無料個別相談";
     background: var(--color-primary-hover);
     color: #fff;
     transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
   }
   .header-cta--secondary {
     background: transparent;
@@ -362,6 +379,7 @@ const ctaSecondaryLabel = "無料個別相談";
     background: var(--color-primary);
     color: #fff;
     transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
   }
 
   /* Hamburger */

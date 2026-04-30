@@ -33,8 +33,7 @@ const ctaSecondaryLabel = "無料個別相談";
 <header class="site-header" data-header>
   <div class="header-inner">
     <a class="brand" href="/" aria-label="ツミキAI ホームへ">
-      <img class="brand-logo" src="/images/logo-mark.png" alt="ツミキAI" width="36" height="36" />
-      <span class="brand-text">ツミキAI</span>
+      <img class="brand-logo" src="/images/logo-horizontal.png" alt="ツミキAI" height="44" />
     </a>
 
     <nav class="desktop-nav" aria-label="主要ナビゲーション">
@@ -255,8 +254,8 @@ const ctaSecondaryLabel = "無料個別相談";
   .header-inner {
     max-width: var(--container-lg);
     margin: 0 auto;
-    padding: 0 var(--gutter);
-    height: var(--header-height);
+    padding: var(--space-3) var(--gutter);
+    min-height: 84px;
     display: grid;
     grid-template-columns: auto 1fr auto auto;
     align-items: center;
@@ -267,19 +266,17 @@ const ctaSecondaryLabel = "無料個別相談";
   .brand {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
     text-decoration: none;
     color: inherit;
+    transition: transform var(--duration-hover) var(--ease-out-quint);
   }
-  .brand-mark {
-    display: inline-flex;
+  .brand:hover {
+    transform: translateY(-1px);
   }
-  .brand-text {
-    font-family: var(--font-jp-serif);
-    font-size: var(--text-h4);
-    font-weight: var(--weight-bold);
-    color: var(--color-primary);
-    letter-spacing: 0.02em;
+  .brand-logo {
+    height: 44px;
+    width: auto;
+    display: block;
   }
 
   /* Desktop Nav */
@@ -295,20 +292,34 @@ const ctaSecondaryLabel = "無料個別相談";
     gap: var(--space-6);
   }
   .desktop-nav a {
+    position: relative;
     font-family: var(--font-jp);
     font-size: var(--text-body-sm);
     font-weight: var(--weight-semibold);
     color: var(--color-text);
     text-decoration: none;
     padding: var(--space-2) 0;
-    border-bottom: 2px solid transparent;
+    transition: color var(--duration-hover) var(--ease-out-quint);
+  }
+  /* アンダーライン スライドイン演出（中央から左右へ） */
+  .desktop-nav a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-primary);
     transition:
-      color var(--duration-hover) var(--ease-out-quint),
-      border-color var(--duration-hover) var(--ease-out-quint);
+      width var(--duration-hover) var(--ease-out-quint),
+      left var(--duration-hover) var(--ease-out-quint);
   }
   .desktop-nav a:hover {
-    color: var(--color-accent);
-    border-bottom-color: var(--color-accent);
+    color: var(--color-primary);
+  }
+  .desktop-nav a:hover::after {
+    width: 100%;
+    left: 0;
   }
 
   /* CTA Group (primary + secondary) */

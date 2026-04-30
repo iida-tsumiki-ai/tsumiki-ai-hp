@@ -1,0 +1,127 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import CourseLandingPage from "../../../components/CourseLandingPage.astro";
+
+const audience = [
+  { text: "組織横断の自動化がすでに動いている会社の経営者" },
+  { text: "ツール選定とデータ基盤の方針が定まっている方" },
+  { text: "AIが日常業務に組み込まれ、人がやる仕事が減ってきた方" },
+  { text: "さらなる自律化（エージェント化）を検討している方" },
+];
+
+const chapterParts = [
+  {
+    partLabel: "Part 1",
+    partTitle: "ロードマップ要約",
+    partDuration: "15分",
+    chapters: [
+      { no: 1, title: "4段階ロードマップ — Lv4という到達地点", duration: "15分", body: "AIネイティブな会社の輪郭。卒業の定義。" },
+    ],
+  },
+  {
+    partLabel: "Part 2",
+    partTitle: "AIネイティブな会社の姿",
+    partDuration: "120分",
+    chapters: [
+      { no: 2, title: "AIネイティブの定義と4つの特徴", duration: "20分", body: "組織横断自動化／内製で即AI組込／AIと組織の共進化／自走の定義。" },
+      { no: 3, title: "エージェント設計の基本", duration: "30分", body: "自動化と自律化の違い／エージェントに任せる業務の選び方／人間の介在ポイント。" },
+      { no: 4, title: "自律運営の条件", duration: "25分", body: "ツール・データ・組織の3要件／ガバナンス設計／失敗時の復旧フロー。" },
+      { no: 5, title: "AI駆動経営伴走支援 自走OB インタビュー集（3〜5社）", duration: "45分", body: "内製化の軌跡／自走後の運営状況／印象に残った転換点。Phase 4 後半時点で蓄積されたOB事例を匿名/実名混載で掲載予定。" },
+    ],
+  },
+  {
+    partLabel: "Part 3",
+    partTitle: "自走後の世界",
+    partDuration: "35分",
+    chapters: [
+      { no: 6, title: "OBコミュニティ — 自走後に何があるか", duration: "10分", body: "OB勉強会／スポット相談権／Lv4講座への素材提供（OB事例の循環）。" },
+      { no: 7, title: "自社が「事例」になる側に回る", duration: "15分", body: "ノウハウを社会に還元する意味／登壇・執筆の道／ツミキAI事例集への貢献。" },
+      { no: 8, title: "次の一手を決める（実習）", duration: "10分", body: "自社の次の進化軸／OBコミュニティ参加判断。" },
+    ],
+  },
+  {
+    partLabel: "補足",
+    partTitle: "AI駆動経営伴走支援への接続",
+    partDuration: "10分",
+    chapters: [
+      { no: 9, title: "事例で終わらせず実践へ — AI駆動経営伴走支援への誘導", duration: "10分", body: "「読むだけでは内製化は完成しない」前提で、AI駆動経営伴走支援（Lv4向け＝自律化・自走）への接続を明記。" },
+    ],
+  },
+];
+
+const cantDo = [
+  {
+    title: "本講座は how-to ではなく事例集です",
+    body: "Lv1-Lv3講座と異なり、本講座は具体的な実装手順を示しません。「AIネイティブな会社の姿」を vision と事例で配る性格です。手を動かすのは <a href=\"/support/\">AI駆動経営伴走支援</a> で。",
+  },
+  {
+    title: "Lv3の卒業がない場合は早すぎます",
+    body: "基幹系再選定／API連携／組織役割設計が定着していない場合、本講座は早すぎます。<a href=\"/courses/lv3/\">Lv3講座</a> および <a href=\"/seminar/\">合同セミナー</a> から戻ってください。",
+  },
+  {
+    title: "事例企業の固有ノウハウは公開しません",
+    body: "OBインタビューは守秘義務に配慮した範囲での公開です。深い情報は AI駆動経営伴走支援 のヒアリング内でしかお話しできません。",
+  },
+];
+
+const faq = [
+  {
+    q: "なぜ「事例集」と書いてあるんですか？",
+    a: "Lv4 は <strong>how-to が体系化されていない領域</strong>です。本講座は「他社が実際にどう内製化したか」を事例で配る性格です。具体的な実装は AI駆動経営伴走支援 でハンズオンで支援します。",
+  },
+  {
+    q: "AI駆動経営伴走支援 と Lv4講座、どちらを先に？",
+    a: "<strong>AI駆動経営伴走支援が主</strong>です。本講座はAI駆動経営伴走支援を検討する前後に読むと、「自社が次に目指すべき姿」が言葉になります。AI駆動経営伴走支援への意思決定が固まったら、本講座は無理に読まなくても大丈夫です。",
+  },
+  {
+    q: "リリースはいつ？",
+    a: "Phase 4 後半（2027 Q3-Q4）リリース予定です。AI駆動経営伴走支援 の自走OB事例が一定数蓄積した時点で公開します。事前通知登録（無料）でリリース連絡します。",
+  },
+];
+
+const characterNote = {
+  title: "この講座の性格 — vision + 事例集",
+  body: "Lv1-Lv3講座は how-to 中心ですが、<strong>本講座は vision と事例集中心</strong>です。<br />AIネイティブな会社の姿を可視化し、AI駆動経営伴走支援 自走OBと代表自身の実践をコンテンツ化しています。",
+};
+
+const bridgeBlock = {
+  title: "★ AI駆動経営伴走支援への架け橋",
+  items: [
+    "本事例集を読むだけでは、内製化は完成しません",
+    "本格的な内製化には AI駆動経営伴走支援 の伴走が必要です",
+    "「事例」で終わらせず「実践」に進むために、無料個別相談へどうぞ",
+  ],
+};
+---
+
+<Layout
+  title="Lv4講座 ¥3,000（★副読本・事例集）— ツミキAI"
+  description="AIネイティブな会社の姿。AI駆動経営伴走支援から自走したOBインタビュー集。事例集として機能します。"
+>
+  <CourseLandingPage
+    kicker="A. 経営者が先に学ぶ — Lv4講座（★副読本・事例集）"
+    title={`Lv4：AIネイティブを<br /><span class="accent">目指す経営者へ。</span>`}
+    lead={`AIネイティブな会社の姿を、vision と事例で配る講座です。<br />本講座は<strong>AI駆動経営伴走支援でAIネイティブ化を目指す方のための事例集</strong>として設計しています。手を動かすのは AI駆動経営伴走支援で。`}
+    subreaderNote={`<strong>この講座は、AI駆動経営伴走支援でAIネイティブ化を目指す方のための事例集です。</strong>主CTAは AI駆動経営伴走支援 の無料個別相談、副CTAは本講座の事前通知登録です。`}
+    price="¥3,000"
+    priceNote="共通版・自走OB事例集"
+    releasePhase="Phase 4 後半（2027 Q3-Q4）リリース予定"
+    audience={audience}
+    characterNote={characterNote}
+    chapterParts={chapterParts}
+    graduationLabel="卒業条件：自社が他社の「事例」になれる状態"
+    graduationItems={[
+      "AIネイティブの定義を自分の言葉で説明できる",
+      "自社のエージェント化候補を3つ以上挙げられる",
+      "自律運営の3要件を自社に当てはめて評価できる",
+      "AI駆動経営伴走支援への意思決定が固まった",
+    ]}
+    bridgeBlock={bridgeBlock}
+    cantDo={cantDo}
+    faq={faq}
+    ctaPrimary={{ label: "★ AI駆動経営伴走支援の無料個別相談", href: "/contact/" }}
+    ctaSecondary={{ label: "本講座の事前通知登録", href: "/contact/" }}
+    ctaTertiary={{ label: "AI駆動経営伴走支援を見る", href: "/support/" }}
+    variant="subreader"
+  />
+</Layout>

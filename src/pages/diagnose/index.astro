@@ -1,0 +1,1215 @@
+---
+/**
+ * DX診断 v1.1（DX→AI駆動経営 連続体）
+ * 試作 03_デザイン・アセット/試作/diagnose_v1.html を Astro 化（2026-04-28）
+ * Layout（SiteHeader / SiteFooter）を共有することで他ページと統一感を確保。
+ *
+ * 本実装の改良ポイント:
+ *   - 試作の独自 nav を削除し、Layout の SiteHeader を使用
+ *   - SiteFooter も自動で付く
+ *   - スタイル・スクリプトはそのまま is:global / is:inline で持ち込み
+ */
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout
+  title="DX診断（DX→AI駆動経営の距離を測る）— ツミキAI"
+  description="10問・3分で自社のDX Lvと、AI駆動経営まで残り何段かがわかる無料診断。メール登録不要。"
+>
+  <main class="diagnose-page">
+    <!-- ========== 画面1: イントロ ========== -->
+    <div class="screen is-active" id="screen-intro">
+      <section class="intro-hero">
+        <div class="container">
+          <span class="eyebrow">所要 3分 / 10問</span>
+          <h1>
+            DX → AI駆動経営、<br />
+            <span class="accent">あと何段？</span>
+          </h1>
+          <p class="intro-lead">
+            10問に答えるだけで、自社の <strong>DX Lv（現在地）</strong> と、<strong>AI駆動経営まで残り何段か</strong>がわかります。無料で、メール登録も不要です。
+          </p>
+          <button class="diag-btn diag-btn-accent diag-btn-lg" onclick="showScreen('quiz')">診断をはじめる</button>
+          <div class="intro-meta">
+            <span><span class="dot"></span>所要時間 約3分</span>
+            <span><span class="dot"></span>登録不要</span>
+            <span><span class="dot"></span>結果はその場で表示</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="intro-benefits">
+        <div class="container">
+          <div class="section-eyebrow">What you get</div>
+          <h2>診断でわかる3つのこと</h2>
+          <div class="benefits-grid">
+            <div class="benefit-card">
+              <div class="benefit-num">01</div>
+              <h3>自社の DX Lv（現在地）</h3>
+              <p>中小企業白書の4段階モデルで、自社がどのレベルにいるかを客観的に把握できます。</p>
+            </div>
+            <div class="benefit-card">
+              <div class="benefit-num">02</div>
+              <h3>AI駆動経営まで残り◯段</h3>
+              <p>「❶❷ DX領域 → ❸❹ AI領域」の連続体上に、自社の位置と AI駆動経営までの距離を可視化します。</p>
+            </div>
+            <div class="benefit-card">
+              <div class="benefit-num">03</div>
+              <h3>今日からできる次の一手</h3>
+              <p>レベル別に、小さく始められる具体的なアクションを提示。無理なく積み上げられます。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ========== 画面2: 設問 ========== -->
+    <div class="screen" id="screen-quiz">
+      <section class="quiz">
+        <div class="progress-bar">
+          <div class="container progress-inner">
+            <span>DX診断</span>
+            <div class="progress-track">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <span class="progress-count"><span id="progress-answered">0</span>/10</span>
+          </div>
+        </div>
+
+        <div class="container" id="questions-container">
+          <!-- JS で描画 -->
+        </div>
+
+        <div class="container">
+          <div class="quiz-submit">
+            <p class="quiz-submit-note" id="submit-note">すべての質問に答えると結果を表示できます</p>
+            <button class="diag-btn diag-btn-accent diag-btn-lg" id="btn-submit" disabled onclick="submitQuiz()">結果を見る</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ========== 画面3: 結果 ========== -->
+    <div class="screen" id="screen-result">
+      <section class="result">
+        <div class="container">
+
+          <!-- 結果ヒーロー -->
+          <div class="result-hero">
+            <div class="result-level-badge" id="result-level-badge">Lv —</div>
+            <h1 id="result-headline">—</h1>
+            <p class="result-state" id="result-state">—</p>
+          </div>
+
+          <!-- 4ステージマップ -->
+          <div class="stage-map">
+            <div class="stage-map-title">DX → AI駆動経営 の道のり</div>
+            <div class="stage-map-sub">❶❷ DX領域 → ❸❹ AI領域 / あなたの現在地</div>
+            <div class="stage-track">
+              <div class="stage-line"></div>
+              <div class="stage-nodes" id="stage-nodes">
+                <!-- JS で描画 -->
+              </div>
+            </div>
+          </div>
+
+          <!-- 最弱カテゴリ + 次の一手 -->
+          <div class="result-grid">
+            <div class="result-card">
+              <div class="result-card-label">ここから着手</div>
+              <h3 id="weakest-title">—</h3>
+              <p id="weakest-desc">—</p>
+            </div>
+            <div class="result-card">
+              <div class="result-card-label">今日からできる次の一手</div>
+              <ul class="action-list" id="action-list">
+                <!-- JS で描画 -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- 処方箋 -->
+          <div class="prescription">
+            <div class="prescription-head">
+              <h2>ツミキAIの処方箋</h2>
+              <p>3つの始め方（A.経営者が先に学ぶ／B.組織に入れる／C.一緒に実行する）で、あなたの現在地に最適な入口を提案します。</p>
+              <p class="roadmap-hint">
+                💡 <strong>どのLvでも、最初に <a href="/courses/roadmap/">ロードマップ講座（無料）</a> を読むと、4ステージ全体の地図が手に入ります。</strong>
+              </p>
+            </div>
+            <div class="prescription-main" id="prescription-main">
+              <!-- JS で描画 -->
+            </div>
+            <div class="prescription-sub" id="prescription-sub">
+              <!-- 残り2ステージを控えめに表示 -->
+            </div>
+          </div>
+
+          <!-- 最終CTA -->
+          <div class="final-cta">
+            <h2>まずは話を聞いてみませんか？</h2>
+            <p>千葉県印西市から、オンラインでも対面でも。無料相談は30分から。</p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+              <a class="diag-btn diag-btn-accent diag-btn-lg" href="/contact/">無料相談を予約する</a>
+              <a class="diag-btn diag-btn-secondary diag-btn-lg" href="/products/">全商品マップを見る</a>
+            </div>
+          </div>
+
+          <p class="retake">
+            <a onclick="retake()">もう一度診断する</a>
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style is:global>
+  /* DX診断ページ専用スタイル — diagnose-page スコープで他ページに影響しないようにする */
+  .diagnose-page * { box-sizing: border-box; }
+
+  .diagnose-page .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- Buttons ---------- */
+  .diagnose-page .diag-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 24px;
+    border-radius: var(--radius-md, 10px);
+    font-family: var(--font-en, "Inter"), var(--font-jp, "Noto Sans JP");
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
+    transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1), background 150ms ease, box-shadow 150ms ease;
+    text-decoration: none;
+  }
+  .diagnose-page .diag-btn-accent {
+    background: var(--color-accent, #FF6B35);
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(26,58,95,0.08);
+  }
+  .diagnose-page .diag-btn-accent:hover {
+    background: #E85C28;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26,58,95,0.08);
+  }
+  .diagnose-page .diag-btn-accent:disabled {
+    background: #E5E7EB;
+    color: #9CA3AF;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  .diagnose-page .diag-btn-secondary {
+    background: #fff;
+    color: var(--color-primary, #1A3A5F);
+    border: 1px solid var(--color-primary, #1A3A5F);
+  }
+  .diagnose-page .diag-btn-secondary:hover {
+    background: var(--color-bg-warm, #FAF7F2);
+    transform: translateY(-1px);
+  }
+  .diagnose-page .diag-btn-lg { height: 52px; padding: 0 28px; font-size: 16px; }
+
+  /* ---------- Screen 共通 ---------- */
+  .diagnose-page .screen { display: none; }
+  .diagnose-page .screen.is-active { display: block; }
+
+  /* ---------- 画面1: イントロ ---------- */
+  .diagnose-page .intro-hero {
+    background:
+      radial-gradient(1200px 500px at 110% -10%, rgba(255,107,53,0.08), transparent 60%),
+      radial-gradient(900px 400px at -10% 110%, rgba(26,58,95,0.06), transparent 60%),
+      var(--color-bg-warm, #FAF7F2);
+    padding: 80px 0 72px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .diagnose-page .intro-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.9;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.35  0 0 0 0 0.22  0 0 0 0 0.12  0 0 0 0.22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 320px 320px;
+  }
+  .diagnose-page .intro-hero > .container { position: relative; z-index: 1; }
+
+  .diagnose-page .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-accent-soft, #FFE5D6);
+    color: var(--color-accent-dark, #B84A1E);
+    padding: 6px 14px;
+    border-radius: var(--radius-full, 999px);
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .diagnose-page .eyebrow::before {
+    content: "";
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--color-accent, #FF6B35);
+  }
+  .diagnose-page .intro-hero h1 {
+    font-family: var(--font-jp-serif, "Shippori Mincho");
+    font-size: 44px;
+    line-height: 1.45;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: var(--color-text, #1A3A5F);
+  }
+  .diagnose-page .intro-hero h1 .accent { color: var(--color-accent, #FF6B35); }
+  .diagnose-page .intro-lead {
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--color-text-body, #4B5563);
+    margin: 0 auto 40px;
+    max-width: 620px;
+  }
+  .diagnose-page .intro-meta {
+    display: inline-flex;
+    gap: 28px;
+    font-size: 13px;
+    color: var(--color-text-muted, #6C757D);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 28px;
+  }
+  .diagnose-page .intro-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .diagnose-page .intro-meta .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--color-primary, #1A3A5F);
+    opacity: 0.4;
+  }
+
+  .diagnose-page .intro-benefits {
+    padding: 80px 0;
+    background: #fff;
+  }
+  .diagnose-page .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-accent-dark, #B84A1E);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .diagnose-page .section-eyebrow::before {
+    content: "";
+    display: inline-block;
+    width: 48px; height: 4px;
+    background: var(--color-accent, #FF6B35);
+    border-radius: 2px;
+  }
+  .diagnose-page .intro-benefits h2 {
+    font-family: var(--font-jp-serif, "Shippori Mincho");
+    font-size: 28px;
+    line-height: 1.55;
+    font-weight: 600;
+    margin-bottom: 48px;
+    color: var(--color-text, #1A3A5F);
+  }
+  .diagnose-page .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .diagnose-page .benefit-card {
+    background: #fff;
+    border: 1px solid var(--color-border, #E5E7EB);
+    border-radius: var(--radius-lg, 16px);
+    padding: 28px 24px;
+    box-shadow: 0 1px 3px rgba(26,58,95,0.08);
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 200ms ease;
+  }
+  .diagnose-page .benefit-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(26,58,95,0.10);
+  }
+  .diagnose-page .benefit-num {
+    font-family: var(--font-en, "Inter");
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-accent, #FF6B35);
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+  .diagnose-page .benefit-card h3 {
+    font-family: var(--font-jp, "Noto Sans JP");
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: var(--color-text, #1A3A5F);
+  }
+  .diagnose-page .benefit-card p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--color-text-body, #4B5563);
+    margin: 0;
+  }
+
+  /* ---------- 画面2: 設問 ---------- */
+  .diagnose-page .quiz {
+    padding: 48px 0 96px;
+    background: var(--color-bg-warm, #FAF7F2);
+    min-height: 80vh;
+  }
+  .diagnose-page .progress-bar {
+    position: sticky;
+    top: 72px;
+    background: var(--color-bg-warm, #FAF7F2);
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-border, #E5E7EB);
+    margin-bottom: 32px;
+    z-index: 5;
+  }
+  .diagnose-page .progress-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--color-text-muted, #6C757D);
+  }
+  .diagnose-page .progress-track {
+    flex: 1;
+    height: 6px;
+    background: var(--color-border, #E5E7EB);
+    border-radius: var(--radius-full, 999px);
+    overflow: hidden;
+  }
+  .diagnose-page .progress-fill {
+    height: 100%;
+    background: var(--color-accent, #FF6B35);
+    border-radius: var(--radius-full, 999px);
+    transition: width 300ms ease;
+    width: 0%;
+  }
+  .diagnose-page .progress-count {
+    font-family: var(--font-en, "Inter");
+    font-weight: 600;
+    color: var(--color-text, #1A3A5F);
+    min-width: 48px;
+    text-align: right;
+  }
+
+  .diagnose-page .cat-section { margin-bottom: 32px; }
+  .diagnose-page .cat-label {
+    display: inline-block;
+    background: var(--color-primary, #1A3A5F);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: var(--radius-full, 999px);
+    letter-spacing: 0.04em;
+    margin-bottom: 16px;
+  }
+  .diagnose-page .question {
+    background: #fff;
+    border: 1px solid var(--color-border, #E5E7EB);
+    border-radius: var(--radius-lg, 16px);
+    padding: 28px;
+    box-shadow: 0 1px 3px rgba(26,58,95,0.08);
+    margin-bottom: 16px;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+  }
+  .diagnose-page .question.is-answered { border-color: var(--color-accent-soft, #FFE5D6); }
+  .diagnose-page .question-head {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .diagnose-page .question-num {
+    flex-shrink: 0;
+    font-family: var(--font-en, "Inter");
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--color-accent, #FF6B35);
+    background: var(--color-accent-soft, #FFE5D6);
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full, 999px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .diagnose-page .question-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text, #1A3A5F);
+    line-height: 1.7;
+    flex: 1;
+  }
+  .diagnose-page .answers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .diagnose-page .answer-btn {
+    background: #fff;
+    border: 1px solid var(--color-border, #E5E7EB);
+    color: var(--color-text, #1A3A5F);
+    padding: 14px 20px;
+    border-radius: var(--radius-md, 10px);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+  .diagnose-page .answer-btn:hover {
+    border-color: var(--color-primary, #1A3A5F);
+    transform: translateY(-1px);
+    box-shadow: 0 1px 3px rgba(26,58,95,0.08);
+  }
+  .diagnose-page .answer-btn.is-selected {
+    background: var(--color-primary, #1A3A5F);
+    color: #fff;
+    border-color: var(--color-primary, #1A3A5F);
+  }
+  .diagnose-page .answer-btn[data-answer="yes"].is-selected {
+    background: var(--color-accent, #FF6B35);
+    border-color: var(--color-accent, #FF6B35);
+  }
+
+  .diagnose-page .quiz-submit {
+    text-align: center;
+    margin-top: 48px;
+    padding: 32px;
+    background: #fff;
+    border: 1px solid var(--color-border, #E5E7EB);
+    border-radius: var(--radius-lg, 16px);
+    box-shadow: 0 1px 3px rgba(26,58,95,0.08);
+  }
+  .diagnose-page .quiz-submit-note {
+    font-size: 14px;
+    color: var(--color-text-muted, #6C757D);
+    margin-bottom: 20px;
+  }
+
+  /* ---------- 画面3: 結果 ---------- */
+  .diagnose-page .result { padding: 64px 0 96px; }
+  .diagnose-page .result-hero {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .diagnose-page .result-level-badge {
+    display: inline-block;
+    font-family: var(--font-en, "Inter");
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-accent-dark, #B84A1E);
+    background: var(--color-accent-soft, #FFE5D6);
+    padding: 6px 16px;
+    border-radius: var(--radius-full, 999px);
+    letter-spacing: 0.06em;
+    margin-bottom: 20px;
+  }
+  .diagnose-page .result-hero h1 {
+    font-family: var(--font-jp-serif, "Shippori Mincho");
+    font-size: 36px;
+    line-height: 1.5;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: var(--color-text, #1A3A5F);
+  }
+  .diagnose-page .result-state {
+    font-size: 17px;
+    color: var(--color-text-body, #4B5563);
+    line-height: 1.9;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* ステージマップ */
+  .diagnose-page .stage-map {
+    background: #fff;
+    border: 1px solid var(--color-border, #E5E7EB);
+    border-radius: var(--radius-lg, 16px);
+    padding: 48px 40px 56px;
+    box-shadow: 0 1px 3px rgba(26,58,95,0.08);
+    margin-bottom: 48px;
+  }
+  .diagnose-page .stage-map-title {
+    text-align: center;
+    font-family: var(--font-jp-serif, "Shippori Mincho");
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .diagnose-page .stage-map-sub {
+    text-align: center;
+    font-size: 13px;
+    color: var(--color-text-muted, #6C757D);
+    margin-bottom: 40px;
+  }
+  .diagnose-page .stage-track {
+    position: relative;
+    padding: 40px 0 20px;
+  }
+  .diagnose-page .stage-line {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(to right, var(--color-border, #E5E7EB) 0 8px, transparent 8px 16px);
+    border-radius: 2px;
+    z-index: 0;
+  }
+  .diagnose-page .stage-nodes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    position: relative;
+    z-index: 1;
+  }
+  .diagnose-page .stage-node {
+    text-align: center;
+    position: relative;
+  }
+  .diagnose-page .stage-node.zone-dx {
+    background: linear-gradient(180deg, rgba(120,120,140,0.05) 0%, rgba(120,120,140,0.10) 100%);
+    border-radius: 8px;
+    padding: 8px 4px 12px;
+  }
+  .diagnose-page .stage-node.zone-ai {
+    background: linear-gradient(180deg, rgba(255,107,53,0.05) 0%, rgba(255,107,53,0.12) 100%);
+    border-radius: 8px;
+    padding: 8px 4px 12px;
+  }
+  .diagnose-page .stage-zone-tag {
+    display: inline-block;
+    font-family: var(--font-en, "Inter");
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border-radius: var(--radius-full, 999px);
+    margin-bottom: 8px;
+  }
+  .diagnose-page .stage-node.zone-dx .stage-zone-tag {
+    background: rgba(120,120,140,0.18);
+    color: #4a4a55;
+  }
+  .diagnose-page .stage-node.zone-ai .stage-zone-tag {
+    background: rgba(255,107,53,0.18);
+    color: var(--color-accent-dark, #B84A1E);
+  }
+  .diagnose-page .stage-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--color-border, #E5E7EB);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-en, "Inter");
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--color-text-muted, #6C757D);
+    margin-bottom: 12px;
+    transition: all 200ms ease;
+  }
+  .diagnose-page .stage-node.is-current .stage-dot {
+    background: var(--color-accent, #FF6B35);
+    border-color: var(--color-accent, #FF6B35);
+    color: #fff;
+    transform: scale(1.25);
+    box-shadow: 0 0 0 6px rgba(255,107,53,0.15);
+  }
+  .diagnose-page .stage-node.is-past .stage-dot {
+    background: var(--color-primary, #1A3A5F);
+    border-color: var(--color-primary, #1A3A5F);
+    color: #fff;
+  }
+  .diagnose-page .stage-node-label {
+    font-size: 12px;
+    color: var(--color-text-muted, #6C757D);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .diagnose-page .stage-node-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text, #1A3A5F);
+  }
+  .diagnose-page .stage-node.is-current .stage-node-name {
+    color: var(--color-accent-dark, #B84A1E);
+  }
+  .diagnose-page .stage-marker {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-accent, #FF6B35);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: var(--radius-full, 999px);
+    white-space: nowrap;
+  }
+  .diagnose-page .stage-marker::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--color-accent, #FF6B35);
+  }
+
+  .diagnose-page .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+  .diagnose-page .result-card {
+    background: #fff;
+    border: 1px solid var(--color-border, #E5E7EB);
+    border-radius: var(--radius-lg, 16px);
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(26,58,95,0.08);
+  }
+  .diagnose-page .result-card-label {
+    font-size: 12px;
+    color: var(--color-accent-dark, #B84A1E);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .diagnose-page .result-card h3 {
+    font-family: var(--font-jp-serif, "Shippori Mincho");
+    font-size: 20px;
+    line-height: 1.55;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: var(--color-text, #1A3A5F);
+  }
+  .diagnose-page .result-card p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--color-text-body, #4B5563);
+    margin: 0;
+  }
+  .diagnose-page .action-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .diagnose-page .action-list li {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--color-text-body, #4B5563);
+    border-bottom: 1px dashed var(--color-border, #E5E7EB);
+  }
+  .diagnose-page .action-list li:last-child { border-bottom: none; }
+  .diagnose-page .action-list li::before {
+    content: "";
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+    border-radius: 50%;
+    background: var(--color-accent-soft, #FFE5D6);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none'><path d='M2 6L5 9L10 3' stroke='%23B84A1E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  /* 処方箋セクション */
+  .diagnose-page .prescription { margin-bottom: 48px; }
+  .diagnose-page .prescription-head {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .diagnose-page .prescription-head h2 {
+    font-family: var(--font-jp-serif, "Shippori Mincho");
+    font-size: 28px;
+    line-height: 1.55;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: var(--color-text, #1A3A5F);
+  }
+  .diagnose-page .prescription-head p {
+    font-size: 15px;
+    color: var(--color-text-body, #4B5563);
+    margin: 0;
+  }
+  .diagnose-page .roadmap-hint {
+    margin-top: 16px;
+    padding: 14px 20px;
+    background: #E6F4EA;
+    border-left: 4px solid #2E7D32;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #1B5E20;
+    text-align: left;
+  }
+  .diagnose-page .roadmap-hint a {
+    color: #1B5E20;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+  .diagnose-page .prescription-main {
+    background: #fff;
+    border: 2px solid var(--color-accent, #FF6B35);
+    border-radius: var(--radius-lg, 16px);
+    padding: 36px;
+    box-shadow: 0 4px 12px rgba(26,58,95,0.08);
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .diagnose-page .prescription-badge {
+    position: absolute;
+    top: -14px;
+    left: 24px;
+    background: var(--color-accent, #FF6B35);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: var(--radius-full, 999px);
+    letter-spacing: 0.06em;
+  }
+  .diagnose-page .prescription-main h3 {
+    font-family: var(--font-jp, "Noto Sans JP");
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: var(--color-text, #1A3A5F);
+  }
+  .diagnose-page .prescription-main .stage-tag {
+    font-size: 13px;
+    color: var(--color-text-muted, #6C757D);
+    margin-bottom: 16px;
+  }
+  .diagnose-page .prescription-main p {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--color-text-body, #4B5563);
+    margin: 0 0 24px;
+  }
+  .diagnose-page .prescription-main .price {
+    font-family: var(--font-en, "Inter");
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-accent, #FF6B35);
+    margin-bottom: 24px;
+  }
+  .diagnose-page .prescription-main .price .unit {
+    font-size: 14px;
+    color: var(--color-text-muted, #6C757D);
+    font-weight: 500;
+    margin-left: 6px;
+  }
+  .diagnose-page .prescription-cta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .diagnose-page .prescription-sub {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .diagnose-page .prescription-sub-card {
+    background: var(--color-bg-warm, #FAF7F2);
+    border: 1px solid var(--color-border, #E5E7EB);
+    border-radius: var(--radius-md, 10px);
+    padding: 20px;
+  }
+  .diagnose-page .prescription-sub-card .stage-tag {
+    font-size: 11px;
+    color: var(--color-text-muted, #6C757D);
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+  .diagnose-page .prescription-sub-card h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+    color: var(--color-text, #1A3A5F);
+  }
+  .diagnose-page .prescription-sub-card p {
+    font-size: 13px;
+    color: var(--color-text-muted, #6C757D);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* 最終CTA */
+  .diagnose-page .final-cta {
+    background: var(--color-primary, #1A3A5F);
+    color: #fff;
+    text-align: center;
+    padding: 56px 40px;
+    border-radius: var(--radius-lg, 16px);
+  }
+  .diagnose-page .final-cta h2 {
+    font-family: var(--font-jp-serif, "Shippori Mincho");
+    font-size: 26px;
+    line-height: 1.55;
+    color: #fff;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+  }
+  .diagnose-page .final-cta p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.8);
+    margin: 0 0 28px;
+  }
+  .diagnose-page .final-cta .diag-btn-accent { box-shadow: 0 4px 16px rgba(255,107,53,0.35); }
+  .diagnose-page .final-cta .diag-btn-secondary {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255,255,255,0.4);
+  }
+  .diagnose-page .final-cta .diag-btn-secondary:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
+  .diagnose-page .retake {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 13px;
+    color: var(--color-text-muted, #6C757D);
+  }
+  .diagnose-page .retake a {
+    color: var(--color-primary, #1A3A5F);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* レスポンシブ */
+  @media (max-width: 768px) {
+    .diagnose-page .intro-hero { padding: 56px 0 56px; }
+    .diagnose-page .intro-hero h1 { font-size: 30px; }
+    .diagnose-page .intro-lead { font-size: 15px; }
+    .diagnose-page .intro-benefits { padding: 56px 0; }
+    .diagnose-page .intro-benefits h2 { font-size: 22px; }
+    .diagnose-page .benefits-grid { grid-template-columns: 1fr; }
+    .diagnose-page .quiz { padding: 32px 0 64px; }
+    .diagnose-page .question { padding: 20px; }
+    .diagnose-page .question-text { font-size: 15px; }
+    .diagnose-page .result { padding: 40px 0 64px; }
+    .diagnose-page .result-hero h1 { font-size: 26px; }
+    .diagnose-page .stage-map { padding: 32px 20px 40px; }
+    .diagnose-page .stage-node-label { font-size: 10px; }
+    .diagnose-page .stage-node-name { font-size: 12px; }
+    .diagnose-page .stage-marker { font-size: 10px; padding: 3px 8px; }
+    .diagnose-page .result-grid { grid-template-columns: 1fr; }
+    .diagnose-page .prescription-main { padding: 28px 20px; }
+    .diagnose-page .prescription-main h3 { font-size: 19px; }
+    .diagnose-page .prescription-sub { grid-template-columns: 1fr; }
+    .diagnose-page .final-cta { padding: 40px 24px; }
+    .diagnose-page .final-cta h2 { font-size: 22px; }
+  }
+</style>
+
+<script is:inline>
+  // ============ 設問データ ============
+  const QUESTIONS = [
+    { id: 1, cat: 'comm', text: '社内の連絡手段は、メールやチャットに統一されていますか？' },
+    { id: 2, cat: 'comm', text: '社外とのやり取り（見積もり・発注・請求）は、デジタルで完結していますか？' },
+    { id: 3, cat: 'comm', text: '社員全員が、会社のファイルにどこからでもアクセスできますか？' },
+    { id: 4, cat: 'info', text: '顧客情報や案件情報は、1つの場所にまとまっていますか？' },
+    { id: 5, cat: 'info', text: '過去の取引データや売上データを、すぐに集計できますか？' },
+    { id: 6, cat: 'info', text: '社内のルールや手順書は、文書化されて共有されていますか？' },
+    { id: 7, cat: 'auto', text: '請求書や見積書の作成は、ほぼ自動化されていますか？' },
+    { id: 8, cat: 'auto', text: '定型的な通知やリマインド（期日、承認依頼など）は、自動で届きますか？' },
+    { id: 9, cat: 'it', text: '会社として、クラウド基盤（Google Workspace / Microsoft 365 など）を契約していますか？' },
+    { id: 10, cat: 'it', text: 'AI／DXに詳しい社内担当者、または外部の相談先がいますか？' }
+  ];
+
+  const CATEGORIES = {
+    comm: { label: 'コミュニケーション', ids: [1,2,3] },
+    info: { label: '情報管理', ids: [4,5,6] },
+    auto: { label: '業務自動化', ids: [7,8] },
+    it:   { label: 'IT基盤', ids: [9,10] }
+  };
+
+  const LEVELS = {
+    1: {
+      name: 'Lv 1',
+      headline: 'DX領域 ❶ / AI駆動経営まで残り3段',
+      state: '紙・口頭のやり取りが中心。デジタル化の起点（DX領域）に立っています。まずは「AI／DXで何ができるか」を知るところから。全社一斉ではなく、1部門だけの小さな一歩でOK。<strong>DXで遅れた会社こそ、AI駆動経営で先に着けるポジション</strong>です。',
+      mainStageIndex: 0,
+      actions: [
+        'クラウド基盤（GWS または MS365）を契約する',
+        'まず1部門だけ、ファイルをクラウドに移す（スモールスタート）',
+        'Gemini / Copilot で要約・下書き・検索を日常業務に混ぜる'
+      ],
+      prescription: { learn: 'Lv1', deploy: 'TR1', execute: 'B' }
+    },
+    2: {
+      name: 'Lv 2',
+      headline: 'DX領域 ❷ / AI駆動経営まで残り2段',
+      state: '全社共通基盤はあるが、AIを触る人と触らない人に分かれている。部門をまたぐとデータが断絶。このフェーズの課題は "会話止まり" から "業務の仕組みに組み込む" への移行。ここを越えると、❸AI領域（戦略を描く）に入ります。',
+      mainStageIndex: 1,
+      actions: [
+        '現場が自分で試せる環境を全社に広げる（AI活用底上げ）',
+        'データ・情報の置き場を共通化(誰でも同じ情報にたどり着ける)',
+        '業務棚卸し — やめる／AIに任せる／人がやる を仕分け'
+      ],
+      prescription: { learn: 'Lv2', deploy: 'TR2', execute: 'B' }
+    },
+    3: {
+      name: 'Lv 3',
+      headline: 'AI領域 ❸ / AI駆動経営まで残り1段',
+      state: '全社でAI活用が底上げされ、個別効率化は進んだ。<strong>ここから先がAI駆動経営の本領</strong>。基幹系が古く連携できず、データが散在しているのが典型課題。組織設計・基幹系再選定のレイヤーで、戦略を描き直すフェーズです。',
+      mainStageIndex: 2,
+      actions: [
+        '基幹系ツールを API・MCP対応基準で再選定する',
+        'Claude Code / API連携で部門データを経営判断に接続する',
+        '組織役割設計 — 選定・運用・教育の社外CTO機能をどう埋めるか'
+      ],
+      prescription: { learn: 'Lv3+Seminar', execute: 'B' }
+    },
+    4: {
+      name: 'Lv 4',
+      headline: 'AI領域 ❹ / AI駆動経営の達成域',
+      state: 'データ活用と自動化が進み、組織としての内製化が視野に入っています。ここから先は、外部ベンダーに依存しない自走体制（=AI駆動経営の本格運用）へ。ツミキAIから自走していただく最終フェーズです。',
+      mainStageIndex: 3,
+      actions: [
+        '業務をエージェントに任せる仕組みを構築（自律化）',
+        '新規業務も内製で即AI組込（事業立ち上げのスピードが跳ねる）',
+        'AIと組織が共進化する運営モデル → ツミキAIから自走'
+      ],
+      prescription: { learn: 'Lv4+OB', execute: 'B' }
+    }
+  };
+
+  const WEAKEST_COPY = {
+    comm: { title: 'まずはコミュニケーションの統一から', desc: '社内外の連絡手段・ファイル共有が分散している状態です。ここが整わないと、どんなツールを入れても情報が行き渡りません。クラウド基盤の導入と、1つのツールへの集約から始めましょう。' },
+    info: { title: 'まずは情報を1箇所にまとめる', desc: '顧客・案件・データが散在している状態です。まずはスプレッドシート1枚で台帳を作るところから。属人化を防ぎ、次の自動化・AI活用の前提を整えます。' },
+    auto: { title: 'まずは定型業務の自動化から', desc: '毎月同じ作業を手動で繰り返している状態です。請求書・リマインド・データ集計など、ここを AI に任せることで、判断と営業に時間を使える体質に変わります。' },
+    it:   { title: 'まずはIT基盤と相談先の確保から', desc: 'クラウド基盤や詳しい相談先がない状態です。セキュリティ・拡張性の前提を整えつつ、「困ったときに聞ける人」を確保することで、DX の足場ができます。' }
+  };
+
+  const PRODUCTS = {
+    Lv1: { category: 'A', catLabel: '👨‍💼 A. 経営者が先に学ぶ', name: 'ロードマップ講座（無料）＋ Lv1講座', stageTag: 'STAGE ❶ 土台を組む', price: '無料 + 3,000', priceUnit: '円（note有料記事 / GWS・MS365版）', desc: 'まず無料のロードマップ講座で全体像を掴み、¥3,000 の Lv1講座で "Lv2到達チェックリスト7項目" を具体化。経営者自身が「何から手をつければいいか」を自分の言葉で語れる状態を作ります。', primaryCta: 'ロードマップ講座を読む', secondaryCta: 'Lv1講座の詳細', primaryHref: '/courses/roadmap/', secondaryHref: '/courses/lv1/' },
+    Lv2: { category: 'A', catLabel: '👨‍💼 A. 経営者が先に学ぶ', name: 'Lv2講座（Lv1未読ならロードマップ講座と併読）', stageTag: 'STAGE ❷ 活用を広げる', price: '3,000', priceUnit: '円（note有料記事 / GWS・MS365版）', desc: 'AI活用の全社底上げ／業務棚卸し／ミニアプリの型を、3時間で経営者自身が掴める講座。Lv3到達チェックリストを卒業条件として掲載。', primaryCta: 'Lv2講座の詳細', secondaryCta: 'ロードマップ講座（無料）', primaryHref: '/courses/lv2/', secondaryHref: '/courses/roadmap/' },
+    'Lv3+Seminar': { category: 'A', catLabel: '👨‍💼 A. 経営者が先に学ぶ', name: 'Lv3講座 ＋ ★経営者合同セミナー', stageTag: 'STAGE ❸ 戦略を描く', price: '3,000円 + ¥5万/名', priceUnit: '（Lv3講座は副読本・セミナーは他社経営者10名）', desc: 'Lv3は講義で完結しない領域です。¥3,000のLv3講座で戦略原則を押さえ、さらに他社経営者10名と1日集まる合同セミナーで「この四半期はここに投資する」を自社の文脈で言語化します。', primaryCta: '★ 合同セミナーの詳細', secondaryCta: 'Lv3講座（副読本）の詳細', primaryHref: '/seminar/', secondaryHref: '/courses/lv3/' },
+    'Lv4+OB': { category: 'A', catLabel: '👨‍💼 A. 経営者が先に学ぶ', name: 'Lv4講座（事例集）＋ OBコミュニティ', stageTag: 'STAGE ❹ AIネイティブになる', price: '3,000', priceUnit: '円（AI駆動経営伴走支援から自走したOBインタビュー集）', desc: 'Lv4はvisionと事例集の領域。AI駆動経営伴走支援を自走したOBのインタビュー集として設計されており、「自社が次に何を目指せば良いか」の参照点になります。本格的な内製化にはAI駆動経営伴走支援を。', primaryCta: '★ AI駆動経営伴走支援の無料相談', secondaryCta: 'Lv4講座（事例集）の詳細', primaryHref: '/support/', secondaryHref: '/courses/lv4/' },
+    TR1: { category: 'B', catLabel: '👥 B. 組織に入れる', name: '❶入門研修（担当者向け）', stageTag: 'STAGE ❶ 土台を組む', price: '10', priceUnit: '万円 / 半日', desc: '担当者チームが集まって受講する半日研修。Claude・ChatGPT基礎と個人プロンプト集を一気に作ります。経営者が「組織に共通言語を入れたい」タイミングで。', primaryCta: '入門研修の詳細', secondaryCta: '研修プログラム一覧', primaryHref: '/training/', secondaryHref: '/training/' },
+    TR2: { category: 'B', catLabel: '👥 B. 組織に入れる', name: '❷実践研修（担当者向け）', stageTag: 'STAGE ❷ 活用を広げる', price: '25', priceUnit: '万円 / 日', desc: 'チーム向け1日研修。共通プロンプト＋GAS入門で、現場が自走できる状態を作ります。Lv2で組織展開を本格化するタイミングで。', primaryCta: '実践研修の詳細', secondaryCta: '研修プログラム一覧', primaryHref: '/training/', secondaryHref: '/training/' },
+    B: { category: 'C', catLabel: '🤝 C. 一緒に実行する', name: '★ AI駆動経営伴走支援（主力）', stageTag: 'Lv1-Lv4 共通 / 現在地に応じた進め方', price: '月 10〜30', priceUnit: '万円 / 半年で自走', desc: '社外CTOとして戦略→実装→運用→自走まで一気通貫で伴走します。Lv1なら導入設計・初期学習、Lv2なら業務棚卸し・全社展開、Lv3なら基幹系再選定・組織役割設計、Lv4なら自律運用と内製化──現在地に応じた進め方で、最終的にAIネイティブな会社まで持っていきます。', primaryCta: '無料個別相談を予約する', secondaryCta: 'AI駆動経営伴走支援の詳細', primaryHref: '/contact/', secondaryHref: '/support/' }
+  };
+
+  const STAGES = [
+    { num: '❶', label: 'STAGE 1', name: '土台を組む', zone: 'dx', zoneLabel: 'DX領域' },
+    { num: '❷', label: 'STAGE 2', name: '活用を広げる', zone: 'dx', zoneLabel: 'DX領域' },
+    { num: '❸', label: 'STAGE 3', name: '戦略を描く', zone: 'ai', zoneLabel: 'AI領域' },
+    { num: '❹', label: 'STAGE 4', name: 'AIネイティブになる', zone: 'ai', zoneLabel: 'AI領域' }
+  ];
+
+  const answers = {};
+
+  function showScreen(name) {
+    document.querySelectorAll('.diagnose-page .screen').forEach(el => el.classList.remove('is-active'));
+    document.getElementById('screen-' + name).classList.add('is-active');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (name === 'quiz') renderQuiz();
+  }
+
+  function renderQuiz() {
+    const container = document.getElementById('questions-container');
+    const catOrder = ['comm', 'info', 'auto', 'it'];
+    container.innerHTML = '';
+    catOrder.forEach(catKey => {
+      const cat = CATEGORIES[catKey];
+      const section = document.createElement('div');
+      section.className = 'cat-section';
+      section.innerHTML = `<div class="cat-label">${cat.label}</div>`;
+      cat.ids.forEach(qId => {
+        const q = QUESTIONS.find(x => x.id === qId);
+        const qEl = document.createElement('div');
+        qEl.className = 'question';
+        qEl.id = `q-${q.id}`;
+        qEl.innerHTML = `
+          <div class="question-head">
+            <span class="question-num">${q.id}</span>
+            <div class="question-text">${q.text}</div>
+          </div>
+          <div class="answers">
+            <button class="answer-btn" data-answer="yes" onclick="selectAnswer(${q.id}, 'yes')">はい</button>
+            <button class="answer-btn" data-answer="no" onclick="selectAnswer(${q.id}, 'no')">いいえ</button>
+          </div>
+        `;
+        section.appendChild(qEl);
+      });
+      container.appendChild(section);
+    });
+    updateProgress();
+  }
+
+  function selectAnswer(qId, value) {
+    answers[qId] = value;
+    const qEl = document.getElementById(`q-${qId}`);
+    qEl.classList.add('is-answered');
+    qEl.querySelectorAll('.answer-btn').forEach(btn => {
+      btn.classList.toggle('is-selected', btn.dataset.answer === value);
+    });
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const answered = Object.keys(answers).length;
+    document.getElementById('progress-answered').textContent = answered;
+    document.getElementById('progress-fill').style.width = (answered / 10 * 100) + '%';
+    const submitBtn = document.getElementById('btn-submit');
+    const submitNote = document.getElementById('submit-note');
+    if (answered === 10) {
+      submitBtn.disabled = false;
+      submitNote.textContent = 'すべての質問に回答しました。結果を確認しましょう。';
+    } else {
+      submitBtn.disabled = true;
+      submitNote.textContent = `あと ${10 - answered} 問で結果を表示できます`;
+    }
+  }
+
+  function calcLevel(yesCount) {
+    if (yesCount <= 2) return 1;
+    if (yesCount <= 4) return 2;
+    if (yesCount <= 7) return 3;
+    return 4;
+  }
+
+  function findWeakestCategory() {
+    let minRate = 2;
+    let weakest = null;
+    Object.entries(CATEGORIES).forEach(([key, cat]) => {
+      const yesCount = cat.ids.filter(id => answers[id] === 'yes').length;
+      const rate = yesCount / cat.ids.length;
+      if (rate < minRate) { minRate = rate; weakest = key; }
+    });
+    return weakest;
+  }
+
+  function submitQuiz() {
+    const yesCount = Object.values(answers).filter(v => v === 'yes').length;
+    const level = calcLevel(yesCount);
+    const levelData = LEVELS[level];
+    const weakest = findWeakestCategory();
+
+    document.getElementById('result-level-badge').textContent = `DX ${levelData.name} / YES ${yesCount} / 10`;
+    document.getElementById('result-headline').textContent = levelData.headline;
+    document.getElementById('result-state').innerHTML = levelData.state;
+
+    const nodesEl = document.getElementById('stage-nodes');
+    nodesEl.innerHTML = '';
+    STAGES.forEach((stage, i) => {
+      const isCurrent = i === levelData.mainStageIndex;
+      const isPast = i < levelData.mainStageIndex;
+      const node = document.createElement('div');
+      node.className = 'stage-node zone-' + stage.zone + (isCurrent ? ' is-current' : '') + (isPast ? ' is-past' : '');
+      node.innerHTML = `
+        ${isCurrent ? '<div class="stage-marker">あなたはここ</div>' : ''}
+        <div class="stage-zone-tag">${stage.zoneLabel}</div>
+        <div class="stage-dot">${stage.num}</div>
+        <div class="stage-node-label">${stage.label}</div>
+        <div class="stage-node-name">${stage.name}</div>
+      `;
+      nodesEl.appendChild(node);
+    });
+
+    const weakCopy = WEAKEST_COPY[weakest];
+    document.getElementById('weakest-title').textContent = weakCopy.title;
+    document.getElementById('weakest-desc').textContent = weakCopy.desc;
+
+    const listEl = document.getElementById('action-list');
+    listEl.innerHTML = '';
+    levelData.actions.forEach(text => {
+      const li = document.createElement('li');
+      li.textContent = text;
+      listEl.appendChild(li);
+    });
+
+    const prescription = levelData.prescription;
+    const mainProduct = PRODUCTS[prescription.learn];
+    document.getElementById('prescription-main').innerHTML = `
+      <div class="prescription-badge">${mainProduct.catLabel} — 主推奨</div>
+      <div class="stage-tag">${mainProduct.stageTag}</div>
+      <h3>${mainProduct.name}</h3>
+      <div class="price">${mainProduct.price}<span class="unit">${mainProduct.priceUnit}</span></div>
+      <p>${mainProduct.desc}</p>
+      <div class="prescription-cta">
+        <a class="diag-btn diag-btn-accent" href="${mainProduct.primaryHref}">${mainProduct.primaryCta}</a>
+        <a class="diag-btn diag-btn-secondary" href="${mainProduct.secondaryHref}">${mainProduct.secondaryCta}</a>
+      </div>
+    `;
+
+    let subHtml = '';
+    if (prescription.deploy) {
+      const p = PRODUCTS[prescription.deploy];
+      subHtml += `
+        <div class="prescription-sub-card">
+          <div class="stage-tag">${p.catLabel}</div>
+          <h4>${p.name}</h4>
+          <p>${p.desc}</p>
+          <p style="font-size:12px;color:var(--color-text-muted, #6C757D);margin-top:8px;">
+            <strong>${p.price}${p.priceUnit}</strong>
+          </p>
+        </div>
+      `;
+    }
+    if (prescription.execute) {
+      const p = PRODUCTS[prescription.execute];
+      subHtml += `
+        <div class="prescription-sub-card">
+          <div class="stage-tag">${p.catLabel}</div>
+          <h4>${p.name}</h4>
+          <p>${p.desc}</p>
+          <p style="font-size:12px;color:var(--color-text-muted, #6C757D);margin-top:8px;">
+            <strong>${p.price}${p.priceUnit}</strong>
+          </p>
+        </div>
+      `;
+    }
+    if (!prescription.deploy) {
+      subHtml += `
+        <div class="prescription-sub-card" style="opacity:0.7;">
+          <div class="stage-tag">👥 B. 組織に入れる</div>
+          <h4>担当者向け研修は❶❷まで</h4>
+          <p>Lv3-4は経営者自身が学ぶ（A）／一緒に実行する（C）フェーズです。担当者向け研修は Lv1-2 の段階でご利用ください。</p>
+        </div>
+      `;
+    }
+    document.getElementById('prescription-sub').innerHTML = subHtml;
+
+    showScreen('result');
+  }
+
+  function retake() {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    showScreen('intro');
+  }
+</script>

@@ -1,0 +1,262 @@
+---
+/**
+ * /tokushoho/ — 特定商取引法に基づく表記（G3b）
+ * 設計書: 11 §17
+ * 役割: 有料商品販売（講座 / 研修 / セミナー / 伴走支援）に必要な事業者情報の標準表記
+ *
+ * 注意: 講座・記事は note プラットフォーム経由で販売（note 側の特商法表記が一義）。
+ *      本ページは伴走支援・研修・セミナーなど直接契約商品の特商法表記として運用。
+ */
+import Layout from "../../layouts/Layout.astro";
+
+const items = [
+  {
+    label: "事業者の名称",
+    value: "ツミキAI",
+  },
+  {
+    label: "代表者",
+    value: "飯田武之（いいだ・たけゆき）",
+  },
+  {
+    label: "所在地",
+    value: "千葉県印西市<br /><small>※ 詳細住所はご請求いただいた方に遅滞なく開示します</small>",
+    isHtml: true,
+  },
+  {
+    label: "連絡先",
+    value: '<a href="mailto:iida@tsumiki.ai">iida@tsumiki.ai</a><br /><small>※ 電話番号はご請求いただいた方に遅滞なく開示します</small>',
+    isHtml: true,
+  },
+  {
+    label: "販売URL",
+    value: '<a href="https://tsumiki.ai/">https://tsumiki.ai/</a>',
+    isHtml: true,
+  },
+  {
+    label: "販売価格",
+    value: `各商品ページに表示の通り。<br /><strong>講座シリーズ</strong>: ロードマップ講座 無料 / Lv1〜Lv4講座 各 ¥3,000（note 有料記事として販売）<br /><strong>研修プログラム</strong>: ❶入門研修 ¥100,000 / 半日 ／ ❷実践研修 ¥250,000 / 1日<br /><strong>経営者合同セミナー</strong>: ¥50,000 / 名（10名定員）<br /><strong>AI駆動経営伴走支援</strong>: 月額 ¥100,000 / ¥200,000 / ¥300,000（3プラン）＋初期費用 ¥50,000 共通<br /><span class="note">※ 価格はすべて税抜表示</span>`,
+    isHtml: true,
+  },
+  {
+    label: "代金以外の必要料金",
+    value: `銀行振込時の振込手数料はお客様にご負担いただきます。<br />伴走支援において御社訪問が発生する場合の交通費は、契約条件によりご相談（千葉県内は基本的に料金内）。`,
+    isHtml: true,
+  },
+  {
+    label: "支払方法",
+    value: `<strong>講座シリーズ</strong>: note プラットフォームの規定に従う（クレジットカード等）<br /><strong>研修・セミナー・伴走支援</strong>: 銀行振込（請求書発行）`,
+    isHtml: true,
+  },
+  {
+    label: "支払時期",
+    value: `<strong>講座シリーズ</strong>: 購入時即時（note プラットフォーム規定）<br /><strong>研修・セミナー</strong>: 開催前までにお振込み<br /><strong>伴走支援</strong>: 月額契約の場合は当月末締め翌月末払い、初期費用は契約締結時にお振込み`,
+    isHtml: true,
+  },
+  {
+    label: "商品の引渡時期",
+    value: `<strong>講座シリーズ</strong>: 購入後即時（note 有料記事として閲覧可能）<br /><strong>研修</strong>: 申し込み確定後、相互調整した日程で実施<br /><strong>合同セミナー</strong>: 開催日に実施<br /><strong>伴走支援</strong>: 契約締結後、初回ヒアリングを経て速やかに開始`,
+    isHtml: true,
+  },
+  {
+    label: "返品・キャンセル",
+    value: `<strong>講座シリーズ（note 有料記事）</strong>: note プラットフォームの返金規約に従います。<br /><strong>研修・セミナー</strong>: 開催日の14日前までのキャンセルは全額返金、7日前までは50%返金、それ以降のキャンセルは返金不可。<br /><strong>伴走支援</strong>: 月額契約はいつでも解約可能（解約申し出のあった月の末日まで契約継続）。初期費用は契約締結後の返金は致しかねます（初回ヒアリング前のキャンセルは全額返金）。`,
+    isHtml: true,
+  },
+  {
+    label: "提供条件・お申し込み制限",
+    value: `初回ヒアリング（無料・30分）にて、御社の業種・規模・現状などを伺った上で、ツミキAIの提供範囲にフィットしないと判断した場合はお引き受けをお断りすることがあります。詳細は <a href="/support/">AI駆動経営伴走支援</a> ページの「できないこと」セクションをご参照ください。`,
+    isHtml: true,
+  },
+];
+
+const lastUpdated = "2026-04-28";
+---
+
+<Layout
+  title="特定商取引法に基づく表記 — ツミキAI"
+  description="ツミキAI の有料商品（講座・研修・セミナー・伴走支援）販売に関わる事業者情報・販売条件・返品条件等の表記。"
+>
+  <!-- ========== §HERO ========== -->
+  <section class="page-section page-section--warm">
+    <div class="page-container hero">
+      <p class="kicker">特定商取引法に基づく表記</p>
+      <h1 class="hero-title">特定商取引法に基づく表記</h1>
+      <p class="hero-lead">
+        ツミキAI（代表: 飯田武之）が運営する本サービスにおける販売条件等を、特定商取引法第11条の規定に基づき表記します。
+      </p>
+      <p class="hero-meta">最終更新日: {lastUpdated}</p>
+    </div>
+  </section>
+
+  <!-- ========== §本文（事業者情報テーブル） ========== -->
+  <section class="page-section">
+    <div class="page-container info-container">
+      <dl class="tokuho-list">
+        {items.map((it) => (
+          <div class="tokuho-row">
+            <dt>{it.label}</dt>
+            <dd>{it.isHtml ? <span set:html={it.value}></span> : it.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- ========== §関連ページ ========== -->
+  <section class="page-section page-section--subtle">
+    <div class="page-container related-cta">
+      <p class="related-label">関連ページ</p>
+      <div class="related-links">
+        <a class="btn btn-secondary" href="/privacy/">プライバシーポリシー</a>
+        <a class="btn btn-secondary" href="/about/">会社情報</a>
+        <a class="btn btn-secondary" href="/contact/">お問い合わせ</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-section {
+    width: 100%;
+    padding-top: var(--section-py-desktop);
+    padding-bottom: var(--section-py-desktop);
+  }
+  .page-section--subtle { background: var(--color-bg-subtle); }
+  .page-section--warm { background: var(--color-bg-warm); }
+  @media (max-width: 768px) {
+    .page-section { padding-top: var(--section-py-mobile); padding-bottom: var(--section-py-mobile); }
+  }
+
+  .page-container {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+  .info-container { max-width: 880px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-family: var(--font-jp);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    transition: background-color var(--duration-hover) var(--ease-out-quint);
+    white-space: nowrap;
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+  }
+  .btn-secondary:hover { background: var(--color-primary); color: #fff; }
+
+  /* HERO */
+  .hero { text-align: center; max-width: 720px; }
+  .kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-4) 0;
+  }
+  .hero-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .hero-lead {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-body);
+    margin: 0 0 var(--space-3) 0;
+  }
+  .hero-meta {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* tokuho */
+  .tokuho-list {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .tokuho-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--space-6);
+    padding: var(--space-5) var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .tokuho-row:last-child { border-bottom: none; }
+  .tokuho-row dt {
+    font-family: var(--font-jp);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    margin: 0;
+  }
+  .tokuho-row dd {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .tokuho-row dd :global(strong) {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+  .tokuho-row dd :global(a) {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: var(--weight-semibold);
+  }
+  .tokuho-row dd :global(a:hover) { text-decoration: underline; }
+  .tokuho-row dd :global(small) {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+  .tokuho-row dd :global(.note) {
+    display: inline-block;
+    margin-top: var(--space-2);
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+
+  /* related */
+  .related-cta { text-align: center; }
+  .related-label {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-4) 0;
+  }
+  .related-links {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title { font-size: var(--text-h2); }
+    .tokuho-row { grid-template-columns: 1fr; gap: var(--space-2); }
+  }
+</style>

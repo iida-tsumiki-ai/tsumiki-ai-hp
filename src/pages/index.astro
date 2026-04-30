@@ -4,9 +4,7 @@ import Section from "../components/Section.astro";
 import Container from "../components/Container.astro";
 import Hero from "../components/Hero.astro";
 import DifferentiationPoints from "../components/DifferentiationPoints.astro";
-import PriceTierChart from "../components/PriceTierChart.astro";
 import ProductMatrix from "../components/ProductMatrix.astro";
-import FlagshipSummary from "../components/FlagshipSummary.astro";
 import RepMessage from "../components/RepMessage.astro";
 import FAQ from "../components/FAQ.astro";
 import NoteFeed from "../components/NoteFeed.astro";
@@ -29,24 +27,10 @@ import FinalCTA from "../components/FinalCTA.astro";
       </Container>
     </Section>
 
-    <!-- §2.5. 4ステージ × 価格帯 帯グラフ -->
-    <Section size="l" background="default" id="price-tiers">
-      <Container>
-        <PriceTierChart />
-      </Container>
-    </Section>
-
     <!-- §3. 4ステージ × 商品マトリックス 統合 -->
     <Section size="l" background="subtle" id="product-matrix">
       <Container>
         <ProductMatrix />
-      </Container>
-    </Section>
-
-    <!-- §4. 3系統の主力商品サマリー -->
-    <Section size="l" background="default" id="flagship-summary">
-      <Container>
-        <FlagshipSummary />
       </Container>
     </Section>
 
@@ -79,3 +63,4 @@ import FinalCTA from "../components/FinalCTA.astro";
     </Section>
   </main>
 </Layout>
+

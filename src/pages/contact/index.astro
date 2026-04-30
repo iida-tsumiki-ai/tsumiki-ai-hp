@@ -1,0 +1,568 @@
+---
+/**
+ * /contact/ — お問い合わせページ（G2）
+ * 設計書: 11 §15
+ * 役割: 相談種別ガイド／フォーム（A5b で Formrun 連携予定）／直接連絡先
+ *
+ * 注意: 現状はフォーム本体は未連携（Phase 1 終盤の A5b で Formrun 統合予定）。
+ *      暫定として、各CTAから iida@tsumiki.ai へのメール直送リンクを設置。
+ */
+import Layout from "../../layouts/Layout.astro";
+
+const consultTypes = [
+  {
+    id: "individual",
+    icon: "🤝",
+    label: "無料個別相談（30分）",
+    description: "現在の困りごとを言語化する場。営業トークはせず、現状ヒアリングと次の一手の整理を行います。オンライン or 千葉県内訪問可。",
+    note: "もっとも申し込みが多い種別です",
+  },
+  {
+    id: "diagnose",
+    icon: "📊",
+    label: "DX診断（10問・3分）",
+    description: "メアド登録なし／無料／その場で結果表示。AI駆動経営まで残り何段かが見えます。",
+    note: "登録不要・即時結果",
+    href: "/diagnose/",
+  },
+  {
+    id: "support",
+    icon: "💼",
+    label: "AI駆動経営伴走支援の見積もり",
+    description: "3プラン（ライト¥10万/スタンダード¥20万/プレミアム¥30万）から、御社にフィットするプランを一緒に決めます。初回ヒアリング込み。",
+    note: "詳細は /support/ をご覧ください",
+    href: "/support/",
+  },
+  {
+    id: "course",
+    icon: "📚",
+    label: "講座シリーズの事前通知登録",
+    description: "ロードマップ講座（無料）の通知、Lv1〜Lv4講座リリース時のメール通知を受け取れます。メアドのみ。",
+    note: "Phase 2（2026 Q3）以降のリリース連絡",
+  },
+  {
+    id: "seminar",
+    icon: "🎯",
+    label: "経営者合同セミナーの関心登録",
+    description: "Phase 3（2026 Q4）開催予定の合同セミナー（¥5万/名・10名定員・千葉県内）の優先案内を受け取れます。",
+    note: "詳細は /seminar/ をご覧ください",
+    href: "/seminar/",
+  },
+  {
+    id: "other",
+    icon: "💬",
+    label: "その他のご相談",
+    description: "上記以外のご質問、講演・取材依頼、提携相談なども。お気軽にメールでお問い合わせください。",
+    note: "返信は2〜3営業日以内を目安",
+  },
+];
+
+const contactPolicy = [
+  "営業トークはしません。現状ヒアリングが中心です。",
+  "相談後にしつこい営業連絡もしません。タイミングはこちらから決めません。",
+  "千葉県内なら訪問対応も可能です（移動費は条件によりご相談）。",
+  "オンライン（Google Meet / Zoom）は通常対応です。",
+  "ヒアリングだけでお引き取りいただいても構いません。",
+];
+
+const mailSubject = encodeURIComponent("【ツミキAI】お問い合わせ");
+const mailBody = encodeURIComponent(
+  "ツミキAI 飯田様\n\nご相談したい内容：\n（自由記述）\n\nお名前：\n会社名：\nご相談種別：（無料個別相談 / DX診断 / 商品見積もり / 講座事前通知 / 合同セミナー / その他）\nご連絡可能時間帯：\n\nよろしくお願いいたします。"
+);
+---
+
+<Layout
+  title="お問い合わせ — ツミキAI"
+  description="無料個別相談（30分）・DX診断・商品見積もり・講座事前通知・合同セミナー関心登録など。営業トークなし。"
+>
+  <!-- ========== §HERO ========== -->
+  <section class="page-section page-section--warm">
+    <div class="page-container hero">
+      <p class="kicker">Contact — お問い合わせ</p>
+      <h1 class="hero-title">
+        まずは話してみる、<br />
+        <span class="hero-accent">それだけでも構いません。</span>
+      </h1>
+      <p class="hero-lead">
+        営業トークはしません。<strong>現在の困りごとを一緒に言語化する</strong>場として、無料個別相談（30分）を用意しています。
+        オンライン／千葉県内訪問の両方に対応します。
+      </p>
+    </div>
+  </section>
+
+  <!-- ========== §相談種別ガイド ========== -->
+  <section class="page-section">
+    <div class="page-container">
+      <header class="sec-head">
+        <p class="sec-kicker">相談種別ガイド</p>
+        <h2 class="sec-title">どの種別か、迷ったら個別相談から。</h2>
+        <p class="sec-lead">
+          ご相談の入り口は6種類あります。<strong>迷ったら "無料個別相談"</strong> で大丈夫です。お話しの中で、御社にフィットする入り口を一緒に整理します。
+        </p>
+      </header>
+      <ul class="consult-list">
+        {consultTypes.map((c) => (
+          <li class="consult-card">
+            <div class="consult-icon" aria-hidden="true">{c.icon}</div>
+            <div class="consult-body">
+              <h3 class="consult-label">{c.label}</h3>
+              <p class="consult-desc">{c.description}</p>
+              <p class="consult-note">{c.note}</p>
+            </div>
+            {c.href && (
+              <a class="consult-link" href={c.href}>詳細を見る →</a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========== §フォーム（暫定: メーラー起動方式） ========== -->
+  <section class="page-section page-section--subtle" id="form">
+    <div class="page-container">
+      <header class="sec-head">
+        <p class="sec-kicker">お問い合わせ方法</p>
+        <h2 class="sec-title">お問い合わせは、メールから。</h2>
+        <p class="sec-lead">
+          現在、フォーム本体は準備中です（Phase 1 終盤に Formrun で実装予定）。
+          下記ボタンから<strong>テンプレ入りのメール</strong>が起動します。そのまま送信いただければ、2〜3営業日以内にご返信します。
+        </p>
+      </header>
+
+      <div class="form-block">
+        <div class="form-card">
+          <div class="form-mark" aria-hidden="true">✉</div>
+          <h3 class="form-card-title">メールでお問い合わせ</h3>
+          <p class="form-card-text">
+            ボタンを押すと、件名・本文テンプレが入ったメールが起動します。<br />
+            必要箇所を編集してそのままご送信ください。
+          </p>
+          <a class="btn btn-primary btn-lg" href={`mailto:iida@tsumiki.ai?subject=${mailSubject}&body=${mailBody}`}>
+            テンプレ入りメールを開く
+          </a>
+          <p class="form-card-note">送信先: <a href="mailto:iida@tsumiki.ai">iida@tsumiki.ai</a></p>
+        </div>
+
+        <div class="form-card">
+          <div class="form-mark" aria-hidden="true">📞</div>
+          <h3 class="form-card-title">直接ご連絡</h3>
+          <p class="form-card-text">
+            メーラーを使わない場合は、下記アドレスへ直接メールしてください。
+          </p>
+          <div class="form-direct">
+            <span class="form-direct-label">代表メール</span>
+            <a class="form-direct-link" href="mailto:iida@tsumiki.ai">iida@tsumiki.ai</a>
+          </div>
+          <p class="form-card-note">電話・SNSの連絡先は、必要に応じて返信メール内でご案内します。</p>
+        </div>
+      </div>
+
+      <p class="form-policy-intro">
+        <strong>お問い合わせ前に、こちらをご確認ください</strong>
+      </p>
+      <ul class="form-policy">
+        {contactPolicy.map((p) => (
+          <li>{p}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========== §よくある経路 ========== -->
+  <section class="page-section">
+    <div class="page-container">
+      <header class="sec-head">
+        <p class="sec-kicker">よくあるご相談経路</p>
+        <h2 class="sec-title">他の方は、こんな順序で問い合わせています。</h2>
+      </header>
+      <ol class="route-list">
+        <li class="route-item">
+          <div class="route-no">A</div>
+          <div class="route-body">
+            <h3 class="route-title">DX診断 → ロードマップ講座 → 個別相談</h3>
+            <p class="route-text">いちばん多い経路。<a href="/diagnose/">DX診断（10問・3分）</a>で現在地を測ってから、ロードマップ講座（無料）で全体像を掴み、個別相談で具体策を相談する流れです。</p>
+          </div>
+        </li>
+        <li class="route-item">
+          <div class="route-no">B</div>
+          <div class="route-body">
+            <h3 class="route-title">商品LP → 見積もり相談</h3>
+            <p class="route-text"><a href="/support/">AI駆動経営伴走支援</a>や<a href="/training/">研修</a>のLPを読んだ後、自社にフィットするか相談される方も多いです。</p>
+          </div>
+        </li>
+        <li class="route-item">
+          <div class="route-no">C</div>
+          <div class="route-body">
+            <h3 class="route-title">いきなり個別相談</h3>
+            <p class="route-text">情報を集める前に、まず話してみたいという方も歓迎です。30分のヒアリングで現状と目指す方向を整理します。</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========== §最終CTA ========== -->
+  <section class="page-section page-section--warm">
+    <div class="page-container final-cta">
+      <h2 class="final-title">話してみるところから、はじめませんか。</h2>
+      <p class="final-lead">
+        「ヒアリングだけ」でも構いません。営業トークはしないので、安心してお声がけください。
+      </p>
+      <div class="final-ctas">
+        <a class="btn btn-primary btn-lg" href={`mailto:iida@tsumiki.ai?subject=${mailSubject}&body=${mailBody}`}>テンプレ入りメールを開く</a>
+        <a class="btn btn-secondary btn-lg" href="/diagnose/">先に DX診断（10問・3分）</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-section {
+    width: 100%;
+    padding-top: var(--section-py-desktop);
+    padding-bottom: var(--section-py-desktop);
+  }
+  .page-section--subtle { background: var(--color-bg-subtle); }
+  .page-section--warm { background: var(--color-bg-warm); }
+  @media (max-width: 768px) {
+    .page-section { padding-top: var(--section-py-mobile); padding-bottom: var(--section-py-mobile); }
+  }
+
+  .page-container {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  .sec-head { max-width: 720px; margin: 0 0 var(--space-8) 0; }
+  .sec-kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-3) 0;
+  }
+  .sec-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .sec-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .sec-lead strong {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+  .sec-lead a {
+    color: var(--color-accent);
+    font-weight: var(--weight-semibold);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-family: var(--font-jp);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    transition: background-color var(--duration-hover) var(--ease-out-quint), transform var(--duration-hover) var(--ease-out-quint);
+    white-space: nowrap;
+  }
+  .btn-lg { padding: var(--space-4) var(--space-8); font-size: var(--text-body-lg); }
+  .btn-primary {
+    background: var(--color-accent);
+    color: #fff;
+    box-shadow: var(--shadow-button);
+  }
+  .btn-primary:hover { background: #E55A2B; color: #fff; transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+  }
+  .btn-secondary:hover { background: var(--color-primary); color: #fff; }
+
+  /* HERO */
+  .hero { text-align: center; max-width: 800px; }
+  .kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-4) 0;
+  }
+  .hero-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-6) 0;
+  }
+  .hero-accent { color: var(--color-accent); }
+  .hero-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .hero-lead strong { color: var(--color-text); font-weight: var(--weight-semibold); }
+
+  /* consult-list */
+  .consult-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+  .consult-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    align-items: flex-start;
+  }
+  .consult-icon {
+    font-size: var(--text-h2);
+    line-height: 1;
+    width: 48px;
+    height: 48px;
+    background: var(--color-bg-warm);
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .consult-label {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2) 0;
+  }
+  .consult-desc {
+    font-size: var(--text-body-sm);
+    line-height: 1.7;
+    color: var(--color-text-body);
+    margin: 0 0 var(--space-2) 0;
+  }
+  .consult-note {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+  .consult-link {
+    grid-column: 1 / -1;
+    color: var(--color-accent);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    font-size: var(--text-body-sm);
+    margin-top: var(--space-2);
+  }
+  .consult-link:hover { text-decoration: underline; }
+
+  /* form */
+  .form-block {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+  .form-card {
+    padding: var(--space-8);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    text-align: center;
+  }
+  .form-mark {
+    width: 56px;
+    height: 56px;
+    background: var(--color-accent);
+    color: #fff;
+    border-radius: var(--radius-full);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-h2);
+    margin-bottom: var(--space-3);
+  }
+  .form-card-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-3) 0;
+  }
+  .form-card-text {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-body);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .form-card-note {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    margin: var(--space-3) 0 0 0;
+  }
+  .form-card-note a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .form-direct {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-bg-warm);
+    border-radius: var(--radius-md);
+    margin-top: var(--space-2);
+  }
+  .form-direct-label {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+  .form-direct-link {
+    font-family: var(--font-en), var(--font-jp);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  .form-direct-link:hover { text-decoration: underline; }
+
+  .form-policy-intro {
+    font-size: var(--text-body);
+    color: var(--color-text);
+    margin: 0 0 var(--space-3) 0;
+    text-align: center;
+  }
+  .form-policy-intro strong {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+  .form-policy {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 720px;
+    background: var(--color-bg-warm);
+    border-left: 4px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-6);
+  }
+  .form-policy li {
+    position: relative;
+    padding: var(--space-2) 0 var(--space-2) var(--space-6);
+    font-size: var(--text-body-sm);
+    line-height: 1.7;
+    color: var(--color-text-body);
+  }
+  .form-policy li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: var(--space-2);
+    color: var(--color-accent);
+    font-weight: var(--weight-bold);
+  }
+
+  /* route */
+  .route-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .route-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-6);
+    align-items: flex-start;
+    padding: var(--space-5);
+    background: var(--color-bg-warm);
+    border-radius: var(--radius-md);
+  }
+  .route-no {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-en);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    flex-shrink: 0;
+  }
+  .route-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-1) 0;
+  }
+  .route-text {
+    font-size: var(--text-body-sm);
+    line-height: 1.7;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .route-text a {
+    color: var(--color-accent);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* final */
+  .final-cta { text-align: center; max-width: 720px; }
+  .final-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .final-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0 0 var(--space-6) 0;
+  }
+  .final-ctas { display: flex; justify-content: center; gap: var(--space-3); flex-wrap: wrap; }
+
+  @media (max-width: 1023px) {
+    .consult-list, .form-block { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .hero-title { font-size: var(--text-h1); }
+    .sec-title, .final-title { font-size: var(--text-h2); }
+  }
+</style>

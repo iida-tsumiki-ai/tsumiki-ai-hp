@@ -1,0 +1,302 @@
+---
+/**
+ * /privacy/ — プライバシーポリシー（G3a）
+ * 設計書: 11 §16
+ * 役割: 取得情報・利用目的・第三者提供・開示請求・お問い合わせ窓口の標準構成
+ *
+ * 注意: Phase 2（note 販売開始）前にスタートできる最小構成。
+ *      Cookie同意・GA4設定・Formrun連携などの実態が確定した時点で再点検する。
+ */
+import Layout from "../../layouts/Layout.astro";
+
+const sections = [
+  {
+    no: "1",
+    title: "事業者情報",
+    body: `<p>本ポリシーは、ツミキAI（代表: 飯田武之 / 千葉県印西市）が運営するウェブサイト <a href="https://tsumiki.ai/">https://tsumiki.ai/</a> および同事業の提供するサービス（以下「本サービス」）における、お客様の個人情報の取り扱いを定めるものです。</p>`,
+  },
+  {
+    no: "2",
+    title: "取得する情報",
+    body: `
+      <p>本サービスでは、以下の情報を取得することがあります。</p>
+      <ul>
+        <li><strong>お問い合わせ・相談時にお客様にご記入いただく情報</strong>：氏名、会社名、メールアドレス、電話番号、ご相談内容、ご連絡可能時間帯など</li>
+        <li><strong>講座・セミナー・伴走支援のお申し込み・関心登録時の情報</strong>：氏名、会社名、メールアドレス、ご担当者情報など</li>
+        <li><strong>本サービスのご利用時に自動的に取得する情報</strong>：IPアドレス、ブラウザ情報、参照元URL、Cookie情報、Google Analytics等のアクセス解析情報</li>
+        <li><strong>業務遂行上必要な情報</strong>：伴走支援契約締結時には、御社の業務情報・組織情報・契約上必要な範囲の情報</li>
+      </ul>
+    `,
+  },
+  {
+    no: "3",
+    title: "利用目的",
+    body: `
+      <p>取得した情報は、以下の目的で利用します。</p>
+      <ul>
+        <li>お問い合わせ・ご相談へのご返信</li>
+        <li>本サービス（講座・研修・伴走支援等）の提供および契約の履行</li>
+        <li>本サービス・新商品・イベント等のご案内（事前にご同意いただいた場合に限る）</li>
+        <li>本サービスの品質向上・新商品開発のための統計分析</li>
+        <li>不正アクセス・不正利用の防止およびセキュリティ確保</li>
+        <li>法令に基づく対応</li>
+      </ul>
+    `,
+  },
+  {
+    no: "4",
+    title: "第三者提供",
+    body: `
+      <p>取得した個人情報は、お客様の同意がある場合または法令に基づく場合を除き、第三者に提供しません。</p>
+      <p>業務委託先（メール配信、フォーム管理、決済処理、アクセス解析等の外部サービス提供事業者）に対しては、利用目的の達成に必要な範囲で個人情報を取り扱わせる場合があります。委託先には適切な監督を行います。</p>
+      <p>本サービスでは、以下の外部サービスを利用することがあります（利用状況により増減することがあります）。</p>
+      <ul>
+        <li>Google Analytics（アクセス解析）</li>
+        <li>Formrun または同等のフォーム管理サービス（お問い合わせ受付）</li>
+        <li>note（noteプラットフォームでの講座・記事販売）</li>
+        <li>Google Workspace（メール送受信・ドキュメント管理）</li>
+      </ul>
+    `,
+  },
+  {
+    no: "5",
+    title: "Cookie・アクセス解析",
+    body: `
+      <p>本サービスでは、サイトの利便性向上およびアクセス解析のため、Cookie および類似技術を利用することがあります。</p>
+      <p>Google Analytics の利用にあたっては、IPアドレスの匿名化等を含めた Google の規約に従って取得・処理します。詳細は <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Googleプライバシーポリシー</a> をご参照ください。</p>
+      <p>Cookie はブラウザ設定により無効化できます。無効化された場合、本サービスの一部機能をご利用いただけない場合があります。</p>
+    `,
+  },
+  {
+    no: "6",
+    title: "保存期間",
+    body: `
+      <p>取得した情報は、利用目的の達成に必要な期間および法令で定められた期間保存します。期間経過後または保有の必要がなくなった時点で、適切に削除または匿名化します。</p>
+    `,
+  },
+  {
+    no: "7",
+    title: "安全管理措置",
+    body: `
+      <p>個人情報の漏洩・滅失・毀損の防止その他の安全管理のため、技術的・組織的安全管理措置を講じます。具体的には、アクセス権限の制限、パスワード管理、必要に応じた通信の暗号化等を行います。</p>
+    `,
+  },
+  {
+    no: "8",
+    title: "開示・訂正・削除等のご請求",
+    body: `
+      <p>お客様ご本人から、保有個人データの開示・訂正・追加・削除・利用停止等のご請求をいただいた場合は、ご本人であることを確認のうえ、法令に従って速やかに対応します。</p>
+      <p>ご請求は <a href="mailto:iida@tsumiki.ai">iida@tsumiki.ai</a> までご連絡ください。</p>
+    `,
+  },
+  {
+    no: "9",
+    title: "ポリシーの改定",
+    body: `
+      <p>本ポリシーの内容は、法令の改正・サービスの内容変更・社会情勢の変化等により予告なく改定する場合があります。改定後のポリシーは、本サービス上に掲載した時点から効力を発するものとします。</p>
+    `,
+  },
+  {
+    no: "10",
+    title: "お問い合わせ窓口",
+    body: `
+      <p>本ポリシーに関するお問い合わせは、下記までご連絡ください。</p>
+      <ul class="contact-info">
+        <li><strong>事業者名</strong>：ツミキAI</li>
+        <li><strong>代表</strong>：飯田武之</li>
+        <li><strong>所在地</strong>：千葉県印西市</li>
+        <li><strong>連絡先</strong>：<a href="mailto:iida@tsumiki.ai">iida@tsumiki.ai</a></li>
+      </ul>
+    `,
+  },
+];
+
+const lastUpdated = "2026-04-28";
+---
+
+<Layout
+  title="プライバシーポリシー — ツミキAI"
+  description="ツミキAI のプライバシーポリシー。個人情報の取得・利用目的・第三者提供・開示請求・お問い合わせ窓口について。"
+>
+  <!-- ========== §HERO ========== -->
+  <section class="page-section page-section--warm">
+    <div class="page-container hero">
+      <p class="kicker">Privacy Policy</p>
+      <h1 class="hero-title">プライバシーポリシー</h1>
+      <p class="hero-lead">
+        ツミキAI（代表: 飯田武之）が運営する本サービスにおける、個人情報の取り扱いを定めます。
+      </p>
+      <p class="hero-meta">最終更新日: {lastUpdated}</p>
+    </div>
+  </section>
+
+  <!-- ========== §本文 ========== -->
+  <section class="page-section">
+    <div class="page-container policy-container">
+      {sections.map((s) => (
+        <article class="policy-section">
+          <h2 class="policy-no">第{s.no}条　{s.title}</h2>
+          <div class="policy-body" set:html={s.body}></div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- ========== §戻る ========== -->
+  <section class="page-section page-section--subtle">
+    <div class="page-container back-cta">
+      <a class="btn btn-secondary" href="/">トップに戻る</a>
+      <a class="btn btn-secondary" href="/contact/">お問い合わせ</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-section {
+    width: 100%;
+    padding-top: var(--section-py-desktop);
+    padding-bottom: var(--section-py-desktop);
+  }
+  .page-section--subtle { background: var(--color-bg-subtle); }
+  .page-section--warm { background: var(--color-bg-warm); }
+  @media (max-width: 768px) {
+    .page-section { padding-top: var(--section-py-mobile); padding-bottom: var(--section-py-mobile); }
+  }
+
+  .page-container {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+  .policy-container {
+    max-width: 880px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-family: var(--font-jp);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    transition: background-color var(--duration-hover) var(--ease-out-quint);
+    white-space: nowrap;
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+  }
+  .btn-secondary:hover { background: var(--color-primary); color: #fff; }
+
+  /* HERO */
+  .hero { text-align: center; max-width: 720px; }
+  .kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-4) 0;
+  }
+  .hero-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .hero-lead {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-body);
+    margin: 0 0 var(--space-3) 0;
+  }
+  .hero-meta {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* policy */
+  .policy-section {
+    margin-bottom: var(--space-8);
+  }
+  .policy-section:last-child { margin-bottom: 0; }
+  .policy-no {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    line-height: var(--leading-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--color-accent);
+  }
+  .policy-body {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-body);
+  }
+  .policy-body :global(p) {
+    margin: 0 0 var(--space-3) 0;
+  }
+  .policy-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+  .policy-body :global(ul) {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-3) 0;
+  }
+  .policy-body :global(li) {
+    position: relative;
+    padding: var(--space-2) 0 var(--space-2) var(--space-6);
+    line-height: 1.7;
+  }
+  .policy-body :global(li::before) {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    top: var(--space-2);
+    color: var(--color-accent);
+  }
+  .policy-body :global(strong) {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+  .policy-body :global(a) {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: var(--weight-semibold);
+  }
+  .policy-body :global(a:hover) { text-decoration: underline; }
+  .policy-body :global(.contact-info) {
+    background: var(--color-bg-warm);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-6);
+  }
+  .policy-body :global(.contact-info li) {
+    padding-left: 0;
+  }
+  .policy-body :global(.contact-info li::before) {
+    display: none;
+  }
+
+  .back-cta {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title { font-size: var(--text-h2); }
+    .policy-no { font-size: var(--text-h4); }
+  }
+</style>

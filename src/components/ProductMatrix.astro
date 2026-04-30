@@ -1,38 +1,73 @@
 ---
 /**
- * ProductMatrix — ホーム §3「4ステージ × 商品マトリックス 統合」
- * 設計書: 11_HPリニューアル_設計書.md §1 §3 (D案9ブロック構成)
- * データ: src/data/products.ts（10マスモデル + ロードマップ講座）
+ * ProductMatrix — ホーム §3「3カテゴリ × 4ステージ 商品ポートフォリオ」
+ * 設計書: 11_HPリニューアル_設計書.md §1 §3 (D案9ブロック構成 / 2026-04-24 案X反映)
+ * データ: src/data/products.ts（3カテゴリ×4ステージ + ロードマップ講座）
+ *
+ * 軸:
+ *   - 行: 4ステージ（❶土台を組む / ❷活用を広げる / ❸戦略を描く / ❹AIネイティブになる）
+ *   - 列: 3カテゴリ（A.経営者が先に学ぶ / B.組織に入れる / C.一緒に実行する）
+ *
+ * 各セルは1〜2商品を含む（A ❸❹ は講座+集合学習の2枚、B ❸❹ は空）
+ *
+ * 2026-04-28 案α: C列は AI駆動経営伴走支援1商品で Lv1-Lv4 をカバー（grid-row span 4）。
  *
  * レスポンシブ方針:
- *   - PC (≥ 900px): 4ステージ × 3形態 のフルグリッド表示
- *   - モバイル: ステージ選択タブで該当ステージの3マスを表示
+ *   - PC (≥ 900px): 4ステージ × 3カテゴリ のフルグリッド表示（grid-row span 対応）
+ *   - モバイル: ステージ選択タブで該当ステージの3カテゴリ分を表示
+ *     ※ C列 span セルは data-span-all で全タブ常時表示
  */
 
 import {
   productCells,
   roadmapCourse,
   stageLabels,
-  formLabels,
-  type Form,
+  categoryLabels,
+  type Category,
   type Stage,
 } from "../data/products";
 
 const stages: Stage[] = [1, 2, 3, 4];
-const forms: Form[] = ["course", "training", "support"];
+const categories: Category[] = ["learn", "deploy", "execute"];
 ---
 
 <div class="matrix-block">
   <header class="matrix-head">
-    <p class="kicker">§3 全商品マップ</p>
-    <h2 class="display-sm">あなたに合った関わり方を選ぶ</h2>
+    <p class="kicker">§3 3つの始め方 × 4ステージ</p>
+    <h2 class="display-sm">3つの始め方。あなたの現在地から、上へ。</h2>
     <p class="lead">
-      4段階の<strong>ステージ</strong>（どこにいるか） × 3つの<strong>形態</strong>（どう作るか）＝10マス。
-      加えて、全ステージ共通の無料入口として<strong>ロードマップ講座</strong>を用意しています。
+      経営者が学ぶか／組織に入れるか／一緒に実行するか — <strong>3つの始め方</strong>が、4ステージの階段で繋がっています。
+      自社の今のステージから、次の一手が見つかる商品マップです。<br />
+      価格は<strong>無料〜月¥30万</strong>。個別見積もりで濁さず、各マスにそのまま記載しています。
     </p>
+    <details class="matrix-callout">
+      <summary>4ステージの考え方</summary>
+      <p>
+        <strong>❶ 土台を組む → ❷ 活用を広げる → ❸ 戦略を描く → ❹ AIネイティブになる</strong> の4段の階段。
+        前半 <strong>❶❷ は DX領域</strong>（業務をデジタル化する段階）、後半 <strong>❸❹ は AI領域</strong>（AIで会社を動かす経営=AI駆動経営へ進化する段階）。
+        到達点 ❹ が、AI内製化が定着して企業価値を高め続けられる「<strong>AIネイティブな会社</strong>」です。
+      </p>
+    </details>
   </header>
 
-  <!-- ロードマップ講座（10マス外・無料入口） -->
+  <!-- 3つの始め方ヘッダ（カテゴリ別の入口カード）-->
+  <div class="start-headers" role="list" aria-label="3つの始め方">
+    {
+      categories.map((cat) => (
+        <div class={`start-card start-card--${cat}`} role="listitem">
+          <span class="start-card-icon">{categoryLabels[cat].userIcon}</span>
+          <h3 class="start-card-label">{categoryLabels[cat].label}</h3>
+          <p class="start-card-tagline">{categoryLabels[cat].tagline}</p>
+          <p class="start-card-price">{categoryLabels[cat].priceRange}</p>
+          <a class="start-card-cta" href={categoryLabels[cat].hubHref}>
+            {categoryLabels[cat].hubLabel} →
+          </a>
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- ロードマップ講座（無料入口 / カテゴリA） -->
   <a class="roadmap-card" href={roadmapCourse.href}>
     <div class="roadmap-badge">無料 / 全ステージ共通</div>
     <div class="roadmap-body">
@@ -60,58 +95,112 @@ const forms: Form[] = ["course", "training", "support"];
   </div>
 
   <!-- グリッド本体 -->
-  <div class="matrix-grid" role="table" aria-label="4ステージ × 3形態 の商品マップ">
-    <!-- 列ヘッダ: 形態 -->
+  <div class="matrix-grid" role="table" aria-label="3カテゴリ × 4ステージ の商品マップ">
+    <!-- 列ヘッダ: カテゴリ -->
     <div class="grid-corner" aria-hidden="true"></div>
     {
-      forms.map((f) => (
-        <div class="form-header" role="columnheader">
-          <span class="form-name">{formLabels[f].label}</span>
-          <span class="form-eq">= {formLabels[f].equation}</span>
+      categories.map((cat) => (
+        <div class={`cat-header cat-header--${cat}`} role="columnheader">
+          <span class="cat-user">{categoryLabels[cat].userIcon}</span>
+          <span class="cat-name">{categoryLabels[cat].label}</span>
+          <span class="cat-effect">{categoryLabels[cat].effect}</span>
         </div>
       ))
     }
 
-    <!-- 4ステージ × 3形態 のセル群 -->
+    <!-- 4ステージ × 3カテゴリ のセル群（明示的 grid-row/column 指定で span 対応） -->
     {
-      stages.map((s) => (
+      stages.map((s, sIdx) => (
         <>
-          <div class="stage-label" data-stage={s} role="rowheader">
+          <div
+            class={`stage-label stage-label--${s <= 2 ? "dx" : "ai"}`}
+            data-stage={s}
+            role="rowheader"
+            style={{ gridColumn: 1, gridRow: sIdx + 2 }}
+          >
+            <span class="stage-zone-tag">{s <= 2 ? "DX領域" : "AI領域"}</span>
             <span class="stage-label-inner">{stageLabels[s].full}</span>
           </div>
-          {forms.map((f) => {
-            const cell = productCells.find((c) => c.stage === s && c.form === f);
-            if (!cell) return null;
-            const classes = [
-              "cell",
-              cell.isFlagship ? "cell--flagship" : "",
-              cell.isOz ? "cell--oz" : "",
-              cell.isUnavailable ? "cell--unavailable" : "",
-            ]
-              .filter(Boolean)
-              .join(" ");
+          {categories.map((cat, cIdx) => {
+            // C列で stage>1 はスパン継続行のためスキップ
+            const isSpanContinuation = cat === "execute" && s > 1;
+            if (isSpanContinuation) return null;
 
-            const content = (
-              <>
-                {cell.isFlagship && <span class="cell-badge">★ 主力</span>}
-                {cell.isOz && <span class="cell-tag">オズ方式</span>}
-                {cell.isUnavailable && <span class="cell-tag">販売なし</span>}
-                <div class="cell-name">{cell.name}</div>
-                <div class="cell-price">
-                  {cell.price}
-                  {cell.priceNote && <small class="cell-price-note">（{cell.priceNote}）</small>}
-                </div>
-                <p class="cell-desc">{cell.description}</p>
-              </>
+            const cells = productCells.filter(
+              (c) => c.stage === s && c.category === cat
             );
+            const firstCell = cells[0];
+            const span = firstCell?.stageEnd
+              ? firstCell.stageEnd - firstCell.stage + 1
+              : 1;
+            const gridStyle = {
+              gridColumn: cIdx + 2,
+              gridRow: span > 1 ? `${sIdx + 2} / span ${span}` : sIdx + 2,
+            };
+            const spanAttr = span > 1 ? "true" : undefined;
 
-            return cell.href ? (
-              <a href={cell.href} class={classes} data-stage={s} data-form={f}>
-                {content}
-              </a>
-            ) : (
-              <div class={classes} data-stage={s} data-form={f}>
-                {content}
+            if (cells.length === 0) {
+              return (
+                <div
+                  class={`cell-group cell-group--empty cat-${cat}`}
+                  data-stage={s}
+                  data-category={cat}
+                  style={gridStyle}
+                >
+                  <p class="empty-note">
+                    {cat === "deploy" && s >= 3
+                      ? "❸❹は経営者が自ら学ぶ／一緒に実行するフェーズです。担当者向け研修は❶❷までとなります。"
+                      : "—"}
+                  </p>
+                </div>
+              );
+            }
+
+            return (
+              <div
+                class={`cell-group cat-${cat} ${span > 1 ? "cell-group--span" : ""}`}
+                data-stage={s}
+                data-category={cat}
+                data-span-all={spanAttr}
+                style={gridStyle}
+              >
+                {cells.map((cell) => {
+                  const classes = [
+                    "cell",
+                    `cell--${cat}`,
+                    cell.isOz ? "cell--oz" : "",
+                    cell.isUnavailable ? "cell--unavailable" : "",
+                    cell.stageEnd ? "cell--span" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ");
+
+                  const content = (
+                    <>
+                      {cell.isOz && <span class="cell-tag">オズ方式</span>}
+                      {cell.isUnavailable && <span class="cell-tag">販売なし</span>}
+                      {cell.stageEnd && (
+                        <span class="cell-tag cell-tag--span">Lv1-Lv4 共通</span>
+                      )}
+                      <div class="cell-name">{cell.name}</div>
+                      <div class="cell-price">
+                        {cell.price}
+                        {cell.priceNote && (
+                          <small class="cell-price-note">（{cell.priceNote}）</small>
+                        )}
+                      </div>
+                      <p class="cell-desc">{cell.description}</p>
+                    </>
+                  );
+
+                  return cell.href ? (
+                    <a href={cell.href} class={classes}>
+                      {content}
+                    </a>
+                  ) : (
+                    <div class={classes}>{content}</div>
+                  );
+                })}
               </div>
             );
           })}
@@ -127,7 +216,8 @@ const forms: Form[] = ["course", "training", "support"];
   </div>
 
   <p class="matrix-note">
-    ★ = 主力3マス（2026〜2027年内実装）／<em>オズ方式</em> = 目次先行・引き合いで中身化
+    C列「AI駆動経営伴走支援」は Lv1-Lv4 を1サービスでカバー（現在地に応じて進め方が変わります）／
+    B❸❹ は空（担当者向け研修は❶❷まで）
   </p>
 </div>
 
@@ -192,7 +282,110 @@ const forms: Form[] = ["course", "training", "support"];
     font-weight: var(--weight-semibold);
   }
 
-  /* ロードマップカード（10マス外 / 無料入口） */
+  /* DX→AI領域の補足（折りたたみ） */
+  .matrix-callout {
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--text-body-sm);
+    color: var(--color-text-body);
+  }
+  .matrix-callout summary {
+    cursor: pointer;
+    font-family: var(--font-jp);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    list-style-position: outside;
+  }
+  .matrix-callout summary::marker {
+    color: var(--color-accent);
+  }
+  .matrix-callout p {
+    margin: var(--space-3) 0 0;
+    line-height: var(--leading-body);
+  }
+  .matrix-callout strong {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* 3つの始め方 ヘッダカード（カテゴリ別の入口）*/
+  .start-headers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+  .start-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    border-top: 4px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+  }
+  .start-card--learn {
+    border-top-color: var(--color-primary);
+  }
+  .start-card--deploy {
+    border-top-color: #8A8270;
+  }
+  .start-card--execute {
+    border-top-color: var(--color-accent);
+  }
+  .start-card-icon {
+    font-size: 28px;
+    line-height: 1;
+  }
+  .start-card-label {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    line-height: var(--leading-h3);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    margin: 0;
+  }
+  .start-card-tagline {
+    font-family: var(--font-jp);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-body);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .start-card-price {
+    font-family: var(--font-en), var(--font-jp);
+    font-size: var(--text-body);
+    font-weight: var(--weight-bold);
+    color: #B84A1E;
+    font-feature-settings: "tnum";
+    margin: 0;
+  }
+  .start-card-cta {
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: var(--space-2);
+    font-family: var(--font-jp);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-primary);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--duration-hover) var(--ease-out-quint);
+  }
+  .start-card-cta:hover {
+    border-bottom-color: var(--color-primary);
+  }
+  @media (max-width: 899px) {
+    .start-headers {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ロードマップカード（無料入口） */
   .roadmap-card {
     display: grid;
     grid-template-columns: auto 1fr auto;
@@ -272,7 +465,7 @@ const forms: Form[] = ["course", "training", "support"];
     color: #fff;
   }
 
-  /* マトリックスグリッド（PC: 4ステージ × 3形態） */
+  /* マトリックスグリッド（PC: 4ステージ × 3カテゴリ） */
   .matrix-grid {
     display: grid;
     grid-template-columns: 140px repeat(3, 1fr);
@@ -288,36 +481,71 @@ const forms: Form[] = ["course", "training", "support"];
     /* 左上の空セル */
   }
 
-  /* 列ヘッダ（形態） */
-  .form-header {
+  /* 列ヘッダ（カテゴリ） */
+  .cat-header {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+    gap: 2px;
     text-align: center;
     padding: var(--space-3) var(--space-2);
+    border-radius: var(--radius-md);
   }
-  .form-name {
+  .cat-header--learn { background: rgba(224, 122, 59, 0.08); }
+  .cat-header--deploy { background: rgba(138, 130, 112, 0.10); }
+  .cat-header--execute { background: rgba(224, 122, 59, 0.14); }
+
+  .cat-user {
+    font-size: var(--text-body-lg);
+  }
+  .cat-name {
     font-family: var(--font-jp-serif);
     font-size: var(--text-h4);
     font-weight: var(--weight-semibold);
     color: var(--color-primary);
   }
-  .form-eq {
+  .cat-effect {
     font-size: var(--text-caption);
     color: var(--color-text-muted);
-    margin-top: 2px;
   }
 
   /* 行ヘッダ（ステージ） */
   .stage-label {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: var(--space-2);
     background: var(--color-bg-subtle);
     border-radius: var(--radius-md);
     padding: var(--space-4) var(--space-2);
     min-height: 140px;
+  }
+  /* DX領域 (❶❷) のゾーン色 */
+  .stage-label--dx {
+    background: linear-gradient(180deg, rgba(120,120,140,0.05) 0%, rgba(120,120,140,0.10) 100%);
+  }
+  .stage-label--dx .stage-zone-tag {
+    background: rgba(120,120,140,0.18);
+    color: #4a4a55;
+  }
+  /* AI領域 (❸❹) のゾーン色 */
+  .stage-label--ai {
+    background: linear-gradient(180deg, rgba(255,107,53,0.05) 0%, rgba(255,107,53,0.12) 100%);
+  }
+  .stage-label--ai .stage-zone-tag {
+    background: rgba(255,107,53,0.18);
+    color: var(--color-accent-dark);
+  }
+  .stage-zone-tag {
+    display: inline-block;
+    font-family: var(--font-en);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
   }
   .stage-label-inner {
     font-family: var(--font-jp-serif);
@@ -328,7 +556,37 @@ const forms: Form[] = ["course", "training", "support"];
     letter-spacing: 0.05em;
   }
 
-  /* セル */
+  /* セルグループ（1カテゴリ×1ステージのコンテナ / 1〜2枚のカードを含む） */
+  .cell-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-height: 140px;
+  }
+  .cell-group--empty {
+    background: repeating-linear-gradient(
+      135deg,
+      var(--color-bg-subtle),
+      var(--color-bg-subtle) 8px,
+      var(--color-bg) 8px,
+      var(--color-bg) 16px
+    );
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+  }
+  .empty-note {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    text-align: center;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* セル（個別商品カード） */
   .cell {
     position: relative;
     display: flex;
@@ -338,23 +596,19 @@ const forms: Form[] = ["course", "training", "support"];
     background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    min-height: 140px;
     color: inherit;
     text-decoration: none;
     transition:
       box-shadow var(--duration-hover) var(--ease-out-quint),
       transform var(--duration-hover) var(--ease-out-quint),
       border-color var(--duration-hover) var(--ease-out-quint);
+    flex: 1;
   }
   a.cell:hover {
     box-shadow: var(--shadow-card-hover);
     transform: translateY(-2px);
     border-color: var(--color-primary);
     color: inherit;
-  }
-  .cell--flagship {
-    border: 2px solid var(--color-accent);
-    background: linear-gradient(180deg, #fff 0%, var(--color-accent-soft) 120%);
   }
   .cell--oz {
     background: var(--color-bg-warm);
@@ -367,18 +621,25 @@ const forms: Form[] = ["course", "training", "support"];
     cursor: default;
   }
 
-  .cell-badge {
-    position: absolute;
-    top: -10px;
-    right: var(--space-3);
-    padding: 2px 10px;
-    background: var(--color-accent);
-    color: #fff;
-    font-size: var(--text-caption);
-    font-weight: var(--weight-bold);
-    border-radius: var(--radius-full);
-    letter-spacing: 0.05em;
+  /* スパンセル（Lv1-Lv4 を1商品でカバー / C列専用） */
+  .cell-group--span {
+    /* PCではgrid-row span 4 / モバイルでは下のメディアクエリでリセット */
   }
+  .cell--span {
+    justify-content: center;
+    background: linear-gradient(
+      180deg,
+      #fff 0%,
+      var(--color-accent-soft) 100%
+    );
+    border: 2px solid var(--color-accent);
+  }
+  .cell-tag--span {
+    color: var(--color-accent-dark, #B84A1E);
+    background: rgba(255, 107, 53, 0.14);
+    font-weight: var(--weight-semibold);
+  }
+
   .cell-tag {
     display: inline-block;
     align-self: flex-start;
@@ -436,6 +697,7 @@ const forms: Form[] = ["course", "training", "support"];
     color: var(--color-text-muted);
     text-align: center;
     margin: 0;
+    line-height: 1.8;
   }
   .matrix-note em {
     font-style: normal;
@@ -469,8 +731,16 @@ const forms: Form[] = ["course", "training", "support"];
       padding: var(--space-4);
     }
 
+    /* モバイルでは grid-row/column の明示指定をリセットして1列縦並びに */
+    .matrix-grid > .stage-label,
+    .matrix-grid > .cell-group,
+    .matrix-grid > .cell-group--empty {
+      grid-column: 1 !important;
+      grid-row: auto !important;
+    }
+
     .grid-corner,
-    .form-header {
+    .cat-header {
       display: none;
     }
 
@@ -486,30 +756,49 @@ const forms: Form[] = ["course", "training", "support"];
       font-size: var(--text-h4);
     }
 
-    /* アクティブなステージ以外は隠す */
+    /* モバイル: セルグループの前にカテゴリラベルを表示 */
+    .cell-group::before {
+      content: attr(data-category-label);
+      display: block;
+      font-size: var(--text-caption);
+      color: var(--color-text-muted);
+      font-weight: var(--weight-semibold);
+      margin-bottom: var(--space-1);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .cell-group.cat-learn::before { content: "👨‍💼 A. 経営者が先に学ぶ"; }
+    .cell-group.cat-deploy::before { content: "👥 B. 組織に入れる"; }
+    .cell-group.cat-execute::before { content: "🤝 C. 一緒に実行する"; }
+
+    /* アクティブなステージ以外は隠す。data-span-all はステージ問わず常時表示 */
     .stage-label[data-stage]:not([data-stage="1"]),
-    .cell[data-stage]:not([data-stage="1"]) {
+    .cell-group[data-stage]:not([data-stage="1"]):not([data-span-all]) {
       display: none;
     }
-    .matrix-grid[data-active-stage="1"] [data-stage="1"] {
+    .matrix-grid[data-active-stage="1"] [data-stage="1"],
+    .matrix-grid[data-active-stage="1"] [data-span-all] {
       display: flex;
     }
-    .matrix-grid[data-active-stage="2"] [data-stage] {
+    .matrix-grid[data-active-stage="2"] [data-stage]:not([data-span-all]) {
       display: none;
     }
-    .matrix-grid[data-active-stage="2"] [data-stage="2"] {
+    .matrix-grid[data-active-stage="2"] [data-stage="2"],
+    .matrix-grid[data-active-stage="2"] [data-span-all] {
       display: flex;
     }
-    .matrix-grid[data-active-stage="3"] [data-stage] {
+    .matrix-grid[data-active-stage="3"] [data-stage]:not([data-span-all]) {
       display: none;
     }
-    .matrix-grid[data-active-stage="3"] [data-stage="3"] {
+    .matrix-grid[data-active-stage="3"] [data-stage="3"],
+    .matrix-grid[data-active-stage="3"] [data-span-all] {
       display: flex;
     }
-    .matrix-grid[data-active-stage="4"] [data-stage] {
+    .matrix-grid[data-active-stage="4"] [data-stage]:not([data-span-all]) {
       display: none;
     }
-    .matrix-grid[data-active-stage="4"] [data-stage="4"] {
+    .matrix-grid[data-active-stage="4"] [data-stage="4"],
+    .matrix-grid[data-active-stage="4"] [data-span-all] {
       display: flex;
     }
 

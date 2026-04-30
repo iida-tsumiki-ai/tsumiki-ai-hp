@@ -1,0 +1,112 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import CourseLandingPage from "../../../components/CourseLandingPage.astro";
+
+const audience = [
+  { text: "クラウド基盤は全社共通で使えているが、AIを触る人と触らない人で分かれている会社" },
+  { text: "部門をまたぐとツール・データが断絶している方" },
+  { text: "ミニアプリ／自動化が一部の得意な人依存になっている方" },
+  { text: "「次は業務棚卸しだな」と感じ始めている経営者" },
+];
+
+const chapterParts = [
+  {
+    partLabel: "Part 1",
+    partTitle: "ロードマップ要約",
+    partDuration: "15分",
+    chapters: [
+      { no: 1, title: "4段階ロードマップ — Lv2の位置づけ", duration: "15分", body: "Lv1からの卒業確認と、Lv2の本論への接続。" },
+    ],
+  },
+  {
+    partLabel: "Part 2",
+    partTitle: "Lv2で取り組むべきこと",
+    partDuration: "120分",
+    chapters: [
+      { no: 2, title: "AI活用の全社底上げ", duration: "30分", body: "触る人を増やす仕掛け／社内AI勉強会の作り方／拒否反応への対処。" },
+      { no: 3, title: "データ・情報の置き場共通化", duration: "25分", body: "属人化解消／誰でも同じ情報にたどり着ける仕組み／命名規則・権限設計。" },
+      { no: 4, title: "業務棚卸し — やめる/AIに任せる/人がやる", duration: "30分", body: "棚卸しワークの手順／仕分けの判断軸／時間泥棒の見つけ方。" },
+      { no: 5, title: "GASで作る最初のミニアプリ", duration: "30分", body: "GASの基本／3つの定番パターン（集計・通知・転記）／AIに書かせるコツ。<br />※ MS365版：Power Automate / Copilot Studio に置き換え" },
+      { no: 6, title: "事例：Lv2で起きた転換", duration: "5分", body: "ZEBRA のスプシ一元化／ハルディン の現場展開。" },
+    ],
+  },
+  {
+    partLabel: "Part 3",
+    partTitle: "Lv3到達要件",
+    partDuration: "35分",
+    chapters: [
+      { no: 7, title: "Lv3到達チェックリスト", duration: "15分", body: "全社AI活用底上げ済／情報置き場共通化済／ミニアプリ内製3本以上／業務棚卸し完了／基幹系の限界が経営者に見えている など。" },
+      { no: 8, title: "Lv3入口の落とし穴", duration: "15分", body: "基幹系再選定の兆候／「個別効率化では突破できない壁」の正体／組織役割設計の必要性。" },
+      { no: 9, title: "次の一手を決める（実習）", duration: "5分", body: "残りタスク／Lv3へのアクションプラン。" },
+    ],
+  },
+  {
+    partLabel: "補足",
+    partTitle: "受けない案件と次の商品",
+    partDuration: "10分",
+    chapters: [
+      { no: 10, title: "受けない案件／Lv3講座・合同セミナーへの接続", duration: "10分", body: "Lv3講座／経営者合同セミナー／AI駆動経営伴走支援（Lv2向け＝業務棚卸し） の位置づけ。" },
+    ],
+  },
+];
+
+const cantDo = [
+  {
+    title: "Lv1の基盤がない場合は適しません",
+    body: "全社共通のクラウド基盤と会社メール配布が前提です。未着手の方は <a href=\"/courses/lv1/\">Lv1講座</a> から始めてください。",
+  },
+  {
+    title: "Lv3の基幹系再選定は扱いません",
+    body: "基幹系（販売／生産／会計）の再選定は Lv3講座／合同セミナー／AI駆動経営伴走支援 の領域です。本講座は現場のAI活用底上げに集中します。",
+  },
+  {
+    title: "ミニアプリの完成保証はありません",
+    body: "GAS／Power Automate の型と判断軸は提供しますが、御社固有の実装は AI駆動経営伴走支援 でハンズオン支援します。",
+  },
+];
+
+const faq = [
+  {
+    q: "Lv1講座は必読ですか？",
+    a: "Lv1未読の場合、Part 1 のロードマップ要約だけでは追いつかない可能性があります。<a href=\"/courses/roadmap/\">ロードマップ講座（無料）</a>と Lv1の卒業チェックリスト確認をおすすめします。",
+  },
+  {
+    q: "GWS版／MS365版どちらが先にリリースされますか？",
+    a: "Lv1講座と同じく、引き合いの多い版から先行リリース予定です。Phase 3（2026 Q4）開始時点で最低1版を公開します。事前通知登録いただくと、リリース順に応じて連絡します。",
+  },
+  {
+    q: "リリースはいつ？",
+    a: "Phase 3（2026 Q4）リリース予定です。事前通知登録（無料・メアドのみ）でリリース連絡をお送りします。",
+  },
+];
+---
+
+<Layout
+  title="Lv2講座 ¥3,000 — ツミキAI"
+  description="AI活用の全社底上げ・業務棚卸し・ミニアプリの型を、3時間で経営者自身が掴める講座。Phase 3 リリース予定。"
+>
+  <CourseLandingPage
+    kicker="A. 経営者が先に学ぶ — Lv2講座"
+    title={`AI活用の<span class="accent">全社底上げ</span>と、<br />業務棚卸しの型。`}
+    lead={`「触る人と触らない人」の分断を解き、業務をやめる／AIに任せる／人がやるに仕分ける。<br />ミニアプリの型まで含めて、<strong>3時間で経営者自身が掴める</strong>講座です。`}
+    price="¥3,000"
+    priceNote="GWS版 / MS365版（購入時に選択）"
+    releasePhase="Phase 3（2026 Q4）リリース予定"
+    audience={audience}
+    chapterParts={chapterParts}
+    graduationLabel="卒業条件：Lv3到達チェックリストを満たす（次Lv講座 Part 3 で詳細）"
+    graduationItems={[
+      "全社でAI活用が底上げされた状態",
+      "情報置き場が共通化されている",
+      "ミニアプリ／自動化を社内で内製3本以上",
+      "業務棚卸しが完了している",
+      "基幹系の限界が経営者に見えてきた",
+    ]}
+    cantDo={cantDo}
+    faq={faq}
+    ctaPrimary={{ label: "事前通知登録（Phase 3 リリース時に連絡）", href: "/contact/" }}
+    ctaSecondary={{ label: "DX診断で現在地を確認", href: "/diagnose/" }}
+    ctaTertiary={{ label: "無料個別相談", href: "/contact/" }}
+    variant="normal"
+  />
+</Layout>

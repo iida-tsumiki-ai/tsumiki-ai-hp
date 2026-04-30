@@ -1,0 +1,942 @@
+---
+/**
+ * CourseLandingPage — 講座シリーズ LP 共通テンプレ
+ * 設計書: 11 §4a-4e（ロードマップ・Lv1〜Lv4 共通構造）
+ * 章立て: 03_講座案_章立て.md
+ *
+ * 構成:
+ *   §HERO → §こんな方へ → §コース詳細（章立て） → §卒業条件 →
+ *   §この講座でできないこと → §FAQ → §最終CTA
+ *
+ * variant:
+ *   - "normal" = ロードマップ／Lv1／Lv2 用。主CTA=講座関連
+ *   - "subreader" = Lv3／Lv4 用。主CTA=合同セミナー or AI駆動経営伴走支援への誘導
+ *
+ * GWS/MS365 タブは E3（Lv1）専用なので、本テンプレでは扱わず Lv1 ページ側で実装する。
+ */
+
+export interface Audience {
+  text: string;
+}
+
+export interface Chapter {
+  no: string | number;
+  title: string;
+  duration?: string;
+  body?: string;
+}
+
+export interface ChapterPart {
+  partLabel: string;
+  partTitle: string;
+  partDuration: string;
+  chapters: Chapter[];
+}
+
+export interface CantDo {
+  title: string;
+  body?: string;
+}
+
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
+export interface CtaButton {
+  label: string;
+  href: string;
+  note?: string;
+}
+
+interface Props {
+  /** カテゴリ kicker（"A. 経営者が先に学ぶ" など） */
+  kicker: string;
+  title: string;
+  /** HERO 直下のリード文（HTMLとしてレンダリング） */
+  lead: string;
+  /** "¥3,000" / "無料" など */
+  price: string;
+  /** "GWS版 / MS365版" などの補足 */
+  priceNote?: string;
+  /** "Phase 2 リリース予定" など */
+  releasePhase?: string;
+  /** こんな方へリスト */
+  audience: Audience[];
+  /** 章立て（Part区切り） */
+  chapterParts: ChapterPart[];
+  /** 卒業条件のラベル（"Lv2到達チェックリスト 7項目中5項目以上"等） */
+  graduationLabel?: string;
+  /** 卒業条件 のチェック項目（任意） */
+  graduationItems?: string[];
+  /** この講座でできないこと */
+  cantDo: CantDo[];
+  /** FAQ */
+  faq?: FaqItem[];
+  /** 主CTA（必須） */
+  ctaPrimary: CtaButton;
+  /** 副CTA */
+  ctaSecondary?: CtaButton;
+  /** 第3CTA（個別相談など） */
+  ctaTertiary?: CtaButton;
+  /** "subreader" の場合、HEROで主CTAを赤くしてカニバリ防止を明示 */
+  variant?: "normal" | "subreader";
+  /** subreader 用の位置づけ説明（"この講座は◯◯の副読本として設計されています"） */
+  subreaderNote?: string;
+  /** 章立てヘッダ前に挿入する任意ブロック（Lv4 性格説明など） */
+  characterNote?: { title: string; body: string };
+  /** 副読本誘導テールセクション（"この講座は◯◯への架け橋"） */
+  bridgeBlock?: { title: string; items: string[] };
+}
+
+const {
+  kicker,
+  title,
+  lead,
+  price,
+  priceNote,
+  releasePhase,
+  audience,
+  chapterParts,
+  graduationLabel,
+  graduationItems,
+  cantDo,
+  faq,
+  ctaPrimary,
+  ctaSecondary,
+  ctaTertiary,
+  variant = "normal",
+  subreaderNote,
+  characterNote,
+  bridgeBlock,
+} = Astro.props;
+---
+
+<!-- ========== §HERO ========== -->
+<section class="course-section course-section--warm">
+  <div class="course-container hero">
+    <p class="kicker">{kicker}</p>
+    <h1 class="hero-title" set:html={title}></h1>
+    <p class="hero-lead" set:html={lead}></p>
+
+    {subreaderNote && (
+      <div class="subreader-note">
+        <span class="subreader-icon" aria-hidden="true">📖</span>
+        <p set:html={subreaderNote}></p>
+      </div>
+    )}
+
+    <div class="hero-meta">
+      <span class="hero-price">{price}</span>
+      {priceNote && <span class="hero-price-note">{priceNote}</span>}
+      {releasePhase && <span class="hero-release">{releasePhase}</span>}
+    </div>
+
+    <div class="hero-ctas">
+      <a class={`btn btn-primary ${variant === "subreader" ? "btn-accent" : ""}`} href={ctaPrimary.href}>
+        {ctaPrimary.label}
+      </a>
+      {ctaSecondary && (
+        <a class="btn btn-secondary" href={ctaSecondary.href}>
+          {ctaSecondary.label}
+        </a>
+      )}
+    </div>
+
+    {(ctaPrimary.note || (ctaSecondary && ctaSecondary.note)) && (
+      <p class="hero-cta-note">
+        {ctaPrimary.note && <span>{ctaPrimary.note}</span>}
+        {ctaSecondary?.note && <span> ／ {ctaSecondary.note}</span>}
+      </p>
+    )}
+  </div>
+</section>
+
+<!-- ========== §こんな方へ ========== -->
+<section class="course-section">
+  <div class="course-container">
+    <header class="sec-head">
+      <p class="sec-kicker">こんな方へ</p>
+      <h2 class="sec-title">あてはまるなら、この講座が役に立ちます。</h2>
+    </header>
+    <ul class="audience-list">
+      {audience.map((a) => <li>{a.text}</li>)}
+    </ul>
+  </div>
+</section>
+
+<!-- ========== §性格（Lv4 等の任意） ========== -->
+{characterNote && (
+  <section class="course-section course-section--subtle">
+    <div class="course-container">
+      <div class="character-note">
+        <h3>{characterNote.title}</h3>
+        <p set:html={characterNote.body}></p>
+      </div>
+    </div>
+  </section>
+)}
+
+<!-- ========== §コース詳細 ========== -->
+<section class="course-section course-section--subtle">
+  <div class="course-container">
+    <header class="sec-head">
+      <p class="sec-kicker">コース詳細</p>
+      <h2 class="sec-title">章立てと、それぞれの所要時間。</h2>
+      <p class="sec-lead">
+        全{chapterParts.reduce((sum, p) => sum + p.chapters.length, 0)}章、合計約180分（Lv1-Lv4 共通）。Part 1 で全体像を圧縮、Part 2 で本論、Part 3 で次Lvへの到達要件を整理します。
+      </p>
+    </header>
+    <ol class="chapter-parts">
+      {chapterParts.map((part) => (
+        <li class="chapter-part">
+          <div class="chapter-part-head">
+            <div class="chapter-part-label">{part.partLabel}</div>
+            <h3 class="chapter-part-title">{part.partTitle}</h3>
+            <span class="chapter-part-duration">{part.partDuration}</span>
+          </div>
+          <ul class="chapter-list">
+            {part.chapters.map((ch) => (
+              <li class="chapter-item">
+                <span class="chapter-no">{String(ch.no).padStart(2, "0")}</span>
+                <div class="chapter-body">
+                  <h4 class="chapter-title">{ch.title}</h4>
+                  {ch.body && <p class="chapter-text">{ch.body}</p>}
+                </div>
+                {ch.duration && <span class="chapter-duration">{ch.duration}</span>}
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<!-- ========== §卒業条件 ========== -->
+{(graduationLabel || (graduationItems && graduationItems.length > 0)) && (
+  <section class="course-section">
+    <div class="course-container">
+      <header class="sec-head">
+        <p class="sec-kicker">卒業条件</p>
+        <h2 class="sec-title">読み終えたあと、この状態に到達できます。</h2>
+        {graduationLabel && <p class="sec-lead"><strong>{graduationLabel}</strong></p>}
+      </header>
+      {graduationItems && graduationItems.length > 0 && (
+        <ul class="grad-checklist">
+          {graduationItems.map((item) => (
+            <li class="grad-item">
+              <span class="grad-mark" aria-hidden="true">✓</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+)}
+
+<!-- ========== §架け橋（Lv3/Lv4 任意） ========== -->
+{bridgeBlock && (
+  <section class="course-section course-section--warm">
+    <div class="course-container">
+      <div class="bridge-block">
+        <h3 class="bridge-title">{bridgeBlock.title}</h3>
+        <ul class="bridge-list">
+          {bridgeBlock.items.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+)}
+
+<!-- ========== §この講座で"できないこと" ========== -->
+<section class="course-section course-section--subtle">
+  <div class="course-container">
+    <header class="sec-head">
+      <p class="sec-kicker">できないこと</p>
+      <h2 class="sec-title">先に「お受けしないこと」をお伝えします。</h2>
+      <p class="sec-lead">
+        誠実さ①「情報の非対称性を、自ら解消する」。期待値ズレを防ぐため、この講座でカバーしないことを明記します。
+      </p>
+    </header>
+    <ul class="cantdo-list">
+      {cantDo.map((c) => (
+        <li class="cantdo-card">
+          <div class="cantdo-mark" aria-hidden="true">×</div>
+          <h3 class="cantdo-title">{c.title}</h3>
+          {c.body && <p class="cantdo-body">{c.body}</p>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<!-- ========== §FAQ ========== -->
+{faq && faq.length > 0 && (
+  <section class="course-section">
+    <div class="course-container">
+      <header class="sec-head">
+        <p class="sec-kicker">よくある質問</p>
+        <h2 class="sec-title">事前にいただきやすい質問。</h2>
+      </header>
+      <ul class="faq-list">
+        {faq.map((f, idx) => (
+          <li class="faq-item">
+            <details>
+              <summary>
+                <span class="faq-q-mark">Q{idx + 1}</span>
+                <span class="faq-q-text">{f.q}</span>
+                <span class="faq-toggle" aria-hidden="true">＋</span>
+              </summary>
+              <div class="faq-answer">
+                <p set:html={f.a}></p>
+              </div>
+            </details>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<!-- ========== §最終CTA ========== -->
+<section class="course-section course-section--warm">
+  <div class="course-container final-cta">
+    <h2 class="final-title">最後に、次の一歩を選んでください。</h2>
+    <p class="final-lead">
+      迷ったら、まず無料の DX診断（10問・3分）で現在地を確かめるところから。
+    </p>
+    <div class="final-ctas">
+      <a class={`btn btn-lg ${variant === "subreader" ? "btn-accent" : "btn-primary"}`} href={ctaPrimary.href}>
+        {ctaPrimary.label}
+      </a>
+      {ctaSecondary && (
+        <a class="btn btn-secondary btn-lg" href={ctaSecondary.href}>
+          {ctaSecondary.label}
+        </a>
+      )}
+      {ctaTertiary && (
+        <a class="btn btn-ghost btn-lg" href={ctaTertiary.href}>
+          {ctaTertiary.label}
+        </a>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ============================================================
+   * 共通コンテナ・セクション・見出し
+   * ============================================================ */
+  .course-section {
+    width: 100%;
+    padding-top: var(--section-py-desktop);
+    padding-bottom: var(--section-py-desktop);
+  }
+  .course-section--subtle { background: var(--color-bg-subtle); }
+  .course-section--warm { background: var(--color-bg-warm); }
+
+  @media (max-width: 768px) {
+    .course-section {
+      padding-top: var(--section-py-mobile);
+      padding-bottom: var(--section-py-mobile);
+    }
+  }
+
+  .course-container {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  .sec-head {
+    max-width: 720px;
+    margin: 0 0 var(--space-8) 0;
+  }
+  .sec-kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-3) 0;
+  }
+  .sec-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .sec-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .sec-lead strong {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* ボタン共通 */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-family: var(--font-jp);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    transition:
+      background-color var(--duration-hover) var(--ease-out-quint),
+      transform var(--duration-hover) var(--ease-out-quint);
+    white-space: nowrap;
+  }
+  .btn-lg {
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--text-body-lg);
+  }
+  .btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: var(--color-primary-hover);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .btn-accent {
+    background: var(--color-accent);
+    color: #fff;
+    box-shadow: var(--shadow-button);
+  }
+  .btn-accent:hover {
+    background: #E55A2B;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+  }
+  .btn-secondary:hover {
+    background: var(--color-primary);
+    color: #fff;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+  .btn-ghost:hover {
+    background: var(--color-bg-subtle);
+    color: var(--color-text);
+  }
+
+  /* ============================================================
+   * §HERO
+   * ============================================================ */
+  .hero {
+    text-align: center;
+    max-width: 800px;
+  }
+  .hero .kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-4) 0;
+  }
+  .hero-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-text);
+    margin: 0 0 var(--space-6) 0;
+  }
+  .hero-title :global(.accent),
+  .hero-title :global(strong) {
+    color: var(--color-accent);
+  }
+  .hero-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0 auto var(--space-6);
+    max-width: 640px;
+  }
+  .hero-lead :global(strong) {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+
+  .subreader-note {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    max-width: 640px;
+    margin: 0 auto var(--space-6);
+    padding: var(--space-4) var(--space-5);
+    background: rgba(255, 107, 53, 0.08);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    text-align: left;
+  }
+  .subreader-icon {
+    flex-shrink: 0;
+    font-size: var(--text-h4);
+    line-height: 1;
+  }
+  .subreader-note p {
+    font-size: var(--text-body-sm);
+    line-height: 1.7;
+    color: var(--color-text);
+    margin: 0;
+  }
+  .subreader-note p :global(strong) {
+    color: var(--color-accent);
+  }
+
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+  .hero-price {
+    font-family: var(--font-en), var(--font-jp);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+  }
+  .hero-price-note,
+  .hero-release {
+    align-self: center;
+    padding: var(--space-2) var(--space-4);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+  .hero-cta-note {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* ============================================================
+   * §こんな方へ
+   * ============================================================ */
+  .audience-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+  .audience-list li {
+    position: relative;
+    padding: var(--space-4) var(--space-4) var(--space-4) var(--space-10);
+    background: var(--color-bg-warm);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text);
+  }
+  .audience-list li::before {
+    content: "▸";
+    position: absolute;
+    left: var(--space-4);
+    top: var(--space-4);
+    color: var(--color-accent);
+    font-weight: var(--weight-bold);
+  }
+
+  /* ============================================================
+   * §性格（任意）
+   * ============================================================ */
+  .character-note {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: var(--space-8);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+  .character-note h3 {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    color: var(--color-text);
+    margin: 0 0 var(--space-3) 0;
+  }
+  .character-note p {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+
+  /* ============================================================
+   * §コース詳細
+   * ============================================================ */
+  .chapter-parts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .chapter-part {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-card);
+  }
+  .chapter-part-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding-bottom: var(--space-4);
+    margin-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .chapter-part-label {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .chapter-part-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0;
+    flex-grow: 1;
+  }
+  .chapter-part-duration {
+    font-family: var(--font-en);
+    font-size: var(--text-body-sm);
+    color: var(--color-text-muted);
+    padding: 2px 10px;
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-full);
+  }
+  .chapter-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .chapter-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-4);
+    padding: var(--space-3);
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+  }
+  .chapter-no {
+    font-family: var(--font-en);
+    font-size: var(--text-body);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    align-self: flex-start;
+  }
+  .chapter-body {
+    min-width: 0;
+  }
+  .chapter-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-body-lg);
+    line-height: 1.5;
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-1) 0;
+  }
+  .chapter-text {
+    font-size: var(--text-body-sm);
+    line-height: 1.6;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .chapter-duration {
+    align-self: flex-start;
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    padding: 2px 8px;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+  }
+
+  /* ============================================================
+   * §卒業条件
+   * ============================================================ */
+  .grad-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+  .grad-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-bg-warm);
+    border-radius: var(--radius-md);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--color-text);
+  }
+  .grad-mark {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-bold);
+  }
+
+  /* ============================================================
+   * §架け橋
+   * ============================================================ */
+  .bridge-block {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: var(--space-8);
+    background: #fff;
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+  .bridge-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .bridge-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .bridge-list li {
+    position: relative;
+    padding: var(--space-2) 0 var(--space-2) var(--space-6);
+    font-size: var(--text-body);
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+  .bridge-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-weight: var(--weight-bold);
+  }
+
+  /* ============================================================
+   * §できないこと
+   * ============================================================ */
+  .cantdo-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+  .cantdo-card {
+    padding: var(--space-6);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+  .cantdo-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: rgba(197, 48, 48, 0.10);
+    color: var(--color-error);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-3);
+  }
+  .cantdo-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h4);
+    line-height: var(--leading-h4);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2) 0;
+  }
+  .cantdo-body {
+    font-size: var(--text-body-sm);
+    line-height: 1.7;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+
+  /* ============================================================
+   * §FAQ
+   * ============================================================ */
+  .faq-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 880px;
+  }
+  .faq-item details {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .faq-item summary {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-6);
+    cursor: pointer;
+    align-items: center;
+    list-style: none;
+  }
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-q-mark {
+    font-family: var(--font-en);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+  }
+  .faq-q-text {
+    font-family: var(--font-jp);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+  }
+  .faq-toggle {
+    font-family: var(--font-en);
+    font-size: var(--text-h4);
+    color: var(--color-accent);
+    transition: transform var(--duration-hover) var(--ease-out-quint);
+  }
+  .faq-item details[open] .faq-toggle {
+    transform: rotate(45deg);
+  }
+  .faq-answer {
+    padding: 0 var(--space-6) var(--space-4) calc(var(--space-6) + var(--space-8));
+  }
+  .faq-answer p {
+    font-size: var(--text-body-sm);
+    line-height: 1.8;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+
+  /* ============================================================
+   * §最終CTA
+   * ============================================================ */
+  .final-cta {
+    text-align: center;
+    max-width: 720px;
+  }
+  .final-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .final-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0 0 var(--space-6) 0;
+  }
+  .final-ctas {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  /* ============================================================
+   * Responsive
+   * ============================================================ */
+  @media (max-width: 1023px) {
+    .audience-list,
+    .grad-checklist,
+    .cantdo-list {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: var(--text-h1);
+    }
+    .sec-title,
+    .final-title {
+      font-size: var(--text-h2);
+    }
+    .chapter-item {
+      grid-template-columns: auto 1fr;
+    }
+    .chapter-duration {
+      grid-column: 1 / -1;
+      justify-self: end;
+    }
+  }
+</style>

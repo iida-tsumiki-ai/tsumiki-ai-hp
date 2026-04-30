@@ -28,6 +28,22 @@ const {
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700;900&family=Shippori+Mincho:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- ブラウザのスクロール復元を OFF（リロード時に毎回トップから始める） -->
+    <!-- アンカーリンクがあるホームでは、復元されると意図しない位置に飛ぶため -->
+    <script is:inline>
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+      // URL に古いハッシュが残っている場合は除去（リロードで自動ジャンプを防止）
+      if (window.location.hash) {
+        history.replaceState(
+          null,
+          "",
+          window.location.pathname + window.location.search
+        );
+      }
+    </script>
   </head>
   <body>
     <SiteHeader />

@@ -11,16 +11,23 @@
 
 type NavLink = { href: string; label: string };
 
+/**
+ * ナビ構造: 3形態（講座/研修/伴走）フラット並列 + 全商品マップ + 会社情報
+ * 主力プロダクト（合同セミナー / AI駆動経営伴走支援）はホーム §3/§4 + Footer で導線維持。
+ * ヘッダーは "ツミキAIには3つの届け方がある" を一直線で見せる構造。
+ */
 const navLinks: NavLink[] = [
   { href: "/products/", label: "商品" },
-  { href: "/courses/", label: "A講座" },
-  { href: "/seminar/", label: "合同セミナー" },
-  { href: "/support-b/", label: "B伴走" },
+  { href: "/courses/", label: "講座" },
+  { href: "/training/", label: "研修" },
+  { href: "/support/", label: "伴走" },
   { href: "/about/", label: "会社情報" },
 ];
 
-const ctaHref = "/diagnose/";
-const ctaLabel = "無料DX診断";
+const ctaPrimaryHref = "/diagnose/";
+const ctaPrimaryLabel = "無料DX診断";
+const ctaSecondaryHref = "/contact/";
+const ctaSecondaryLabel = "無料個別相談";
 ---
 
 <header class="site-header" data-header>
@@ -48,7 +55,10 @@ const ctaLabel = "無料DX診断";
       </ul>
     </nav>
 
-    <a class="header-cta" href={ctaHref}>{ctaLabel}</a>
+    <div class="header-cta-group">
+      <a class="header-cta header-cta--secondary" href={ctaSecondaryHref}>{ctaSecondaryLabel}</a>
+      <a class="header-cta header-cta--primary" href={ctaPrimaryHref}>{ctaPrimaryLabel}</a>
+    </div>
 
     <button
       type="button"
@@ -90,13 +100,14 @@ const ctaLabel = "無料DX診断";
         </ul>
       </nav>
 
-      <a class="mobile-cta" href={ctaHref} data-nav-link>
-        {ctaLabel} →
-      </a>
-
-      <p class="mobile-sub">
-        個別相談なら <a href="/contact/" data-nav-link>お問い合わせ</a> からどうぞ。
-      </p>
+      <div class="mobile-cta-group">
+        <a class="mobile-cta mobile-cta--primary" href={ctaPrimaryHref} data-nav-link>
+          {ctaPrimaryLabel} →
+        </a>
+        <a class="mobile-cta mobile-cta--secondary" href={ctaSecondaryHref} data-nav-link>
+          {ctaSecondaryLabel} →
+        </a>
+      </div>
     </div>
   </div>
 </header>
@@ -152,6 +163,60 @@ const ctaLabel = "無料DX診断";
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && overlay && !overlay.hidden) closeMenu();
   });
+
+  // ============================================================
+  // カスタム スムーススクロール（CSS smooth より少しゆっくり）
+  // ============================================================
+  // リロード時にブラウザがスクロール位置を復元するのを抑止
+  // （アンカーリンクのある SPA-like なホームでは毎回トップから始めたい）
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const SCROLL_DURATION = 900; // ms
+  const HEADER_OFFSET = 80;
+
+  function easeInOutCubic(t: number): number {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function smoothScrollTo(targetY: number, duration: number = SCROLL_DURATION) {
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    const startTime = performance.now();
+
+    function step(currentTime: number) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeInOutCubic(progress);
+      window.scrollTo(0, startY + distance * eased);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // ページ内アンカーリンク（#xxx）のクリックを拾って、カスタム速度でスクロール
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const href = link.getAttribute("href");
+      if (!href || href === "#") return;
+      const target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      if (reduceMotion) {
+        target.scrollIntoView({ behavior: "auto", block: "start" });
+        return;
+      }
+      const targetY =
+        target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+      smoothScrollTo(targetY);
+      // URL に # を残さない（リロード時にスクロール復元させない）
+      if (window.location.hash) {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+    });
+  });
 </script>
 
 <style is:global>
@@ -160,9 +225,16 @@ const ctaLabel = "無料DX診断";
     overflow: hidden;
   }
 
-  /* アンカーリンクがヘッダーに隠れないよう */
+  /* アンカーリンクがヘッダーに隠れないよう & スムーススクロール */
   html {
     scroll-padding-top: 80px;
+    scroll-behavior: smooth;
+  }
+  /* OS設定で動きを抑える設定の人には respect する */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 </style>
 
@@ -245,26 +317,44 @@ const ctaLabel = "無料DX診断";
     border-bottom-color: var(--color-accent);
   }
 
-  /* CTA */
+  /* CTA Group (primary + secondary) */
+  .header-cta-group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
   .header-cta {
     display: inline-flex;
     align-items: center;
-    padding: var(--space-3) var(--space-6);
-    background: var(--color-accent);
-    color: #fff;
+    padding: var(--space-3) var(--space-5);
     border-radius: var(--radius-md);
     font-family: var(--font-jp);
     font-size: var(--text-body-sm);
     font-weight: var(--weight-semibold);
     text-decoration: none;
-    box-shadow: var(--shadow-button);
     white-space: nowrap;
     transition:
       background-color var(--duration-hover) var(--ease-out-quint),
+      color var(--duration-hover) var(--ease-out-quint),
       transform var(--duration-hover) var(--ease-out-quint);
   }
-  .header-cta:hover {
+  .header-cta--primary {
+    background: var(--color-accent);
+    color: #fff;
+    box-shadow: var(--shadow-button);
+  }
+  .header-cta--primary:hover {
     background: #E55A2B;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .header-cta--secondary {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+  }
+  .header-cta--secondary:hover {
+    background: var(--color-primary);
     color: #fff;
     transform: translateY(-1px);
   }
@@ -360,30 +450,31 @@ const ctaLabel = "無料DX診断";
     color: var(--color-accent);
   }
 
+  .mobile-cta-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
   .mobile-cta {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: var(--space-4) var(--space-6);
-    background: var(--color-accent);
-    color: #fff;
     border-radius: var(--radius-md);
     font-family: var(--font-jp);
     font-size: var(--text-body-lg);
     font-weight: var(--weight-semibold);
     text-decoration: none;
+  }
+  .mobile-cta--primary {
+    background: var(--color-accent);
+    color: #fff;
     box-shadow: var(--shadow-button);
   }
-
-  .mobile-sub {
-    font-size: var(--text-body-sm);
-    color: var(--color-text-muted);
-    text-align: center;
-    margin: 0;
-  }
-  .mobile-sub a {
+  .mobile-cta--secondary {
+    background: transparent;
     color: var(--color-primary);
-    font-weight: var(--weight-semibold);
+    border: 1px solid var(--color-primary);
   }
 
   /* ========================================
@@ -403,7 +494,7 @@ const ctaLabel = "無料DX診断";
       grid-template-columns: auto 1fr auto;
     }
     .desktop-nav,
-    .header-cta {
+    .header-cta-group {
       display: none;
     }
     .hamburger {

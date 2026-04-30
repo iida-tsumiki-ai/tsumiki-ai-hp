@@ -1,0 +1,105 @@
+---
+/**
+ * ComingSoon — Phase 1 中の各ページスタブ用
+ * 詳細実装は D/E/F/G ブロックで Astro 化する想定
+ */
+interface Props {
+  pageTitle: string;
+  description: string;
+  phase?: string; // "Phase 1 終盤" / "Phase 2" 等
+}
+
+const { pageTitle, description, phase = "Phase 1 中" } = Astro.props;
+---
+
+<div class="coming-soon">
+  <span class="badge">{phase} 実装予定</span>
+  <h1 class="title">{pageTitle}</h1>
+  <p class="desc">{description}</p>
+
+  <div class="actions">
+    <a class="btn btn-primary" href="/">← ホームへ戻る</a>
+    <a class="btn btn-secondary" href="/diagnose/">無料DX診断</a>
+    <a class="btn btn-secondary" href="/contact/">無料個別相談</a>
+  </div>
+
+  <p class="note">
+    このページは Phase 1 中に本実装を予定しています。 当面の窓口は
+    <a href="/contact/">個別相談</a> または
+    <a href="/diagnose/">DX診断</a>
+    をご利用ください。
+  </p>
+</div>
+
+<style>
+  .coming-soon {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: var(--space-12) var(--gutter);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent-dark);
+    border-radius: var(--radius-full);
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.05em;
+  }
+  .title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0;
+  }
+  .desc {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .actions {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: var(--space-4);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-family: var(--font-jp);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+  }
+  .note {
+    font-size: var(--text-body-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--space-4);
+  }
+  .note a {
+    color: var(--color-accent);
+    font-weight: var(--weight-semibold);
+  }
+</style>

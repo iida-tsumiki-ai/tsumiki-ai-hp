@@ -1,0 +1,752 @@
+---
+/**
+ * /courses/ — 講座シリーズ ハブページ（E1）
+ * 設計書: 11 §4（2026-04-27 ブランド言語同期版）
+ * 役割: 5講座の束ねハブ。DX診断 → ロードマップ講座 → 該当Lv講座 への案内。
+ */
+import Layout from "../../layouts/Layout.astro";
+
+const courses = [
+  {
+    id: "roadmap",
+    label: "ロードマップ講座",
+    price: "無料",
+    priceNote: "全Lv共通の地図",
+    description: "中小企業AIの全体像を65分で。4段階ロードマップ＋3カテゴリ商品マップが手に入ります。",
+    href: "/courses/roadmap/",
+    isFlagship: false,
+    isFree: true,
+    stage: "全Lv共通",
+  },
+  {
+    id: "lv1",
+    label: "Lv1講座",
+    price: "¥3,000",
+    priceNote: "GWS版 / MS365版",
+    description: "紙・FAXの会社から抜け出す第一歩。オフィス基盤×はじめてのAI活用。Lv2到達チェックリスト付き。",
+    href: "/courses/lv1/",
+    isFlagship: true,
+    stage: "Lv1 ❶ 土台を組む",
+  },
+  {
+    id: "lv2",
+    label: "Lv2講座",
+    price: "¥3,000",
+    priceNote: "GWS版 / MS365版",
+    description: "AI活用の全社底上げ・業務棚卸し・ミニアプリの型を、3時間で経営者自身が掴めます。",
+    href: "/courses/lv2/",
+    isFlagship: false,
+    stage: "Lv2 ❷ 活用を広げる",
+  },
+  {
+    id: "lv3",
+    label: "Lv3講座",
+    price: "¥3,000",
+    priceNote: "共通版・合同セミナー副読本",
+    description: "基幹系再選定・組織役割設計の視点整理。経営者合同セミナーの副読本として設計しています。",
+    href: "/courses/lv3/",
+    isFlagship: false,
+    stage: "Lv3 ❸ 戦略を描く",
+  },
+  {
+    id: "lv4",
+    label: "Lv4講座",
+    price: "¥3,000",
+    priceNote: "共通版・事例集",
+    description: "AIネイティブな会社の姿。AI駆動経営伴走支援から自走したOBインタビュー集。事例集として機能します。",
+    href: "/courses/lv4/",
+    isFlagship: false,
+    stage: "Lv4 ❹ AIネイティブになる",
+  },
+];
+
+const readingOrder = [
+  { no: 1, title: "ロードマップ講座（無料）で全体像を掴む", desc: "65分で4段階モデルと自社の位置を把握" },
+  { no: 2, title: "DX診断（10問・3分）で自社のLvを特定する", desc: "迷ったらまずここから。AI駆動経営まで残り何段かが見える" },
+  { no: 3, title: "該当Lv講座を購入する", desc: "Lv1なら導入、Lv2なら全社展開、Lv3なら戦略、Lv4なら事例集" },
+  { no: 4, title: "次Lvに到達したら次Lv講座へ", desc: "卒業条件＝次Lvチェックリスト。明確な進捗が測れます" },
+];
+
+const faq = [
+  {
+    q: "全部買う必要がありますか？",
+    a: "いいえ、自社のLvに合った講座だけで十分です。ロードマップ講座（無料）と DX診断 で現在地を特定し、該当Lvの講座を1本選んでください。次のLvに到達したら、その時点で次Lv講座を購入する形を推奨しています。",
+  },
+  {
+    q: "どこから始めるのがおすすめですか？",
+    a: "<strong>ロードマップ講座（無料）</strong>と <strong>DX診断（10問・3分）</strong> から始めてください。両方無料で、自社の現在地と次の一手が見えます。その後、該当Lv講座（¥3,000）に進むのが王道です。",
+  },
+  {
+    q: "動画はありますか？",
+    a: "現在は note の有料記事として提供しています（¥3,000・3時間分・図表豊富）。動画化は Phase 4 以降で順次拡張予定です。テキスト中心のほうが「自社に当てはめる思考時間」を取りやすい設計にしています。",
+  },
+  {
+    q: "返金はありますか？",
+    a: "note プラットフォームの規約に準じます。購入前に各講座LPの目次・卒業条件・できないこと を確認してから購入をご検討ください。期待値ズレがないよう、できる限り情報を先出ししています。",
+  },
+  {
+    q: "GWS版とMS365版、どちらを買えばいい？",
+    a: "Google Workspace を使っている／使う予定なら GWS版、Microsoft 365 を使っているなら MS365版。すでに導入済みの基盤に合わせるのが早いです。Lv1 / Lv2 講座のみ2バージョン展開、Lv3 / Lv4 は基盤を問わない共通版です。",
+  },
+];
+---
+
+<Layout
+  title="講座シリーズ — ツミキAI"
+  description="経営者が、地図を持つ。Lv1からAI駆動経営へ。ロードマップ講座（無料）＋ Lv1〜Lv4 各¥3,000 の5講座体制。"
+>
+  <!-- ========== §HERO ========== -->
+  <section class="course-section course-section--warm">
+    <div class="course-container hero">
+      <p class="kicker">A. 経営者が先に学ぶ — 講座シリーズ</p>
+      <h1 class="hero-title">
+        経営者が、地図を持つ。<br />
+        <span class="hero-accent">Lv1から、AI駆動経営へ。</span>
+      </h1>
+      <p class="hero-lead">
+        中小企業経営者が <strong>"先に"</strong> 学ぶ講座シリーズ。
+        無料のロードマップ講座で全体像を掴み、
+        Lv1〜Lv4の各講座で <strong>1段ずつ着実に</strong> 上に登ります。
+      </p>
+      <div class="hero-meta">
+        <span class="hero-price">無料 + ¥3,000 × 4</span>
+        <span class="hero-price-note">各講座 3部180分</span>
+      </div>
+
+      <ol class="stair-visual" aria-label="5段の講座ステップ">
+        <li class="stair stair--free">
+          <div class="stair-tag">無料</div>
+          <div class="stair-name">ロードマップ</div>
+          <div class="stair-sub">全Lv共通の地図</div>
+        </li>
+        <li class="stair stair--lv1">
+          <div class="stair-tag">★ Lv1</div>
+          <div class="stair-name">¥3,000</div>
+          <div class="stair-sub">土台を組む</div>
+        </li>
+        <li class="stair stair--lv2">
+          <div class="stair-tag">Lv2</div>
+          <div class="stair-name">¥3,000</div>
+          <div class="stair-sub">活用を広げる</div>
+        </li>
+        <li class="stair stair--lv3">
+          <div class="stair-tag">Lv3</div>
+          <div class="stair-name">¥3,000</div>
+          <div class="stair-sub">戦略を描く</div>
+        </li>
+        <li class="stair stair--lv4">
+          <div class="stair-tag">Lv4</div>
+          <div class="stair-name">¥3,000</div>
+          <div class="stair-sub">AIネイティブ</div>
+        </li>
+      </ol>
+
+      <div class="hero-ctas">
+        <a class="btn btn-primary btn-lg" href="/diagnose/">DX診断で自分のLvを特定する（無料・10問）</a>
+        <a class="btn btn-secondary btn-lg" href="/courses/roadmap/">ロードマップ講座を読む（無料）</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== §差別化3点 ========== -->
+  <section class="course-section">
+    <div class="course-container">
+      <header class="sec-head">
+        <p class="sec-kicker">講座シリーズの特徴</p>
+        <h2 class="sec-title">どの講座にも、ツミキAIの3つの設計が入っています。</h2>
+      </header>
+      <ul class="diff-grid">
+        <li class="diff-card">
+          <div class="diff-num">01</div>
+          <h3 class="diff-title">診断で現在地がわかる</h3>
+          <p class="diff-body">無料DX診断と連動。自社のLvを特定してから、該当する講座を選べます。</p>
+        </li>
+        <li class="diff-card">
+          <div class="diff-num">02</div>
+          <h3 class="diff-title">実務を通して作る</h3>
+          <p class="diff-body">読んで終わりにしません。各章にチェックリストや実習を組み込み、自社の業務に当てはめながら進めます。</p>
+        </li>
+        <li class="diff-card">
+          <div class="diff-num">03</div>
+          <h3 class="diff-title">自走できる</h3>
+          <p class="diff-body">卒業条件＝次Lv到達チェックリスト。「次に何をすべきか」を自分の言葉で語れる状態を作ります。</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========== §5講座の全体像 ========== -->
+  <section class="course-section course-section--subtle">
+    <div class="course-container">
+      <header class="sec-head">
+        <p class="sec-kicker">5講座の全体像</p>
+        <h2 class="sec-title">あなたのLvに合わせて、講座が用意されています。</h2>
+        <p class="sec-lead">
+          <strong>ロードマップ講座（無料 / 全Lv共通）</strong> ＋
+          <strong>Lv1〜Lv4 各¥3,000</strong> の5講座体制。
+          各Lv講座は3部構成（ロードマップ要約／このLvで取り組むべきこと／次Lv到達要件）で統一しています。
+        </p>
+      </header>
+      <ul class="course-cards">
+        {courses.map((c) => (
+          <li class={`course-card ${c.isFlagship ? "course-card--flagship" : ""} ${c.isFree ? "course-card--free" : ""}`}>
+            {c.isFlagship && <span class="course-badge">★ 主力</span>}
+            {c.isFree && <span class="course-badge course-badge--free">無料</span>}
+            <div class="course-stage">{c.stage}</div>
+            <h3 class="course-name">{c.label}</h3>
+            <div class="course-price">
+              <span class="course-price-main">{c.price}</span>
+              <span class="course-price-note">{c.priceNote}</span>
+            </div>
+            <p class="course-desc">{c.description}</p>
+            <a class="course-link" href={c.href}>講座詳細を見る →</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========== §読み順ガイド ========== -->
+  <section class="course-section">
+    <div class="course-container">
+      <header class="sec-head">
+        <p class="sec-kicker">読み順ガイド</p>
+        <h2 class="sec-title">こう進めると、迷いません。</h2>
+      </header>
+      <ol class="reading-order">
+        {readingOrder.map((step) => (
+          <li class="reading-step">
+            <div class="reading-no">{step.no}</div>
+            <div class="reading-body">
+              <h3 class="reading-title">{step.title}</h3>
+              <p class="reading-desc">{step.desc}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========== §FAQ ========== -->
+  <section class="course-section course-section--subtle">
+    <div class="course-container">
+      <header class="sec-head">
+        <p class="sec-kicker">よくある質問</p>
+        <h2 class="sec-title">事前にいただきやすい質問。</h2>
+      </header>
+      <ul class="faq-list">
+        {faq.map((f, idx) => (
+          <li class="faq-item">
+            <details>
+              <summary>
+                <span class="faq-q-mark">Q{idx + 1}</span>
+                <span class="faq-q-text">{f.q}</span>
+                <span class="faq-toggle" aria-hidden="true">＋</span>
+              </summary>
+              <div class="faq-answer">
+                <p set:html={f.a}></p>
+              </div>
+            </details>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========== §最終CTA（段階化） ========== -->
+  <section class="course-section course-section--warm">
+    <div class="course-container final-cta">
+      <h2 class="final-title">最後に、次の一歩を選んでください。</h2>
+      <p class="final-lead">
+        迷ったら、まず無料の DX診断 か ロードマップ講座 から。30分の個別相談（無料）も用意しています。
+      </p>
+      <div class="final-ctas">
+        <a class="btn btn-primary btn-lg" href="/diagnose/">無料DX診断（10問・3分）</a>
+        <a class="btn btn-secondary btn-lg" href="/courses/roadmap/">ロードマップ講座を読む</a>
+        <a class="btn btn-ghost btn-lg" href="/contact/">無料個別相談</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .course-section {
+    width: 100%;
+    padding-top: var(--section-py-desktop);
+    padding-bottom: var(--section-py-desktop);
+  }
+  .course-section--subtle { background: var(--color-bg-subtle); }
+  .course-section--warm { background: var(--color-bg-warm); }
+  @media (max-width: 768px) {
+    .course-section {
+      padding-top: var(--section-py-mobile);
+      padding-bottom: var(--section-py-mobile);
+    }
+  }
+
+  .course-container {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  .sec-head {
+    max-width: 720px;
+    margin: 0 0 var(--space-8) 0;
+  }
+  .sec-kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-3) 0;
+  }
+  .sec-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .sec-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .sec-lead strong {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-family: var(--font-jp);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    transition: background-color var(--duration-hover) var(--ease-out-quint), transform var(--duration-hover) var(--ease-out-quint);
+    white-space: nowrap;
+  }
+  .btn-lg {
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--text-body-lg);
+  }
+  .btn-primary {
+    background: var(--color-accent);
+    color: #fff;
+    box-shadow: var(--shadow-button);
+  }
+  .btn-primary:hover {
+    background: #E55A2B;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+  }
+  .btn-secondary:hover {
+    background: var(--color-primary);
+    color: #fff;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+  .btn-ghost:hover {
+    background: var(--color-bg-subtle);
+    color: var(--color-text);
+  }
+
+  .hero {
+    text-align: center;
+    max-width: 960px;
+  }
+  .kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-4) 0;
+  }
+  .hero-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-6) 0;
+  }
+  .hero-accent { color: var(--color-accent); }
+  .hero-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    max-width: 720px;
+    margin: 0 auto var(--space-6);
+  }
+  .hero-lead strong {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-8);
+  }
+  .hero-price {
+    font-family: var(--font-en), var(--font-jp);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+  }
+  .hero-price-note {
+    align-self: center;
+    padding: var(--space-2) var(--space-4);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+  .hero-ctas {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .stair-visual {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto var(--space-8);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-2);
+    max-width: 720px;
+    align-items: end;
+  }
+  .stair {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-2);
+    text-align: center;
+  }
+  .stair--free { padding-top: var(--space-3); padding-bottom: var(--space-3); border-color: var(--color-success); }
+  .stair--lv1 { padding-top: var(--space-4); padding-bottom: var(--space-4); border-color: var(--color-accent); border-width: 2px; }
+  .stair--lv2 { padding-top: var(--space-5); padding-bottom: var(--space-5); }
+  .stair--lv3 { padding-top: var(--space-6); padding-bottom: var(--space-6); }
+  .stair--lv4 { padding-top: var(--space-7); padding-bottom: var(--space-7); }
+  .stair-tag {
+    font-family: var(--font-en);
+    font-size: 10px;
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .stair--free .stair-tag { color: var(--color-success); }
+  .stair-name {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin-bottom: 2px;
+  }
+  .stair-sub {
+    font-size: 10px;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .diff-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+  .diff-card {
+    padding: var(--space-8) var(--space-6);
+    background: var(--color-bg-warm);
+    border-top: 4px solid var(--color-accent);
+    border-radius: var(--radius-lg);
+  }
+  .diff-num {
+    font-family: var(--font-en);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
+    line-height: 1;
+  }
+  .diff-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    line-height: var(--leading-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-3) 0;
+  }
+  .diff-body {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+
+  .course-cards {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+  }
+  .course-card {
+    position: relative;
+    padding: var(--space-6);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow var(--duration-hover) var(--ease-out-quint), transform var(--duration-hover) var(--ease-out-quint);
+  }
+  .course-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+  .course-card--flagship {
+    border: 2px solid var(--color-accent);
+    background: linear-gradient(180deg, #fff 0%, var(--color-accent-soft) 140%);
+  }
+  .course-card--free {
+    border-color: var(--color-success);
+  }
+  .course-badge {
+    position: absolute;
+    top: -10px;
+    left: var(--space-4);
+    padding: 2px 12px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    border-radius: var(--radius-full);
+    letter-spacing: 0.05em;
+  }
+  .course-badge--free { background: var(--color-success); }
+  .course-stage {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+    margin-bottom: var(--space-2);
+  }
+  .course-name {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2) 0;
+  }
+  .course-price {
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .course-price-main {
+    font-family: var(--font-en), var(--font-jp);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+  }
+  .course-price-note {
+    font-family: var(--font-jp);
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    margin-left: var(--space-2);
+  }
+  .course-desc {
+    font-size: var(--text-body-sm);
+    line-height: 1.7;
+    color: var(--color-text-body);
+    margin: 0 0 var(--space-4) 0;
+    flex-grow: 1;
+  }
+  .course-link {
+    color: var(--color-accent);
+    font-family: var(--font-jp);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    align-self: flex-start;
+  }
+  .course-link:hover {
+    text-decoration: underline;
+  }
+
+  .reading-order {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .reading-step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-6);
+    align-items: flex-start;
+    padding: var(--space-5);
+    background: var(--color-bg-warm);
+    border-radius: var(--radius-md);
+  }
+  .reading-no {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-en);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    flex-shrink: 0;
+  }
+  .reading-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-1) 0;
+  }
+  .reading-desc {
+    font-size: var(--text-body-sm);
+    line-height: 1.6;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+
+  .faq-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 880px;
+  }
+  .faq-item details {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .faq-item summary {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-6);
+    cursor: pointer;
+    align-items: center;
+    list-style: none;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-q-mark {
+    font-family: var(--font-en);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+  }
+  .faq-q-text {
+    font-family: var(--font-jp);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+  }
+  .faq-toggle {
+    font-family: var(--font-en);
+    font-size: var(--text-h4);
+    color: var(--color-accent);
+    transition: transform var(--duration-hover) var(--ease-out-quint);
+  }
+  .faq-item details[open] .faq-toggle {
+    transform: rotate(45deg);
+  }
+  .faq-answer {
+    padding: 0 var(--space-6) var(--space-4) calc(var(--space-6) + var(--space-8));
+  }
+  .faq-answer p {
+    font-size: var(--text-body-sm);
+    line-height: 1.8;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .faq-answer :global(strong) {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+
+  .final-cta { text-align: center; max-width: 720px; }
+  .final-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .final-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0 0 var(--space-6) 0;
+  }
+  .final-ctas {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 1023px) {
+    .diff-grid { grid-template-columns: 1fr; }
+    .stair-visual {
+      grid-template-columns: 1fr;
+      max-width: 480px;
+    }
+    .stair--free, .stair--lv1, .stair--lv2, .stair--lv3, .stair--lv4 {
+      padding-top: var(--space-3);
+      padding-bottom: var(--space-3);
+    }
+  }
+  @media (max-width: 768px) {
+    .hero-title { font-size: var(--text-h1); }
+    .sec-title, .final-title { font-size: var(--text-h2); }
+    .reading-step { grid-template-columns: 1fr; gap: var(--space-3); }
+  }
+</style>

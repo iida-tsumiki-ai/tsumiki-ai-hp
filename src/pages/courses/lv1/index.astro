@@ -1,0 +1,164 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import CourseLandingPage from "../../../components/CourseLandingPage.astro";
+
+const audience = [
+  { text: "紙・口頭・FAX が主な伝達手段になっている会社の経営者" },
+  { text: "Excel が個人PCにバラバラ保存されていて困っている方" },
+  { text: "全社員に会社のメールアドレスが配られていない状態の方" },
+  { text: "「何から始めればいいかわからない」と立ち止まっている経営者" },
+];
+
+const chapterParts = [
+  {
+    partLabel: "Part 1",
+    partTitle: "ロードマップ要約",
+    partDuration: "15分",
+    chapters: [
+      {
+        no: 1,
+        title: "なぜ今AIか — 4段階ロードマップの要約",
+        duration: "15分",
+        body: "無料ロードマップ講座の内容を圧縮。未受講でもこの章で最低限の文脈が取れる設計です。",
+      },
+    ],
+  },
+  {
+    partLabel: "Part 2",
+    partTitle: "Lv1で取り組むべきこと",
+    partDuration: "120分",
+    chapters: [
+      {
+        no: 2,
+        title: "オフィス基盤を選ぶ — GWS vs MS365",
+        duration: "35分",
+        body: "判断フロー／業種別の向き不向き／料金感／「うちはどっち？」実習。<br />※ GWS版：Gmail・管理コンソールを深掘り／MS365版：Outlook・Microsoft 365管理センターを深掘り",
+      },
+      {
+        no: 3,
+        title: "1部門からスモールスタート",
+        duration: "35分",
+        body: "どの部門から選ぶか／3ヶ月の進め方／社員がついてこない時の対処／全社展開への接続。受注→在庫→経理の手転記を1区間自動化する実習も。",
+      },
+      {
+        no: 4,
+        title: "はじめてのAI活用",
+        duration: "30分",
+        body: "要約・下書き・検索の3つだけ／日常業務への混ぜ方／使わせ方の工夫。<br />※ GWS版：Gemini／MS365版：Copilot",
+      },
+      {
+        no: 5,
+        title: "事例：ツミキAIが見てきたLv1の現場",
+        duration: "20分",
+        body: "CIN の GWS導入／弥生時代の中小BtoB観察／印西市での接点。<br />※ GWS版に事例厚め／MS365版は事例蓄積中の旨を明記（誠実さの実装）",
+      },
+    ],
+  },
+  {
+    partLabel: "Part 3",
+    partTitle: "Lv2到達要件",
+    partDuration: "35分",
+    chapters: [
+      {
+        no: 6,
+        title: "Lv2到達チェックリスト 7項目",
+        duration: "15分",
+        body: "下記テーブルの具体化／各項目の「できている／いない」の見分け方。読了時に自己採点できる構成です。",
+      },
+      {
+        no: 7,
+        title: "Lv2入口で詰まりやすいポイント",
+        duration: "15分",
+        body: "「触る人／触らない人」分断／部門間データ断絶／属人化ミニアプリ／Lv2の本当の敵。",
+      },
+      {
+        no: 8,
+        title: "次の一手を決める（実習）",
+        duration: "5分",
+        body: "残りタスクの記入ワーク／90日アクションプラン。",
+      },
+    ],
+  },
+  {
+    partLabel: "補足",
+    partTitle: "受けない案件と次の商品",
+    partDuration: "10分",
+    chapters: [
+      {
+        no: 9,
+        title: "ツミキAIが受けない案件／次の商品への接続",
+        duration: "10分",
+        body: "受けない5カテゴリ／Lv2講座／入門研修／AI駆動経営伴走支援（Lv1向け＝導入設計）の紹介。",
+      },
+    ],
+  },
+];
+
+const cantDo = [
+  {
+    title: "Lv2以上の具体策は扱いません",
+    body: "「業務棚卸し」「ミニアプリ作成」「データ置き場共通化」など Lv2の中身は Lv2講座（¥3,000）で扱います。本講座はLv1を確実にクリアすることに集中します。",
+  },
+  {
+    title: "個別業種の深掘りはしません",
+    body: "建築／製造／卸売など業種別の深い事例は AI駆動経営伴走支援 のヒアリング内で扱います。本講座は業種を問わない原則を提供します。",
+  },
+  {
+    title: "半年で劇的変化する魔法ではありません",
+    body: "1段ずつ着実に進めるための地図と実習を提供します。読了 = 即変化ではなく、3ヶ月かけて社内に基盤を作る前提の設計です。",
+  },
+];
+
+const faq = [
+  {
+    q: "GWS版とMS365版、どちらを買えばいい？",
+    a: "<strong>すでに導入済みの基盤に合わせる</strong>のが早いです。Google Workspace を使っている／使う予定なら GWS版、Microsoft 365 を使っているなら MS365版。決まっていない方は、第2章「オフィス基盤を選ぶ」を先に立ち読みできるよう note でサンプル公開する予定です。",
+  },
+  {
+    q: "Lv2以上でも役立ちますか？",
+    a: "Lv2以上の方には Part 1 のロードマップ要約と Part 3 の Lv2到達チェックリストが「自社のLv1漏れ確認」として役立ちます。ただし本論の Part 2 は Lv1経営者向けに最適化されているため、Lv2以上の方はLv2講座をおすすめします。",
+  },
+  {
+    q: "動画はありますか？",
+    a: "現在は note の有料記事として提供しています（¥3,000・3時間分・図表豊富）。動画化は Phase 4 以降で検討予定です。",
+  },
+  {
+    q: "返金はありますか？",
+    a: "note プラットフォームの規約に準じます。購入前に本ページの目次・卒業条件・できないこと を必ず確認してください。期待値ズレを防ぐため、できる限り情報を先出ししています。",
+  },
+];
+
+const checkList = [
+  "全社共通のクラウド基盤（GWS or MS365）が導入されている",
+  "会社ドメインのメールが全員に配られている",
+  "社員全員の勤務PCから、会社のファイルにアクセスできる",
+  "1部門で定着し、次の部門への展開計画がある",
+  "Gemini / Copilot を日常業務で使う社員が3人以上いる",
+  "紙・FAX が主な伝達手段ではなくなっている",
+  "「次は業務棚卸し」が経営者の中で言語化できている",
+];
+---
+
+<Layout
+  title="Lv1講座 ¥3,000（★主力）— ツミキAI"
+  description="紙・FAXの会社から抜け出す第一歩。オフィス基盤×はじめてのAI活用。Lv2到達チェックリスト7項目付き。GWS版/MS365版。"
+>
+  <CourseLandingPage
+    kicker="A. 経営者が先に学ぶ — Lv1講座（★主力）"
+    title={`紙・FAXの会社から抜け出す<br /><span class="accent">第一歩。</span>`}
+    lead={`オフィス基盤×はじめてのAI活用を、3時間で経営者自身が掴める講座です。<br />読み終わったとき、<strong>「Lv2到達まで何が足りないか」</strong>が7項目チェックリストで言葉になります。`}
+    price="¥3,000"
+    priceNote="GWS版 / MS365版（購入時に選択）"
+    releasePhase="Phase 2 リリース予定"
+    audience={audience}
+    chapterParts={chapterParts}
+    graduationLabel="卒業条件：Lv2到達チェックリスト 7項目中5項目以上を満たす"
+    graduationItems={checkList}
+    cantDo={cantDo}
+    faq={faq}
+    ctaPrimary={{ label: "事前通知登録（メアドのみ・Phase 2 で公開）", href: "/contact/" }}
+    ctaSecondary={{ label: "DX診断で自分のLvを特定する（無料）", href: "/diagnose/" }}
+    ctaTertiary={{ label: "無料個別相談（30分）", href: "/contact/" }}
+    variant="normal"
+  />
+</Layout>

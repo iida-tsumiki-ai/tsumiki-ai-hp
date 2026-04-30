@@ -1,0 +1,668 @@
+---
+/**
+ * /training/ — 研修系2商品 統合ページ（F1）
+ * 設計書: 11 §7（2026-04-23 論点3 反映 / 5ページ→2統合の研修側）
+ * カテゴリB: 担当者チームに共通言語を入れる
+ *
+ * 構成:
+ *   §HERO → §3カテゴリでの位置づけ → §❶入門研修 → §❷実践研修 →
+ *   §オズ方式注意 → §他の始め方へ → §最終CTA
+ */
+import Layout from "../../layouts/Layout.astro";
+
+const stage1Items = [
+  "Claude / ChatGPT の基礎（要約・下書き・検索）",
+  "AIに任せやすい業務の見分け方",
+  "個人プロンプト集（受講者ごとに5-10個持ち帰り）",
+  "セキュリティと社内ガイドライン整備の勘所",
+  "Lv2への進み方ガイド",
+];
+const stage2Items = [
+  "チーム共通プロンプト集の作り方",
+  "GAS（Google Apps Script）入門 / Power Automate の型",
+  "業務棚卸しワーク（やめる／AIに任せる／人がやる）",
+  "ミニアプリ実装ハンズオン（集計・通知・転記の3パターン）",
+  "Lv3への進み方ガイド",
+];
+
+const cantDo = [
+  {
+    title: "経営者向けではありません",
+    body: "本研修はカテゴリB（組織に入れる）／担当者チームが対象です。経営者本人が学ぶ場合は <a href=\"/courses/\">講座シリーズ</a> または <a href=\"/seminar/\">経営者合同セミナー</a> をご検討ください。",
+  },
+  {
+    title: "Lv3-4 の研修はありません",
+    body: "Lv3-4 は経営者が自ら学ぶ／一緒に実行するフェーズです。担当者向け集合研修は ❶入門・❷実践 までの設計です。",
+  },
+  {
+    title: "業種特化版はありません",
+    body: "建築／製造／卸売など業種別カスタマイズは <a href=\"/support/\">AI駆動経営伴走支援</a> のヒアリング内で扱います。本研修は業種を問わない共通カリキュラムです。",
+  },
+];
+---
+
+<Layout
+  title="担当者向け研修プログラム — ツミキAI"
+  description="❶入門研修（半日 ¥10万）／❷実践研修（1日 ¥25万）。組織に共通言語を入れる集合研修。カテゴリB「組織に入れる」の2商品。"
+>
+  <!-- ========== §HERO ========== -->
+  <section class="page-section page-section--warm">
+    <div class="page-container hero">
+      <p class="kicker">B. 組織に入れる — 担当者向け研修</p>
+      <h1 class="hero-title">
+        組織に <span class="hero-accent">共通言語を入れる。</span>
+      </h1>
+      <p class="hero-lead">
+        担当者チームが集合して受講する集合研修プログラム。
+        効果は <strong>"組織に共通言語が入る"</strong>。
+        3ヶ月後の自走率で測定する設計です。
+      </p>
+      <div class="hero-meta">
+        <span class="hero-price">¥10〜25万</span>
+        <span class="hero-price-note">半日／1日 / カテゴリB</span>
+      </div>
+      <div class="hero-ctas">
+        <a class="btn btn-primary btn-lg" href="/contact/">無料個別相談を予約する</a>
+        <a class="btn btn-secondary btn-lg" href="#stage1-training">研修内容を見る</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== §3カテゴリでの位置づけ ========== -->
+  <section class="page-section">
+    <div class="page-container">
+      <header class="sec-head">
+        <p class="sec-kicker">3カテゴリでの位置づけ</p>
+        <h2 class="sec-title">本ページは「組織に入れる」の2商品です。</h2>
+        <p class="sec-lead">
+          ツミキAIの3カテゴリのうち、本ページは <strong>B. 組織に入れる</strong> に該当します。
+          経営者本人が学ぶ場合は A の <a href="/courses/">講座シリーズ</a> または <a href="/seminar/">経営者合同セミナー</a> をご検討ください。
+        </p>
+      </header>
+      <ul class="cat-grid">
+        <li class="cat-card">
+          <span class="cat-icon">👨‍💼</span>
+          <span class="cat-label">A. 経営者が先に学ぶ</span>
+          <span class="cat-tag">講座／集合学習</span>
+          <a class="cat-link" href="/courses/">講座シリーズ →</a>
+        </li>
+        <li class="cat-card cat-card--current">
+          <span class="cat-icon">👥</span>
+          <span class="cat-label">B. 組織に入れる</span>
+          <span class="cat-tag">担当者集合研修（このページ）</span>
+          <span class="cat-current-mark">現在地</span>
+        </li>
+        <li class="cat-card">
+          <span class="cat-icon">🤝</span>
+          <span class="cat-label">C. 一緒に実行する</span>
+          <span class="cat-tag">伴走（プロジェクト）</span>
+          <a class="cat-link" href="/support/">AI駆動経営伴走支援 →</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========== §❶入門研修 ========== -->
+  <section class="page-section page-section--subtle" id="stage1-training">
+    <div class="page-container">
+      <article class="program-card">
+        <div class="program-header">
+          <div class="program-tag">Lv1 ❶ 土台を組む</div>
+          <h2 class="program-title">❶入門研修</h2>
+          <p class="program-tagline">担当者チームに「触る人」を増やす半日研修。</p>
+        </div>
+        <div class="program-meta">
+          <div class="program-meta-row"><span>料金</span><strong>¥10万 / 半日（4時間）</strong></div>
+          <div class="program-meta-row"><span>対象</span><strong>Lv1 経営者＋現場担当者チーム</strong></div>
+          <div class="program-meta-row"><span>定員</span><strong>5〜15名（御社の会議室で実施）</strong></div>
+          <div class="program-meta-row"><span>本質</span><strong>オフィス基盤と "はじめてのAI活用" を実習で</strong></div>
+        </div>
+        <div class="program-content">
+          <h3 class="program-content-label">想定される中身</h3>
+          <ul class="program-items">
+            {stage1Items.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div class="program-cta">
+          <a class="btn btn-primary" href="/contact/">この研修について相談する</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========== §❷実践研修 ========== -->
+  <section class="page-section" id="stage2-training">
+    <div class="page-container">
+      <article class="program-card">
+        <div class="program-header">
+          <div class="program-tag">Lv2 ❷ 活用を広げる</div>
+          <h2 class="program-title">❷実践研修</h2>
+          <p class="program-tagline">チームが自走する状態を作る1日研修。</p>
+        </div>
+        <div class="program-meta">
+          <div class="program-meta-row"><span>料金</span><strong>¥25万 / 1日（7時間）</strong></div>
+          <div class="program-meta-row"><span>対象</span><strong>Lv2 経営者＋チーム（業務棚卸しに本格着手したい段階）</strong></div>
+          <div class="program-meta-row"><span>定員</span><strong>5〜15名（御社の会議室で実施）</strong></div>
+          <div class="program-meta-row"><span>本質</span><strong>AI活用底上げ／業務棚卸し／ミニアプリのハンズオン</strong></div>
+        </div>
+        <div class="program-content">
+          <h3 class="program-content-label">想定される中身</h3>
+          <ul class="program-items">
+            {stage2Items.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div class="program-cta">
+          <a class="btn btn-primary" href="/contact/">この研修について相談する</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========== §オズ方式の注意書き ========== -->
+  <section class="page-section page-section--subtle">
+    <div class="page-container">
+      <div class="notice-block">
+        <div class="notice-icon" aria-hidden="true">!</div>
+        <div class="notice-body">
+          <h3 class="notice-title">中身は「お引き合いに応じて詰めていく」設計です</h3>
+          <p>
+            両プログラムとも、御社の現状（業種・規模・現メンバーのITリテラシー）に合わせて当日のカリキュラムを調整します。
+            まず無料の個別相談（30分）で、「うちの場合、何を扱ってもらいたいか」を一緒に固めてから正式申し込み、という流れを推奨しています。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== §できないこと ========== -->
+  <section class="page-section">
+    <div class="page-container">
+      <header class="sec-head">
+        <p class="sec-kicker">できないこと</p>
+        <h2 class="sec-title">先に「お受けしないこと」をお伝えします。</h2>
+      </header>
+      <ul class="cantdo-list">
+        {cantDo.map((c) => (
+          <li class="cantdo-card">
+            <div class="cantdo-mark" aria-hidden="true">×</div>
+            <h3 class="cantdo-title">{c.title}</h3>
+            <p class="cantdo-body" set:html={c.body}></p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========== §他の始め方へ ========== -->
+  <section class="page-section page-section--subtle">
+    <div class="page-container">
+      <header class="sec-head">
+        <p class="sec-kicker">他の始め方</p>
+        <h2 class="sec-title">B 以外も検討できます。</h2>
+      </header>
+      <ul class="other-grid">
+        <li class="other-card">
+          <span class="other-icon">👨‍💼</span>
+          <h3 class="other-title">A. 経営者が先に学ぶ</h3>
+          <p class="other-body">経営者本人が地図を持って動く。講座シリーズ（無料＋¥3,000×4）と経営者合同セミナー（¥5万/名）。</p>
+          <a class="other-link" href="/courses/">講座シリーズを見る →</a>
+        </li>
+        <li class="other-card">
+          <span class="other-icon">🤝</span>
+          <h3 class="other-title">C. 一緒に実行する</h3>
+          <p class="other-body">社外CTOとして経営層〜現場まで一気通貫で伴走。月¥10〜30万 / 半年で自走。3プランから選べます。</p>
+          <a class="other-link" href="/support/">AI駆動経営伴走支援を見る →</a>
+        </li>
+      </ul>
+      <div class="diagnose-cta">
+        <a class="btn btn-secondary btn-lg" href="/diagnose/">迷ったら DX診断（10問・3分）</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== §最終CTA ========== -->
+  <section class="page-section page-section--warm">
+    <div class="page-container final-cta">
+      <h2 class="final-title">担当者を次のステップへ。</h2>
+      <p class="final-lead">
+        御社の現状をまずヒアリングさせてください。30分の無料相談から、御社にフィットする研修の組み方を一緒に決めます。
+      </p>
+      <div class="final-ctas">
+        <a class="btn btn-primary btn-lg" href="/contact/">無料個別相談を予約する</a>
+        <a class="btn btn-secondary btn-lg" href="/diagnose/">DX診断（10問・3分）</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ============================================================
+   * 共通
+   * ============================================================ */
+  .page-section {
+    width: 100%;
+    padding-top: var(--section-py-desktop);
+    padding-bottom: var(--section-py-desktop);
+  }
+  .page-section--subtle { background: var(--color-bg-subtle); }
+  .page-section--warm { background: var(--color-bg-warm); }
+  @media (max-width: 768px) {
+    .page-section { padding-top: var(--section-py-mobile); padding-bottom: var(--section-py-mobile); }
+  }
+
+  .page-container {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  .sec-head {
+    max-width: 720px;
+    margin: 0 0 var(--space-8) 0;
+  }
+  .sec-kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-3) 0;
+  }
+  .sec-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .sec-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .sec-lead strong {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+  .sec-lead a {
+    color: var(--color-accent);
+    font-weight: var(--weight-semibold);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-family: var(--font-jp);
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    transition: background-color var(--duration-hover) var(--ease-out-quint), transform var(--duration-hover) var(--ease-out-quint);
+    white-space: nowrap;
+  }
+  .btn-lg { padding: var(--space-4) var(--space-8); font-size: var(--text-body-lg); }
+  .btn-primary {
+    background: var(--color-accent);
+    color: #fff;
+    box-shadow: var(--shadow-button);
+  }
+  .btn-primary:hover { background: #E55A2B; color: #fff; transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+  }
+  .btn-secondary:hover { background: var(--color-primary); color: #fff; }
+
+  /* HERO */
+  .hero { text-align: center; max-width: 880px; }
+  .kicker {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-4) 0;
+  }
+  .hero-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-6) 0;
+  }
+  .hero-accent { color: var(--color-accent); }
+  .hero-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    max-width: 640px;
+    margin: 0 auto var(--space-6);
+  }
+  .hero-lead strong { color: var(--color-text); font-weight: var(--weight-semibold); }
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+  }
+  .hero-price {
+    font-family: var(--font-en), var(--font-jp);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+  }
+  .hero-price-note {
+    align-self: center;
+    padding: var(--space-2) var(--space-4);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+  .hero-ctas { display: flex; justify-content: center; gap: var(--space-3); flex-wrap: wrap; }
+
+  /* §3カテゴリ */
+  .cat-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+  .cat-card {
+    position: relative;
+    padding: var(--space-6);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .cat-card--current {
+    border: 2px solid var(--color-accent);
+    background: var(--color-bg-warm);
+  }
+  .cat-icon { font-size: var(--text-h2); line-height: 1; }
+  .cat-label {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+  }
+  .cat-tag {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+  }
+  .cat-link {
+    margin-top: var(--space-2);
+    color: var(--color-accent);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    font-size: var(--text-body-sm);
+  }
+  .cat-link:hover { text-decoration: underline; }
+  .cat-current-mark {
+    margin-top: var(--space-2);
+    padding: 4px 12px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    border-radius: var(--radius-full);
+  }
+
+  /* program-card */
+  .program-card {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-card);
+    max-width: 880px;
+  }
+  .program-header { margin-bottom: var(--space-6); }
+  .program-tag {
+    font-family: var(--font-en);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
+  }
+  .program-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-3) 0;
+  }
+  .program-tagline {
+    font-size: var(--text-body-lg);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .program-meta {
+    margin-bottom: var(--space-6);
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-bg-warm);
+    border-radius: var(--radius-md);
+  }
+  .program-meta-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: var(--space-4);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--text-body);
+  }
+  .program-meta-row:last-child { border-bottom: none; }
+  .program-meta-row span {
+    color: var(--color-text-muted);
+    font-size: var(--text-body-sm);
+  }
+  .program-meta-row strong {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+  .program-content { margin-bottom: var(--space-6); }
+  .program-content-label {
+    font-family: var(--font-jp);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-3) 0;
+  }
+  .program-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .program-items li {
+    position: relative;
+    padding: var(--space-2) 0 var(--space-2) var(--space-6);
+    font-size: var(--text-body);
+    line-height: 1.7;
+    color: var(--color-text-body);
+    border-bottom: 1px solid var(--color-bg-subtle);
+  }
+  .program-items li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: var(--space-2);
+    color: var(--color-accent);
+    font-weight: var(--weight-bold);
+  }
+  .program-cta { text-align: right; }
+
+  /* notice */
+  .notice-block {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-6);
+    align-items: flex-start;
+    max-width: 880px;
+    padding: var(--space-6);
+    background: #fff;
+    border-left: 4px solid var(--color-warning);
+    border-radius: var(--radius-md);
+  }
+  .notice-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--color-warning);
+    color: #fff;
+    border-radius: var(--radius-full);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    flex-shrink: 0;
+  }
+  .notice-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2) 0;
+  }
+  .notice-body p {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-body);
+    margin: 0;
+  }
+
+  /* cantdo */
+  .cantdo-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+  .cantdo-card {
+    padding: var(--space-6);
+    background: var(--color-bg-warm);
+    border-radius: var(--radius-lg);
+  }
+  .cantdo-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: rgba(197, 48, 48, 0.10);
+    color: var(--color-error);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-h4);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-3);
+  }
+  .cantdo-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h4);
+    line-height: var(--leading-h4);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2) 0;
+  }
+  .cantdo-body {
+    font-size: var(--text-body-sm);
+    line-height: 1.7;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .cantdo-body :global(a) {
+    color: var(--color-accent);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* other */
+  .other-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-6) 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+  .other-card {
+    padding: var(--space-6);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+  .other-icon {
+    font-size: var(--text-h2);
+    line-height: 1;
+    margin-bottom: var(--space-3);
+    display: inline-block;
+  }
+  .other-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-3) 0;
+  }
+  .other-body {
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-body);
+    color: var(--color-text-body);
+    margin: 0 0 var(--space-3) 0;
+  }
+  .other-link {
+    color: var(--color-accent);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    font-size: var(--text-body-sm);
+  }
+  .other-link:hover { text-decoration: underline; }
+  .diagnose-cta { text-align: center; }
+
+  /* final */
+  .final-cta { text-align: center; max-width: 720px; }
+  .final-title {
+    font-family: var(--font-jp-serif);
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .final-lead {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--color-text-body);
+    margin: 0 0 var(--space-6) 0;
+  }
+  .final-ctas { display: flex; justify-content: center; gap: var(--space-3); flex-wrap: wrap; }
+
+  @media (max-width: 1023px) {
+    .cat-grid, .other-grid, .cantdo-list { grid-template-columns: 1fr; }
+    .program-meta-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .hero-title { font-size: var(--text-h1); }
+    .sec-title, .final-title, .program-title { font-size: var(--text-h2); }
+  }
+</style>

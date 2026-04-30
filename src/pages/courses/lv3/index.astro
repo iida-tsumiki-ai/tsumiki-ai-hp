@@ -1,0 +1,112 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import CourseLandingPage from "../../../components/CourseLandingPage.astro";
+
+const audience = [
+  { text: "全社でAI活用の底上げが進み、個別効率化は形になった会社の経営者" },
+  { text: "基幹系・重要サービス（販売／生産／会計／顧客管理）が古くデータ連携できない方" },
+  { text: "データが散在していて経営判断に使えていない方" },
+  { text: "社内に選定・運用を担う役割（社内CTO機能）が定まっていない方" },
+];
+
+const chapterParts = [
+  {
+    partLabel: "Part 1",
+    partTitle: "ロードマップ要約",
+    partDuration: "15分",
+    chapters: [
+      { no: 1, title: "4段階ロードマップ — Lv3の位置づけと壁の正体", duration: "15分", body: "個別効率化から戦略転換へ。「AI駆動経営の本領」が始まる段階。" },
+    ],
+  },
+  {
+    partLabel: "Part 2",
+    partTitle: "Lv3で取り組むべきこと",
+    partDuration: "120分",
+    chapters: [
+      { no: 2, title: "基幹系ツール再選定の原則", duration: "30分", body: "API・MCP対応を基準に入れ替え／「連携しやすさ」の見分け方／選定フロー。" },
+      { no: 3, title: "Claude Code / API連携 / MCP の現状", duration: "30分", body: "中小企業で現実的に使える範囲／ツールコストの考え方／先端領域の不確実性と向き合う姿勢。" },
+      { no: 4, title: "データを経営判断に使う", duration: "30分", body: "売上・顧客・在庫の横断分析／ダッシュボード設計／経営会議での使われ方。" },
+      { no: 5, title: "組織の役割設計 — 社内CTO機能をどう作るか", duration: "30分", body: "選定・運用・教育の3機能／外部専門家との役割分担／兼任か専任か。" },
+    ],
+  },
+  {
+    partLabel: "Part 3",
+    partTitle: "Lv4到達要件",
+    partDuration: "35分",
+    chapters: [
+      { no: 6, title: "Lv4到達チェックリスト", duration: "15分", body: "基幹系再選定完了／API・MCPベースの連携実装／経営判断にAIデータ常用／社内CTO機能定着 など。" },
+      { no: 7, title: "自律化への壁", duration: "15分", body: "自動化→自律化（エージェント化）の違い／仕組み作りの工数／AI駆動経営伴走支援領域への接続。" },
+      { no: 8, title: "次の一手を決める（実習）", duration: "5分", body: "Lv4へのアクションプラン。" },
+    ],
+  },
+  {
+    partLabel: "補足",
+    partTitle: "受けない案件と次の商品",
+    partDuration: "10分",
+    chapters: [
+      { no: 9, title: "受けない案件／主力商品への接続", duration: "5分", body: "経営者合同セミナー／AI駆動経営伴走支援（Lv3向け＝基幹再設計） への誘導。" },
+      { no: 10, title: "Lv3は講義で完結しない領域", duration: "5分", body: "合同セミナー（事例持ち寄り型）での補完を強く推奨します。" },
+    ],
+  },
+];
+
+const cantDo = [
+  {
+    title: "本講座だけでは Lv3 を完走できません",
+    body: "Lv3 は世の中に体系化された中小企業事例がほぼ存在しない領域です。本講座は「考える軸」を整理する道具にすぎません。実装は <a href=\"/seminar/\">経営者合同セミナー</a> または <a href=\"/support/\">AI駆動経営伴走支援</a> でお届けします。",
+  },
+  {
+    title: "個別の基幹系製品レビューはしません",
+    body: "「うちはどの会計ソフトに入れ替えるべきか」のような個別判断は AI駆動経営伴走支援 のヒアリング内で扱います。本講座は選定軸の原則を提供します。",
+  },
+  {
+    title: "Lv2の卒業がない場合は早すぎます",
+    body: "全社AI活用底上げと業務棚卸しが完了していない場合、本講座は早すぎます。<a href=\"/courses/lv2/\">Lv2講座</a> から戻ってください。",
+  },
+];
+
+const faq = [
+  {
+    q: "なぜ「副読本」と書いてあるんですか？",
+    a: "Lv3 は<strong>講義だけで完結する領域ではない</strong>からです。原則は本講座（¥3,000）で整理できますが、実装の判断は他社経営者との事例持ち寄り（合同セミナー）で前進します。本講座は合同セミナーに進む前の「頭の整理」として位置づけています。",
+  },
+  {
+    q: "合同セミナーと Lv3講座、どちらを先に？",
+    a: "<strong>合同セミナーが主</strong>です。本講座は副読本として、合同セミナー前後に読むと効果が増す設計にしています。「合同セミナーまでは予算が…」という方には本講座だけでもLv3の輪郭を掴めます。",
+  },
+  {
+    q: "リリースはいつ？",
+    a: "Phase 4（2027 Q1-Q2）リリース予定です。経営者合同セミナーは Phase 3（2026 Q4）からスタートします。事前通知登録（無料）でリリース時に連絡します。",
+  },
+];
+---
+
+<Layout
+  title="Lv3講座 ¥3,000（★副読本）— ツミキAI"
+  description="基幹系再選定・組織役割設計の視点整理。経営者合同セミナーの副読本として設計しています。"
+>
+  <CourseLandingPage
+    kicker="A. 経営者が先に学ぶ — Lv3講座（★副読本）"
+    title={`Lv3：戦略を描く段階の<br /><span class="accent">"頭の整理"。</span>`}
+    lead={`基幹系再選定・組織役割設計の視点を、3時間で整理する講座です。<br />ただし<strong>Lv3は講義だけで完結する領域ではありません</strong>。実装は経営者合同セミナーと AI駆動経営伴走支援で。`}
+    subreaderNote={`<strong>この講座は、経営者合同セミナーに進む前の "頭の整理" として読む副読本として設計されています。</strong>主CTAは合同セミナー、副CTAは本講座の事前通知登録です。`}
+    price="¥3,000"
+    priceNote="共通版（GWS／MS365 問わず）"
+    releasePhase="Phase 4（2027 Q1-Q2）リリース予定"
+    audience={audience}
+    chapterParts={chapterParts}
+    graduationLabel="卒業条件：Lv4到達チェックリストを満たす（合同セミナー＋本講座を組み合わせて達成）"
+    graduationItems={[
+      "基幹系再選定の意思決定軸が言語化できた",
+      "API・MCP対応の現状認識が更新された",
+      "データを経営判断に使う仕組みの設計図を持つ",
+      "社内CTO機能（選定・運用・教育）の役割設計が見えた",
+    ]}
+    cantDo={cantDo}
+    faq={faq}
+    ctaPrimary={{ label: "★ 経営者合同セミナーの詳細を見る", href: "/seminar/" }}
+    ctaSecondary={{ label: "本講座の事前通知登録", href: "/contact/" }}
+    ctaTertiary={{ label: "AI駆動経営伴走支援を見る", href: "/support/" }}
+    variant="subreader"
+  />
+</Layout>

@@ -1,33 +1,98 @@
 /**
- * 10マス商品モデル データ定義
+ * 商品ポートフォリオ データ定義（3カテゴリ × 4ステージ）
  * 出典:
- *   共有ドライブ/ツミキAI/01_マーケティング/商品設計・HPリニューアル/02_商品戦略_10マスモデル.md
- *   （2026-04-22 / 5講座体制確定版）
+ *   共有ドライブ/ツミキAI/01_マーケティング/商品設計・HPリニューアル/01_商品戦略_ポートフォリオ全体.md
+ *   （2026-04-24 / 案X: 使い手3カテゴリ軸に再編）
  *
- * 構造: 4ステージ × 3形態 = 12マス
- *   - うち ❹AIネイティブ × 研修 = OBコミュニティ（販売なし）
- *   - 実販売マス = 11、主力3マス（★）= Lv1講座 / 合同セミナー / B伴走
- *   - ロードマップ講座（無料）は10マス外の共通入口
+ * 構造: 3カテゴリ（A.経営者が先に学ぶ / B.組織に入れる / C.一緒に実行する）× 4ステージ
+ *   - A: 経営者本人が使う（講座形態 + 集合学習形態）= 6商品
+ *   - B: 担当者チームが使う（研修形態）= 2商品（❶❷のみ / ❸❹は空）
+ *   - C: 経営者+現場が使う（伴走形態）= 1商品（AI駆動経営伴走支援 / Lv1-Lv4 を1サービスでカバー）
+ *   - 共通入口: ロードマップ講座（無料）／DX診断（無料）
+ *   - 主力3マス（★）= Lv1講座（A）/ 合同セミナー（A）/ AI駆動経営伴走支援（C）
+ *
+ * C統合の経緯（2026-04-28）:
+ *   旧4商品（❶初期導入伴走 / ❷広げる伴走 / ❸描く伴走 / B伴走）は
+ *   「社外CTOとして伴走」という役務が同一で、Lv/フェーズに応じて進め方が変わるだけだった。
+ *   そのため案αとして1商品「AI駆動経営伴走支援」に統合し、フェーズ別進め方は
+ *   サービス内ドキュメントで説明する方針に変更。
  */
 
+export type Category = "learn" | "deploy" | "execute";
 export type Form = "course" | "training" | "support";
 export type Stage = 1 | 2 | 3 | 4;
 
 export const stageLabels: Record<Stage, { short: string; full: string }> = {
-  1: { short: "❶知る", full: "❶ 現在地を知る" },
+  1: { short: "❶土台", full: "❶ 土台を組む" },
   2: { short: "❷広げる", full: "❷ 活用を広げる" },
   3: { short: "❸描く", full: "❸ 戦略を描く" },
   4: { short: "❹AIネイティブ", full: "❹ AIネイティブになる" },
 };
 
+export const categoryLabels: Record<
+  Category,
+  {
+    label: string;
+    short: string;
+    user: string;
+    userIcon: string;
+    effect: string;
+    tagline: string;
+    forms: string;
+    priceRange: string;
+    hubHref: string;
+    hubLabel: string;
+  }
+> = {
+  learn: {
+    label: "A. 経営者が先に学ぶ",
+    short: "学ぶ",
+    user: "経営者本人",
+    userIcon: "👨‍💼",
+    effect: "地図を持つ／視野を広げる",
+    tagline: "解像度が上がり、次の一手を自分で選べる",
+    forms: "講座（経営者一人で）／集合学習（経営者同士）",
+    priceRange: "無料〜¥5万",
+    hubHref: "/courses/",
+    hubLabel: "講座シリーズを見る",
+  },
+  deploy: {
+    label: "B. 組織に入れる",
+    short: "入れる",
+    user: "担当者チーム",
+    userIcon: "👥",
+    effect: "組織に共通言語が入る",
+    tagline: "現場が自走できる状態になる",
+    forms: "研修（チーム集合）",
+    priceRange: "¥10〜25万",
+    hubHref: "/training/",
+    hubLabel: "研修を見る",
+  },
+  execute: {
+    label: "C. 一緒に実行する",
+    short: "実行する",
+    user: "経営者+現場×ツミキAI",
+    userIcon: "🤝",
+    effect: "業務そのものを変える",
+    tagline: "内製化の型が会社に残る",
+    forms: "伴走（プロジェクト）",
+    priceRange: "月¥10〜30万",
+    hubHref: "/support/",
+    hubLabel: "AI駆動経営伴走支援を見る",
+  },
+};
+
 export const formLabels: Record<Form, { label: string; equation: string }> = {
   course: { label: "講座", equation: "一人で作る" },
-  training: { label: "研修", equation: "チームで作る" },
+  training: { label: "研修", equation: "集まって作る" },
   support: { label: "伴走", equation: "一緒に作る" },
 };
 
 export type ProductCell = {
   stage: Stage;
+  /** stage と stageEnd で範囲を表す。stageEnd 省略時は stage と同じ（単一セル）。 */
+  stageEnd?: Stage;
+  category: Category;
   form: Form;
   name: string;
   price: string;
@@ -40,9 +105,12 @@ export type ProductCell = {
 };
 
 export const productCells: ProductCell[] = [
-  /* ❶ 現在地を知る */
+  /* ===== A. 経営者が先に学ぶ（経営者本人）===== */
+
+  /* ❶ 土台を組む */
   {
     stage: 1,
+    category: "learn",
     form: "course",
     name: "Lv1講座",
     price: "¥3,000",
@@ -51,58 +119,22 @@ export const productCells: ProductCell[] = [
     href: "/courses/lv1/",
     isFlagship: true,
   },
-  {
-    stage: 1,
-    form: "training",
-    name: "❶入門コース",
-    price: "¥10万 / 半日",
-    description: "Claude・ChatGPT基礎＋個人プロンプト集（チーム開催）",
-    href: "/training/#stage1-training",
-    isOz: true,
-  },
-  {
-    stage: 1,
-    form: "support",
-    name: "❶初期導入伴走",
-    price: "月 ¥20万〜",
-    description: "アカウント配布・初期学習設計を一緒に作る",
-    href: "/support/#stage1-onboarding",
-    isOz: true,
-  },
-
   /* ❷ 活用を広げる */
   {
     stage: 2,
+    category: "learn",
     form: "course",
     name: "Lv2講座",
     price: "¥3,000",
     priceNote: "GWS版 / MS365版",
-    description: "自分の業務プロンプト集をデイトラ式で作る",
+    description: "AI活用底上げ・業務棚卸し・ミニアプリの型を手に入れる",
     href: "/courses/lv2/",
     isOz: true,
   },
-  {
-    stage: 2,
-    form: "training",
-    name: "❷実践コース",
-    price: "¥25万 / 日",
-    description: "チーム共通プロンプト＋GAS入門",
-    href: "/training/#stage2-training",
-    isOz: true,
-  },
-  {
-    stage: 2,
-    form: "support",
-    name: "❷広げる伴走",
-    price: "月 ¥20万〜",
-    description: "業務フロー棚卸し＋AI適用候補の洗い出し",
-    href: "/support/#stage2-support",
-    isOz: true,
-  },
-
-  /* ❸ 戦略を描く */
+  /* ❸ 戦略を描く（講座） */
   {
     stage: 3,
+    category: "learn",
     form: "course",
     name: "Lv3講座",
     price: "¥3,000",
@@ -111,63 +143,91 @@ export const productCells: ProductCell[] = [
     href: "/courses/lv3/",
     isOz: true,
   },
+  /* ❸ 戦略を描く（集合学習 = 研修形態） */
   {
     stage: 3,
+    category: "learn",
     form: "training",
     name: "経営者合同セミナー",
-    price: "¥50万 / 日",
-    priceNote: "¥5万 × 10名",
-    description: "1日で「この四半期はここに投資する」を作る",
+    price: "¥5万 / 名",
+    priceNote: "10名定員 / 1日集合",
+    description: "他社経営者とピアラーニング。1日で「この四半期はここに投資する」を作る",
     href: "/seminar/",
     isFlagship: true,
   },
-  {
-    stage: 3,
-    form: "support",
-    name: "❸描く伴走",
-    price: "月 ¥20万〜",
-    description: "社外CTOとして戦略設計フェーズを伴走",
-    href: "/support/#stage3-support",
-    isOz: true,
-  },
-
-  /* ❹ AIネイティブになる */
+  /* ❹ AIネイティブ（講座） */
   {
     stage: 4,
+    category: "learn",
     form: "course",
     name: "Lv4講座",
     price: "¥3,000",
-    priceNote: "共通版・B伴走事例集",
-    description: "B伴走卒業生インタビュー集。副読本として機能",
+    priceNote: "共通版・AI駆動経営伴走支援 事例集",
+    description: "AI駆動経営伴走支援から自走したOBインタビュー集。副読本として機能",
     href: "/courses/lv4/",
     isOz: true,
   },
+  /* ❹ AIネイティブ（OBコミュニティ = 集合学習） */
   {
     stage: 4,
+    category: "learn",
     form: "training",
     name: "OBコミュニティ",
     price: "販売なし",
-    description: "B伴走卒業者向けの OB勉強会・スポット相談権",
+    priceNote: "自走特典",
+    description: "AI駆動経営伴走支援から自走したOB向けの OB勉強会・スポット相談権",
     href: "",
     isUnavailable: true,
   },
+
+  /* ===== B. 組織に入れる（担当者チーム / ❶❷のみ）===== */
+
+  /* ❶ 土台を組む */
   {
-    stage: 4,
+    stage: 1,
+    category: "deploy",
+    form: "training",
+    name: "❶入門研修",
+    price: "¥10万 / 半日",
+    description: "Claude・ChatGPT基礎＋個人プロンプト集（チーム集合受講）",
+    href: "/training/#stage1-training",
+    isOz: true,
+  },
+  /* ❷ 活用を広げる */
+  {
+    stage: 2,
+    category: "deploy",
+    form: "training",
+    name: "❷実践研修",
+    price: "¥25万 / 日",
+    description: "チーム共通プロンプト＋GAS入門（チーム集合受講）",
+    href: "/training/#stage2-training",
+    isOz: true,
+  },
+
+  /* ===== C. 一緒に実行する（経営者+現場）===== */
+
+  /* AI駆動経営伴走支援（Lv1-Lv4 を1サービスでカバー / 主力3マス） */
+  {
+    stage: 1,
+    stageEnd: 4,
+    category: "execute",
     form: "support",
-    name: "B伴走支援",
-    price: "月 ¥20〜30万",
-    priceNote: "半年〜1年で卒業",
-    description: "社外CTOとして戦略→実装→運用→卒業まで一気通貫",
-    href: "/support-b/",
+    name: "AI駆動経営伴走支援",
+    price: "月 ¥10〜30万",
+    priceNote: "半年で自走 / Lv1-Lv4 共通",
+    description:
+      "社外CTOとして戦略→実装→運用→自走まで一気通貫。Lv1なら導入設計、Lv2なら業務棚卸し、Lv3なら基幹再設計、Lv4なら自律運用へ──現在地に応じた進め方で、最終的に自社で内製化できる状態まで伴走します。",
+    href: "/support/",
     isFlagship: true,
   },
 ];
 
-/* 10マス外：共通入口（ロードマップ講座 無料） */
+/* 共通入口1: ロードマップ講座（無料 / カテゴリAの入口） */
 export const roadmapCourse = {
   name: "ロードマップ講座",
   price: "無料",
-  priceNote: "全Lv共通",
+  priceNote: "全Lv共通 / カテゴリA入口",
   description:
     "DX診断→各Lv講座への地図。4ステージで自社の次の一手を見つける（note無料記事）",
   href: "/courses/roadmap/",

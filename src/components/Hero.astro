@@ -18,29 +18,31 @@
 
 <div class="hero-block">
   <div class="hero-content">
-    <p class="kicker">ツミキAI — 中小企業のAI伴走</p>
+    <p class="kicker">中小企業のための AI内製化伴走ブランド</p>
     <h1 class="hero-title">
-      小さく始めて、<br />
-      一つずつ積み上げる。
+      <span class="hero-title-step">1段ずつ、着実に。</span>
+      <span class="hero-title-goal">AI駆動経営へ。</span>
     </h1>
     <p class="hero-lead">
-      ツミキAIは、中小企業がAIを「当たり前のツール」にするための伴走者です。<br />
-      診断で<strong>現在地</strong>がわかり、<strong>作って終わる</strong>。そして<strong>卒業できる</strong>。
+      ツミキAIは、中小企業経営者と一緒に
+      AI内製化を<strong>"積み上げる"</strong>伴走ブランドです。
     </p>
 
     <div class="hero-cta-row">
       <a class="hero-cta hero-cta--primary" href="/diagnose/">
-        <span class="hero-cta-level">L1 / 0円</span>
         <span class="hero-cta-label">無料DX診断を受ける</span>
       </a>
       <a class="hero-cta hero-cta--secondary" href="/contact/">
-        <span class="hero-cta-level">L3 / 無料</span>
-        <span class="hero-cta-label">個別相談で話す</span>
+        <span class="hero-cta-label">無料個別相談で話す</span>
       </a>
     </div>
+    <p class="hero-cta-tertiary">
+      <a href="#product-matrix">サービス全体を先に見る →</a>
+    </p>
 
     <p class="hero-footnote">
-      240万社規模のインフラ品質 × AI活用スピードで、千葉から中小企業の現場を変える。
+      診断 → 講座 → 伴走の道筋で、自走まで並走します。
+      中小企業のIT現場を見続けてきた代表が、千葉から発信しています。
     </p>
   </div>
 
@@ -56,7 +58,7 @@
         <span class="block-label">❷ 活用を広げる</span>
       </div>
       <div class="block block--1">
-        <span class="block-label">❶ 現在地を知る</span>
+        <span class="block-label">❶ 土台を組む</span>
       </div>
     </div>
   </div>
@@ -94,6 +96,22 @@
     letter-spacing: var(--tracking-heading);
     color: var(--color-text);
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .hero-title-step {
+    display: block;
+    color: var(--color-text);
+    /* "1" を accent でハイライト */
+  }
+  .hero-title-step::first-letter {
+    color: var(--color-accent);
+    font-family: var(--font-en);
+  }
+  .hero-title-goal {
+    display: block;
+    color: var(--color-primary);
   }
   .hero-lead {
     font-size: var(--text-body-lg);
@@ -115,9 +133,7 @@
   }
   .hero-cta {
     display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-1);
+    align-items: center;
     padding: var(--space-4) var(--space-8);
     border-radius: var(--radius-md);
     text-decoration: none;
@@ -142,17 +158,25 @@
     color: var(--color-primary);
     border: 1px solid var(--color-primary);
   }
-  .hero-cta-level {
-    font-family: var(--font-en);
-    font-size: 11px;
-    font-weight: var(--weight-bold);
-    letter-spacing: 0.05em;
-    opacity: 0.8;
-  }
   .hero-cta-label {
     font-family: var(--font-jp);
     font-size: var(--text-body);
     font-weight: var(--weight-semibold);
+  }
+
+  .hero-cta-tertiary {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-body-sm);
+  }
+  .hero-cta-tertiary a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--color-text-muted);
+    padding-bottom: 1px;
+  }
+  .hero-cta-tertiary a:hover {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
   }
 
   .hero-footnote {

@@ -67,7 +67,7 @@ const faq = [
   },
   {
     q: "リリースはいつ？",
-    a: "公開中です。上の副CTA「Lv4講座を読む（note ¥3,000）」から note 有料記事として購入できます。なお自走OB事例（Part 2 の中盤）は事例蓄積に応じて随時更新します。",
+    a: "公開中です。経営者メンバーシップ（月¥3,000）に加入すると Lv1〜Lv4 全講座が読み放題になります。上の副CTA「Lv4講座を読む（メンバーシップ 月¥3,000）」からどうぞ。なお自走OB事例（Part 2 の中盤）は事例蓄積に応じて随時更新します。",
   },
 ];
 
@@ -87,7 +87,7 @@ const bridgeBlock = {
 ---
 
 <Layout
-  title="Lv4講座 ¥3,000（★副読本・事例集）— ツミキAI"
+  title="Lv4講座（★副読本・事例集・メンバーシップ）— ツミキAI"
   description="AIネイティブな会社の姿。AI駆動経営伴走支援から自走したOBインタビュー集。事例集として機能します。"
 >
   <CourseLandingPage
@@ -95,8 +95,8 @@ const bridgeBlock = {
     title={`Lv4：AIネイティブを<br /><span class="accent">目指す経営者へ。</span>`}
     lead={`AIネイティブな会社の姿を、vision と事例で配る note 有料記事です。<br />本記事は<strong>AI駆動経営伴走支援でAIネイティブ化を目指す方のための事例集</strong>として設計しています。手を動かすのは AI駆動経営伴走支援で。`}
     subreaderNote={`<strong>この記事は、AI駆動経営伴走支援でAIネイティブ化を目指す方のための事例集です。</strong>主CTAは AI駆動経営伴走支援 の無料個別相談、副CTAは本講座の事前通知登録です。`}
-    price="¥3,000"
-    priceNote="共通版・自走OB事例集／ 読了35分・約11,500字"
+    price="メンバーシップ"
+    priceNote="月¥3,000で Lv1〜Lv4 全講座読み放題／共通版・自走OB事例集／読了35分・約11,500字"
     audience={audience}
     characterNote={characterNote}
     chapterParts={chapterParts}
@@ -111,7 +111,7 @@ const bridgeBlock = {
     cantDo={cantDo}
     faq={faq}
     ctaPrimary={{ label: "★ AI駆動経営伴走支援の無料個別相談", href: "/contact/" }}
-    ctaSecondary={{ label: "Lv4講座を読む（note ¥3,000）", href: noteUrls.lv4 }}
+    ctaSecondary={{ label: "Lv4講座を読む（メンバーシップ 月¥3,000）", href: noteUrls.lv4 }}
     ctaTertiary={{ label: "AI駆動経営伴走支援を見る", href: "/support/" }}
     variant="subreader"
   />

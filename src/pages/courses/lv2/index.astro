@@ -67,21 +67,21 @@ const faq = [
   },
   {
     q: "リリースはいつ？",
-    a: "公開中です。上の主CTA「Lv2講座を読む（note ¥3,000）」から note 有料記事として購入できます。",
+    a: "公開中です。経営者メンバーシップ（月¥3,000）に加入すると Lv1〜Lv4 全講座が読み放題になります。詳しくは上の主CTA「Lv2講座を読む（メンバーシップ 月¥3,000）」からどうぞ。",
   },
 ];
 ---
 
 <Layout
-  title="Lv2講座 ¥3,000 — ツミキAI"
+  title="Lv2講座（メンバーシップ）— ツミキAI"
   description="AI活用の全社底上げ・業務棚卸し・ミニアプリの型を、読了35分で経営者自身が掴める note 有料記事。"
 >
   <CourseLandingPage
     kicker="A. 経営者が先に学ぶ — Lv2講座"
     title={`AI活用の<span class="accent">全社底上げ</span>と、<br />業務棚卸しの型。`}
     lead={`「触る人と触らない人」の分断を解き、業務をやめる／AIに任せる／人がやるに仕分ける。<br />ミニアプリの型まで含めて、<strong>読了35分で経営者自身が掴める</strong> note 有料記事です。`}
-    price="¥3,000"
-    priceNote="GWS版 / MS365版（購入時に選択）／ 読了35分・約13,600字"
+    price="メンバーシップ"
+    priceNote="月¥3,000で Lv1〜Lv4 全講座読み放題／GWS版・MS365版を同梱／読了35分・約13,600字"
     audience={audience}
     chapterParts={chapterParts}
     graduationLabel="卒業条件：Lv3到達チェックリストを満たす（次Lv講座 Part 3 で詳細）"
@@ -94,7 +94,7 @@ const faq = [
     ]}
     cantDo={cantDo}
     faq={faq}
-    ctaPrimary={{ label: "Lv2講座を読む（note ¥3,000）", href: noteUrls.lv2 }}
+    ctaPrimary={{ label: "Lv2講座を読む（メンバーシップ 月¥3,000）", href: noteUrls.lv2 }}
     ctaSecondary={{ label: "AI駆動経営診断で現在地を確認", href: "/diagnose/" }}
     ctaTertiary={{ label: "無料個別相談", href: "/contact/" }}
     variant="normal"

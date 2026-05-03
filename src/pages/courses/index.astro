@@ -11,89 +11,87 @@ const courses = [
     id: "roadmap",
     label: "ロードマップ講座",
     price: "無料",
-    priceNote: "全Lv共通の地図",
+    priceNote: "メンバーシップ加入なしでも読める",
     description: "中小企業AIの全体像を読了30分で。4段階ロードマップ＋3カテゴリ商品マップが手に入ります。",
     href: "/courses/roadmap/",
-    isFlagship: false,
-    isFree: true,
     stage: "全Lv共通",
   },
   {
     id: "lv1",
     label: "Lv1講座",
-    price: "¥3,000",
-    priceNote: "GWS版 / MS365版",
+    price: "メンバーシップ",
+    priceNote: "GWS版 / MS365版を同梱",
     description: "紙・FAXの会社から抜け出す第一歩。オフィス基盤×はじめてのAI活用。Lv2到達チェックリスト付き。",
     href: "/courses/lv1/",
-    isFlagship: true,
     stage: "Lv1 ❶ 土台を組む",
   },
   {
     id: "lv2",
     label: "Lv2講座",
-    price: "¥3,000",
-    priceNote: "GWS版 / MS365版",
+    price: "メンバーシップ",
+    priceNote: "GWS版 / MS365版を同梱",
     description: "AI活用の全社底上げ・業務棚卸し・ミニアプリの型を、読了35分で経営者自身が掴めます。",
     href: "/courses/lv2/",
-    isFlagship: false,
     stage: "Lv2 ❷ 活用を広げる",
   },
   {
     id: "lv3",
     label: "Lv3講座",
-    price: "¥3,000",
+    price: "メンバーシップ",
     priceNote: "共通版・AI駆動経営伴走支援への副読本",
     description: "基幹系再選定・組織役割設計の視点整理。AI駆動経営伴走支援（戦略再設計フェーズ）の副読本として設計しています。",
     href: "/courses/lv3/",
-    isFlagship: false,
     stage: "Lv3 ❸ 戦略を描く",
   },
   {
     id: "lv4",
     label: "Lv4講座",
-    price: "¥3,000",
+    price: "メンバーシップ",
     priceNote: "共通版・事例集",
     description: "AIネイティブな会社の姿。AI駆動経営伴走支援から自走したOBインタビュー集。事例集として機能します。",
     href: "/courses/lv4/",
-    isFlagship: false,
     stage: "Lv4 ❹ AIネイティブになる",
   },
 ];
 
 const readingOrder = [
-  { no: 1, title: "ロードマップ講座（無料）で全体像を掴む", desc: "読了30分で4段階モデルと自社の位置を把握" },
+  { no: 1, title: "ロードマップ講座（無料）で全体像を掴む", desc: "読了30分で4段階モデルと自社の位置を把握。メンバーシップ加入なしで読めます" },
   { no: 2, title: "AI駆動経営診断（10問・3分）で自社のLvを特定する", desc: "迷ったらまずここから。AI駆動経営まで残り何段かが見える" },
-  { no: 3, title: "該当Lv講座を購入する", desc: "Lv1なら導入、Lv2なら全社展開、Lv3なら戦略、Lv4なら事例集" },
-  { no: 4, title: "次Lvに到達したら次Lv講座へ", desc: "卒業条件＝次Lvチェックリスト。明確な進捗が測れます" },
+  { no: 3, title: "経営者メンバーシップ（月¥3,000）に加入する", desc: "Lv1〜Lv4 の全講座が読み放題に。月例ライブ・限定記事・経営者掲示板も含む" },
+  { no: 4, title: "現在地のLv講座から読み始め、次Lvに進む", desc: "卒業条件＝次Lv到達チェックリスト。1段ずつ着実に積み上げます" },
 ];
 
 const faq = [
   {
-    q: "全部買う必要がありますか？",
-    a: "いいえ、自社のLvに合った講座だけで十分です。ロードマップ講座（無料）と AI駆動経営診断 で現在地を特定し、該当Lvの講座を1本選んでください。次のLvに到達したら、その時点で次Lv講座を購入する形を推奨しています。",
+    q: "メンバーシップでは何が読めますか？",
+    a: "月¥3,000で <strong>Lv1〜Lv4 の全4講座が読み放題</strong> です。加えて、月例ライブ（経営者の質問に代表が直接回答）・週1〜隔週の最新Tips記事・経営者限定の掲示板も含まれます。ロードマップ講座（無料）はメンバーシップ加入なしでも読めます。",
   },
   {
     q: "どこから始めるのがおすすめですか？",
-    a: "<strong>ロードマップ講座（無料）</strong>と <strong>AI駆動経営診断（10問・3分）</strong> から始めてください。両方無料で、自社の現在地と次の一手が見えます。その後、該当Lv講座（¥3,000）に進むのが王道です。",
+    a: "<strong>ロードマップ講座（無料）</strong>と <strong>AI駆動経営診断（10問・3分）</strong> から始めてください。両方無料で、自社の現在地と次の一手が見えます。その後、メンバーシップ（月¥3,000）に加入し、現在地のLv講座から読み始めるのが王道です。",
+  },
+  {
+    q: "1講座だけ買い切りで読みたいのですが？",
+    a: "メンバーシップ一本化で運用しています。月¥3,000で全Lvが読めるため、1講座だけ買い切るより早く・安く全体像が掴めます。「合わなかったら翌月解約」がしやすい設計です。",
   },
   {
     q: "動画はありますか？",
-    a: "現在は note の有料記事として提供しています（¥3,000・各記事 読了30〜35分・約11,000〜13,600字・図表豊富）。動画化は Phase 4 以降で順次拡張予定です。テキスト中心のほうが「自社に当てはめる思考時間」を取りやすい設計にしています。",
+    a: "現在は note の有料記事（メンバーシップ）として提供しています（各記事 読了30〜35分・約11,000〜13,600字・図表豊富）。動画化は Phase 4 以降で順次拡張予定です。テキスト中心のほうが「自社に当てはめる思考時間」を取りやすい設計にしています。",
   },
   {
-    q: "返金はありますか？",
-    a: "note プラットフォームの規約に準じます。購入前に各講座LPの目次・卒業条件・できないこと を確認してから購入をご検討ください。期待値ズレがないよう、できる限り情報を先出ししています。",
+    q: "解約は自由にできますか？",
+    a: "note メンバーシップの規約に準じます。月単位での解約が可能で、解約手続後すぐに次回更新分の課金が止まります。期待値ズレがないよう、各講座LPで目次・卒業条件・できないこと を先出ししています。",
   },
   {
-    q: "GWS版とMS365版、どちらを買えばいい？",
-    a: "Google Workspace を使っている／使う予定なら GWS版、Microsoft 365 を使っているなら MS365版。すでに導入済みの基盤に合わせるのが早いです。Lv1 / Lv2 講座のみ2バージョン展開、Lv3 / Lv4 は基盤を問わない共通版です。",
+    q: "GWS版とMS365版、どちらが読めますか？",
+    a: "メンバーシップに加入すると<strong>両バージョンとも読み放題</strong>です。Lv1 / Lv2 講座は GWS版／MS365版の2バージョン展開、Lv3 / Lv4 は基盤を問わない共通版です。",
   },
 ];
 ---
 
 <Layout
   title="講座シリーズ — ツミキAI"
-  description="経営者が、地図を持つ。Lv1からAI駆動経営へ。ロードマップ講座（無料）＋ Lv1〜Lv4 各¥3,000 の5講座体制。"
+  description="経営者が、地図を持つ。Lv1からAI駆動経営へ。ロードマップ講座（無料）＋ 経営者メンバーシップ（月¥3,000）で Lv1〜Lv4 の全講座が読み放題。"
 >
   <!-- ========== §HERO ========== -->
   <section class="course-section course-section--warm">
@@ -106,11 +104,11 @@ const faq = [
       <p class="hero-lead">
         中小企業経営者が <strong>"先に"</strong> 学ぶ講座シリーズ。
         無料のロードマップ講座で全体像を掴み、
-        Lv1〜Lv4の各講座で <strong>1段ずつ着実に</strong> 上に登ります。
+        経営者メンバーシップで Lv1〜Lv4 の各講座を <strong>1段ずつ着実に</strong> 読み進めます。
       </p>
       <div class="hero-meta">
-        <span class="hero-price">無料 + ¥3,000 × 4</span>
-        <span class="hero-price-note">各講座 読了30〜35分の note 有料記事</span>
+        <span class="hero-price">無料 + メンバーシップ 月¥3,000</span>
+        <span class="hero-price-note">全Lv読み放題 ＋ 月例ライブ ＋ 限定記事 ＋ 掲示板</span>
       </div>
 
       <ol class="stair-visual" aria-label="5段の講座ステップ">
@@ -120,24 +118,24 @@ const faq = [
           <div class="stair-sub">全Lv共通の地図</div>
         </li>
         <li class="stair stair--lv1">
-          <div class="stair-tag">★ Lv1</div>
-          <div class="stair-name">¥3,000</div>
-          <div class="stair-sub">土台を組む</div>
+          <div class="stair-tag">Lv1</div>
+          <div class="stair-name">土台を組む</div>
+          <div class="stair-sub">メンバーシップ</div>
         </li>
         <li class="stair stair--lv2">
           <div class="stair-tag">Lv2</div>
-          <div class="stair-name">¥3,000</div>
-          <div class="stair-sub">活用を広げる</div>
+          <div class="stair-name">活用を広げる</div>
+          <div class="stair-sub">メンバーシップ</div>
         </li>
         <li class="stair stair--lv3">
           <div class="stair-tag">Lv3</div>
-          <div class="stair-name">¥3,000</div>
-          <div class="stair-sub">戦略を描く</div>
+          <div class="stair-name">戦略を描く</div>
+          <div class="stair-sub">メンバーシップ</div>
         </li>
         <li class="stair stair--lv4">
           <div class="stair-tag">Lv4</div>
-          <div class="stair-name">¥3,000</div>
-          <div class="stair-sub">AIネイティブ</div>
+          <div class="stair-name">AIネイティブ</div>
+          <div class="stair-sub">メンバーシップ</div>
         </li>
       </ol>
 
@@ -183,15 +181,13 @@ const faq = [
         <h2 class="sec-title">あなたのLvに合わせて、講座が用意されています。</h2>
         <p class="sec-lead">
           <strong>ロードマップ講座（無料 / 全Lv共通）</strong> ＋
-          <strong>Lv1〜Lv4 各¥3,000</strong> の5講座体制。
-          各Lv講座は3部構成（ロードマップ要約／このLvで取り組むべきこと／次Lv到達要件）で統一しています。
+          <strong>経営者メンバーシップ（月¥3,000）で Lv1〜Lv4 すべて読み放題</strong>。
+          各Lv講座は ❶導入と全体像／❷❸❹本論／❺卒業条件＋締め の3パート構成で統一しています。
         </p>
       </header>
       <ul class="course-cards">
         {courses.map((c) => (
-          <li class={`course-card ${c.isFlagship ? "course-card--flagship" : ""} ${c.isFree ? "course-card--free" : ""}`}>
-            {c.isFlagship && <span class="course-badge">★ 主力</span>}
-            {c.isFree && <span class="course-badge course-badge--free">無料</span>}
+          <li class="course-card">
             <div class="course-stage">{c.stage}</div>
             <h3 class="course-name">{c.label}</h3>
             <div class="course-price">

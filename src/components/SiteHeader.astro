@@ -19,10 +19,10 @@ type NavLink = { href: string; label: string };
  * /products/ ページは削除し「商品」ナビも撤去（ホーム §3 で完結）（2026-05-03）。
  */
 const navLinks: NavLink[] = [
-  { href: "/courses/", label: "経営者向け講座" },
-  { href: "/training/", label: "担当者向け研修" },
-  { href: "/support/", label: "AI駆動経営伴走支援" },
-  { href: "/about/", label: "ツミキAIについて" },
+  { href: "/courses/", label: "経営者講座" },
+  { href: "/training/", label: "担当者研修" },
+  { href: "/support/", label: "伴走支援" },
+  { href: "/about/", label: "会社情報" },
 ];
 
 const ctaPrimaryHref = "/diagnose/";
@@ -314,6 +314,7 @@ const ctaSecondaryLabel = "無料個別相談";
     color: var(--color-text);
     text-decoration: none;
     padding: var(--space-2) 0;
+    white-space: nowrap;
     transition: color var(--duration-hover) var(--ease-out-quint);
   }
   /* アンダーライン スライドイン演出（中央から左右へ） */

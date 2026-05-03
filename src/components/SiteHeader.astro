@@ -12,13 +12,13 @@
 type NavLink = { href: string; label: string };
 
 /**
- * ナビ構造: 3形態（講座/研修/伴走）フラット並列 + 全商品マップ + 会社情報
- * 主力プロダクト（Lv1講座 / AI駆動経営伴走支援）はホーム §3 + Footer で導線維持。
+ * ナビ構造: 3形態（講座/研修/伴走）フラット並列 + 会社情報（4本立て）
+ * 主力プロダクト（Lv1講座 / AI駆動経営伴走支援）はホーム §3 ProductMatrix で導線維持。
  * ヘッダーは "ツミキAIには3つの届け方がある" を一直線で見せる構造。
  * 経営者合同セミナーは商品ラインナップから外出し（2026-05-03）。
+ * /products/ ページは削除し「商品」ナビも撤去（ホーム §3 で完結）（2026-05-03）。
  */
 const navLinks: NavLink[] = [
-  { href: "/products/", label: "商品" },
   { href: "/courses/", label: "講座" },
   { href: "/training/", label: "研修" },
   { href: "/support/", label: "伴走" },

@@ -4,6 +4,7 @@ import Section from "../components/Section.astro";
 import Container from "../components/Container.astro";
 import Hero from "../components/Hero.astro";
 import DifferentiationPoints from "../components/DifferentiationPoints.astro";
+import ApproachCategories from "../components/ApproachCategories.astro";
 import ProductMatrix from "../components/ProductMatrix.astro";
 import RepMessage from "../components/RepMessage.astro";
 import FAQ from "../components/FAQ.astro";
@@ -27,7 +28,14 @@ import FinalCTA from "../components/FinalCTA.astro";
       </Container>
     </Section>
 
-    <!-- §3. 4ステージ × 商品マトリックス 統合 -->
+    <!-- §3. Approach — 3カテゴリの「関わり方」 -->
+    <Section size="l" background="default" id="approach">
+      <Container>
+        <ApproachCategories />
+      </Container>
+    </Section>
+
+    <!-- §4. Portfolio — 4ステージ × 商品マトリックス -->
     <Section size="l" background="subtle" id="product-matrix">
       <Container>
         <ProductMatrix />

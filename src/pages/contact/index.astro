@@ -5,7 +5,7 @@
  * 役割: 相談種別ガイド／フォーム（A5b で Formrun 連携予定）／直接連絡先
  *
  * 注意: 現状はフォーム本体は未連携（Phase 1 終盤の A5b で Formrun 統合予定）。
- *      暫定として、各CTAから iida@tsumiki.ai へのメール直送リンクを設置。
+ *      暫定として、各CTAから info@tsumiki.ai へのメール直送リンクを設置。
  */
 import Layout from "../../layouts/Layout.astro";
 
@@ -130,10 +130,10 @@ const mailBody = encodeURIComponent(
             ボタンを押すと、件名・本文テンプレが入ったメールが起動します。<br />
             必要箇所を編集してそのままご送信ください。
           </p>
-          <a class="btn btn-primary btn-lg" href={`mailto:iida@tsumiki.ai?subject=${mailSubject}&body=${mailBody}`}>
+          <a class="btn btn-primary btn-lg" href={`mailto:info@tsumiki.ai?subject=${mailSubject}&body=${mailBody}`}>
             テンプレ入りメールを開く
           </a>
-          <p class="form-card-note">送信先: <a href="mailto:iida@tsumiki.ai">iida@tsumiki.ai</a></p>
+          <p class="form-card-note">送信先: <a href="mailto:info@tsumiki.ai">info@tsumiki.ai</a></p>
         </div>
 
         <div class="form-card">
@@ -144,7 +144,7 @@ const mailBody = encodeURIComponent(
           </p>
           <div class="form-direct">
             <span class="form-direct-label">代表メール</span>
-            <a class="form-direct-link" href="mailto:iida@tsumiki.ai">iida@tsumiki.ai</a>
+            <a class="form-direct-link" href="mailto:info@tsumiki.ai">info@tsumiki.ai</a>
           </div>
           <p class="form-card-note">電話・SNSの連絡先は、必要に応じて返信メール内でご案内します。</p>
         </div>
@@ -202,7 +202,7 @@ const mailBody = encodeURIComponent(
         「ヒアリングだけ」でも構いません。営業トークはしないので、安心してお声がけください。
       </p>
       <div class="final-ctas">
-        <a class="btn btn-primary btn-lg" href={`mailto:iida@tsumiki.ai?subject=${mailSubject}&body=${mailBody}`}>テンプレ入りメールを開く</a>
+        <a class="btn btn-primary btn-lg" href={`mailto:info@tsumiki.ai?subject=${mailSubject}&body=${mailBody}`}>テンプレ入りメールを開く</a>
         <a class="btn btn-secondary btn-lg" href="/diagnose/">先に AI駆動経営診断（10問・3分）</a>
       </div>
     </div>

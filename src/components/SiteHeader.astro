@@ -19,10 +19,10 @@ type NavLink = { href: string; label: string };
  * /products/ ページは削除し「商品」ナビも撤去（ホーム §3 で完結）（2026-05-03）。
  */
 const navLinks: NavLink[] = [
-  { href: "/courses/", label: "講座" },
-  { href: "/training/", label: "研修" },
-  { href: "/support/", label: "伴走" },
-  { href: "/about/", label: "会社情報" },
+  { href: "/courses/", label: "経営者向け講座" },
+  { href: "/training/", label: "担当者向け研修" },
+  { href: "/support/", label: "AI駆動経営伴走支援" },
+  { href: "/about/", label: "ツミキAIについて" },
 ];
 
 const ctaPrimaryHref = "/diagnose/";
@@ -33,7 +33,7 @@ const ctaSecondaryLabel = "無料個別相談";
 
 <header class="site-header" data-header>
   <div class="header-inner">
-    <a class="brand" href="/" aria-label="積み木AI ホームへ">
+    <a class="brand" href="/" aria-label="ツミキAI ホームへ">
       <span class="brand-mark" aria-hidden="true">
         <svg width="36" height="36" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="4" y="16" width="20" height="8" rx="2" fill="#FAF7F2" stroke="#E5E7EB" />
@@ -41,7 +41,7 @@ const ctaSecondaryLabel = "無料個別相談";
           <rect x="10" y="4" width="8" height="7" rx="2" fill="#1A3A5F" />
         </svg>
       </span>
-      <span class="brand-text">積み木AI</span>
+      <span class="brand-text">ツミキAI</span>
     </a>
 
     <nav class="desktop-nav" aria-label="主要ナビゲーション">

@@ -46,7 +46,7 @@ const categoryIcons: Record<Category, string> = {
 
 <div class="matrix-block">
   <header class="matrix-head">
-    <p class="kicker">§3 3つの始め方 × 4ステージ</p>
+    <p class="kicker">あなたの現在地と、次の一手</p>
     <h2 class="display-sm">3つの始め方。あなたの現在地から、上へ。</h2>
     <p class="lead">
       経営者が学ぶか／組織に入れるか／一緒に実行するか — <strong>3つの始め方</strong>が、4ステージの階段で繋がっています。
@@ -181,7 +181,6 @@ const categoryIcons: Record<Category, string> = {
                   const classes = [
                     "cell",
                     `cell--${cat}`,
-                    cell.isOz ? "cell--oz" : "",
                     cell.isUnavailable ? "cell--unavailable" : "",
                     cell.stageEnd ? "cell--span" : "",
                   ]
@@ -190,7 +189,6 @@ const categoryIcons: Record<Category, string> = {
 
                   const content = (
                     <>
-                      {cell.isOz && <span class="cell-tag">オズ方式</span>}
                       {cell.isUnavailable && <span class="cell-tag">販売なし</span>}
                       {cell.stageEnd && (
                         <span class="cell-tag cell-tag--span">Lv1-Lv4 共通</span>

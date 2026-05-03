@@ -74,7 +74,7 @@ export const categoryLabels: Record<
     effect: "組織に共通言語が入る",
     tagline: "現場が自走できる状態になる",
     forms: "研修（チーム集合）",
-    priceRange: "¥10〜25万",
+    priceRange: "¥5〜20万",
     hubHref: "/training/",
     hubLabel: "研修を見る",
   },
@@ -110,7 +110,6 @@ export type ProductCell = {
   description: string;
   href: string;
   isFlagship?: boolean;
-  isOz?: boolean;
   isUnavailable?: boolean;
 };
 
@@ -139,7 +138,6 @@ export const productCells: ProductCell[] = [
     priceNote: "月¥3,000で全Lv読み放題 / GWS版・MS365版",
     description: "AI活用底上げ・業務棚卸し・ミニアプリの型を手に入れる",
     href: "/courses/lv2/",
-    isOz: true,
   },
   /* ❸ 戦略を描く（講座） */
   {
@@ -151,7 +149,6 @@ export const productCells: ProductCell[] = [
     priceNote: "月¥3,000で全Lv読み放題 / 共通版（伴走支援副読本）",
     description: "基幹系ツール再選定・組織役割設計の視点整理",
     href: "/courses/lv3/",
-    isOz: true,
   },
   /* ❹ AIネイティブ（講座） */
   {
@@ -163,7 +160,6 @@ export const productCells: ProductCell[] = [
     priceNote: "月¥3,000で全Lv読み放題 / 共通版・伴走支援事例集",
     description: "AI駆動経営伴走支援から自走したOBインタビュー集。副読本として機能",
     href: "/courses/lv4/",
-    isOz: true,
   },
   /* ===== B. 組織に入れる（担当者チーム / ❶❷のみ）===== */
 
@@ -173,10 +169,9 @@ export const productCells: ProductCell[] = [
     category: "deploy",
     form: "training",
     name: "❶入門研修",
-    price: "¥10万 / 半日",
+    price: "¥5万 / 半日",
     description: "Claude・ChatGPT基礎＋個人プロンプト集（チーム集合受講）",
     href: "/training/#stage1-training",
-    isOz: true,
   },
   /* ❷ 活用を広げる */
   {
@@ -184,10 +179,9 @@ export const productCells: ProductCell[] = [
     category: "deploy",
     form: "training",
     name: "❷実践研修",
-    price: "¥25万 / 日",
+    price: "¥10万 / 1日",
     description: "チーム共通プロンプト＋GAS入門（チーム集合受講）",
     href: "/training/#stage2-training",
-    isOz: true,
   },
   /* ❸ 戦略を描く（2026-05-03 新設） */
   {
@@ -195,12 +189,11 @@ export const productCells: ProductCell[] = [
     category: "deploy",
     form: "training",
     name: "❸戦略実装研修",
-    price: "¥50万 / 2日",
+    price: "¥20万 / 2日",
     priceNote: "担当者向け技術ハンズオン+管理者限定セッション",
     description:
       "Claude Code・API・MCP の実装研修＋管理者限定の組織設計／インセンティブ設計セッション込み（2日構成）",
     href: "/training/#stage3-training",
-    isOz: true,
   },
 
   /* ===== C. 一緒に実行する（経営者+現場）===== */

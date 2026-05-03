@@ -991,7 +991,7 @@ import Layout from "../../layouts/Layout.astro";
         'Claude Code / API連携で部門データを経営判断に接続する',
         '組織役割設計 — 選定・運用・教育の社外CTO機能をどう埋めるか'
       ],
-      prescription: { learn: 'Lv3+Seminar', execute: 'B' }
+      prescription: { learn: 'Lv3', execute: 'B' }
     },
     4: {
       name: 'Lv 4',
@@ -1017,7 +1017,7 @@ import Layout from "../../layouts/Layout.astro";
   const PRODUCTS = {
     Lv1: { category: 'A', catLabel: '👨‍💼 A. 経営者が先に学ぶ', name: 'ロードマップ講座（無料）＋ Lv1講座', stageTag: 'STAGE ❶ 土台を組む', price: '無料 + 3,000', priceUnit: '円（note有料記事 / GWS・MS365版）', desc: 'まず無料のロードマップ講座で全体像を掴み、¥3,000 の Lv1講座で "Lv2到達チェックリスト7項目" を具体化。経営者自身が「何から手をつければいいか」を自分の言葉で語れる状態を作ります。', primaryCta: 'ロードマップ講座を読む', secondaryCta: 'Lv1講座の詳細', primaryHref: '/courses/roadmap/', secondaryHref: '/courses/lv1/' },
     Lv2: { category: 'A', catLabel: '👨‍💼 A. 経営者が先に学ぶ', name: 'Lv2講座（Lv1未読ならロードマップ講座と併読）', stageTag: 'STAGE ❷ 活用を広げる', price: '3,000', priceUnit: '円（note有料記事 / GWS・MS365版）', desc: 'AI活用の全社底上げ／業務棚卸し／ミニアプリの型を、3時間で経営者自身が掴める講座。Lv3到達チェックリストを卒業条件として掲載。', primaryCta: 'Lv2講座の詳細', secondaryCta: 'ロードマップ講座（無料）', primaryHref: '/courses/lv2/', secondaryHref: '/courses/roadmap/' },
-    'Lv3+Seminar': { category: 'A', catLabel: '👨‍💼 A. 経営者が先に学ぶ', name: 'Lv3講座 ＋ ★経営者合同セミナー', stageTag: 'STAGE ❸ 戦略を描く', price: '3,000円 + ¥5万/名', priceUnit: '（Lv3講座は副読本・セミナーは他社経営者10名）', desc: 'Lv3は講義で完結しない領域です。¥3,000のLv3講座で戦略原則を押さえ、さらに他社経営者10名と1日集まる合同セミナーで「この四半期はここに投資する」を自社の文脈で言語化します。', primaryCta: '★ 合同セミナーの詳細', secondaryCta: 'Lv3講座（副読本）の詳細', primaryHref: '/seminar/', secondaryHref: '/courses/lv3/' },
+    Lv3: { category: 'A', catLabel: '👨‍💼 A. 経営者が先に学ぶ', name: 'Lv3講座（★副読本）＋ AI駆動経営伴走支援（戦略再設計フェーズ）', stageTag: 'STAGE ❸ 戦略を描く', price: '3,000円 + 月10〜30万', priceUnit: '（Lv3講座は副読本／伴走支援はC カテゴリ主力）', desc: 'Lv3は講義で完結しない領域です。¥3,000のLv3講座で戦略原則を押さえてから、AI駆動経営伴走支援（戦略再設計フェーズ）で基幹系再選定／組織役割設計を自社の文脈で実装していきます。', primaryCta: '★ AI駆動経営伴走支援の無料相談', secondaryCta: 'Lv3講座（副読本）の詳細', primaryHref: '/support/', secondaryHref: '/courses/lv3/' },
     'Lv4+OB': { category: 'A', catLabel: '👨‍💼 A. 経営者が先に学ぶ', name: 'Lv4講座（事例集）＋ OBコミュニティ', stageTag: 'STAGE ❹ AIネイティブになる', price: '3,000', priceUnit: '円（AI駆動経営伴走支援から自走したOBインタビュー集）', desc: 'Lv4はvisionと事例集の領域。AI駆動経営伴走支援を自走したOBのインタビュー集として設計されており、「自社が次に何を目指せば良いか」の参照点になります。本格的な内製化にはAI駆動経営伴走支援を。', primaryCta: '★ AI駆動経営伴走支援の無料相談', secondaryCta: 'Lv4講座（事例集）の詳細', primaryHref: '/support/', secondaryHref: '/courses/lv4/' },
     TR1: { category: 'B', catLabel: '👥 B. 組織に入れる', name: '❶入門研修（担当者向け）', stageTag: 'STAGE ❶ 土台を組む', price: '10', priceUnit: '万円 / 半日', desc: '担当者チームが集まって受講する半日研修。Claude・ChatGPT基礎と個人プロンプト集を一気に作ります。経営者が「組織に共通言語を入れたい」タイミングで。', primaryCta: '入門研修の詳細', secondaryCta: '研修プログラム一覧', primaryHref: '/training/', secondaryHref: '/training/' },
     TR2: { category: 'B', catLabel: '👥 B. 組織に入れる', name: '❷実践研修（担当者向け）', stageTag: 'STAGE ❷ 活用を広げる', price: '25', priceUnit: '万円 / 日', desc: 'チーム向け1日研修。共通プロンプト＋GAS入門で、現場が自走できる状態を作ります。Lv2で組織展開を本格化するタイミングで。', primaryCta: '実践研修の詳細', secondaryCta: '研修プログラム一覧', primaryHref: '/training/', secondaryHref: '/training/' },

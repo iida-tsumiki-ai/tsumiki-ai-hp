@@ -1,8 +1,14 @@
 ---
 /**
- * DX診断 v1.1（DX→AI駆動経営 連続体）
+ * AI駆動経営診断 v1.2（旧 DX診断 / 2026-05-03 改名）
  * 試作 03_デザイン・アセット/試作/diagnose_v1.html を Astro 化（2026-04-28）
  * Layout（SiteHeader / SiteFooter）を共有することで他ページと統一感を確保。
+ *
+ * 改名の経緯（2026-05-03）:
+ *   旧「DX診断」をブランドコア「AI駆動経営」に揃えて改名。
+ *   サブタイトルで「DX度＋AI駆動経営までの距離がわかる」を明示し、
+ *   DXキーワード（SEO・経営者の入りやすさ）も維持。
+ *   結果画面の「DX Lv ◯／AI駆動経営まで残り ◯段」は継続表示。
  *
  * 本実装の改良ポイント:
  *   - 試作の独自 nav を削除し、Layout の SiteHeader を使用
@@ -13,7 +19,7 @@ import Layout from "../../layouts/Layout.astro";
 ---
 
 <Layout
-  title="DX診断（DX→AI駆動経営の距離を測る）— ツミキAI"
+  title="AI駆動経営診断 — DX度＋AI駆動経営までの距離がわかる｜ツミキAI"
   description="10問・3分で自社のDX Lvと、AI駆動経営まで残り何段かがわかる無料診断。メール登録不要。"
 >
   <main class="diagnose-page">
@@ -68,7 +74,7 @@ import Layout from "../../layouts/Layout.astro";
       <section class="quiz">
         <div class="progress-bar">
           <div class="container progress-inner">
-            <span>DX診断</span>
+            <span>AI駆動経営診断</span>
             <div class="progress-track">
               <div class="progress-fill" id="progress-fill"></div>
             </div>
@@ -165,7 +171,7 @@ import Layout from "../../layouts/Layout.astro";
 </Layout>
 
 <style is:global>
-  /* DX診断ページ専用スタイル — diagnose-page スコープで他ページに影響しないようにする */
+  /* AI駆動経営診断ページ専用スタイル — diagnose-page スコープで他ページに影響しないようにする */
   .diagnose-page * { box-sizing: border-box; }
 
   .diagnose-page .container {

@@ -2,7 +2,7 @@
 /**
  * /courses/ — 講座シリーズ ハブページ（E1）
  * 設計書: 11 §4（2026-04-27 ブランド言語同期版）
- * 役割: 5講座の束ねハブ。DX診断 → ロードマップ講座 → 該当Lv講座 への案内。
+ * 役割: 5講座の束ねハブ。AI駆動経営診断 → ロードマップ講座 → 該当Lv講座 への案内。
  */
 import Layout from "../../layouts/Layout.astro";
 
@@ -62,7 +62,7 @@ const courses = [
 
 const readingOrder = [
   { no: 1, title: "ロードマップ講座（無料）で全体像を掴む", desc: "読了30分で4段階モデルと自社の位置を把握" },
-  { no: 2, title: "DX診断（10問・3分）で自社のLvを特定する", desc: "迷ったらまずここから。AI駆動経営まで残り何段かが見える" },
+  { no: 2, title: "AI駆動経営診断（10問・3分）で自社のLvを特定する", desc: "迷ったらまずここから。AI駆動経営まで残り何段かが見える" },
   { no: 3, title: "該当Lv講座を購入する", desc: "Lv1なら導入、Lv2なら全社展開、Lv3なら戦略、Lv4なら事例集" },
   { no: 4, title: "次Lvに到達したら次Lv講座へ", desc: "卒業条件＝次Lvチェックリスト。明確な進捗が測れます" },
 ];
@@ -70,11 +70,11 @@ const readingOrder = [
 const faq = [
   {
     q: "全部買う必要がありますか？",
-    a: "いいえ、自社のLvに合った講座だけで十分です。ロードマップ講座（無料）と DX診断 で現在地を特定し、該当Lvの講座を1本選んでください。次のLvに到達したら、その時点で次Lv講座を購入する形を推奨しています。",
+    a: "いいえ、自社のLvに合った講座だけで十分です。ロードマップ講座（無料）と AI駆動経営診断 で現在地を特定し、該当Lvの講座を1本選んでください。次のLvに到達したら、その時点で次Lv講座を購入する形を推奨しています。",
   },
   {
     q: "どこから始めるのがおすすめですか？",
-    a: "<strong>ロードマップ講座（無料）</strong>と <strong>DX診断（10問・3分）</strong> から始めてください。両方無料で、自社の現在地と次の一手が見えます。その後、該当Lv講座（¥3,000）に進むのが王道です。",
+    a: "<strong>ロードマップ講座（無料）</strong>と <strong>AI駆動経営診断（10問・3分）</strong> から始めてください。両方無料で、自社の現在地と次の一手が見えます。その後、該当Lv講座（¥3,000）に進むのが王道です。",
   },
   {
     q: "動画はありますか？",
@@ -142,7 +142,7 @@ const faq = [
       </ol>
 
       <div class="hero-ctas">
-        <a class="btn btn-primary btn-lg" href="/diagnose/">DX診断で自分のLvを特定する（無料・10問）</a>
+        <a class="btn btn-primary btn-lg" href="/diagnose/">AI駆動経営診断で自分のLvを特定する（無料・10問）</a>
         <a class="btn btn-secondary btn-lg" href="/courses/roadmap/">ロードマップ講座を読む（無料）</a>
       </div>
     </div>
@@ -159,7 +159,7 @@ const faq = [
         <li class="diff-card">
           <div class="diff-num">01</div>
           <h3 class="diff-title">診断で現在地がわかる</h3>
-          <p class="diff-body">無料DX診断と連動。自社のLvを特定してから、該当する講座を選べます。</p>
+          <p class="diff-body">無料 AI駆動経営診断と連動。自社のLvを特定してから、該当する講座を選べます。</p>
         </li>
         <li class="diff-card">
           <div class="diff-num">02</div>
@@ -258,10 +258,10 @@ const faq = [
     <div class="course-container final-cta">
       <h2 class="final-title">最後に、次の一歩を選んでください。</h2>
       <p class="final-lead">
-        迷ったら、まず無料の DX診断 か ロードマップ講座 から。30分の個別相談（無料）も用意しています。
+        迷ったら、まず無料の AI駆動経営診断 か ロードマップ講座 から。30分の個別相談（無料）も用意しています。
       </p>
       <div class="final-ctas">
-        <a class="btn btn-primary btn-lg" href="/diagnose/">無料DX診断（10問・3分）</a>
+        <a class="btn btn-primary btn-lg" href="/diagnose/">AI駆動経営診断（無料・10問・3分）</a>
         <a class="btn btn-secondary btn-lg" href="/courses/roadmap/">ロードマップ講座を読む</a>
         <a class="btn btn-ghost btn-lg" href="/contact/">無料個別相談</a>
       </div>

@@ -22,6 +22,10 @@
  *   今後の企画化検討余地として情報は戦略ドキュメント側に保持。
  *   主力は「Lv1講座」「AI駆動経営伴走支援」の2マスに整理。
  *   Lv3講座は「合同セミナー副読本」から「AI駆動経営伴走支援（戦略再設計フェーズ）への副読本」に再定義。
+ *
+ * OBコミュニティ ラインナップから削除（2026-05-03）:
+ *   OBコミュニティは商品ラインナップとしては販売予定がないため削除。
+ *   伴走支援の「卒業後フォロー」訴求は support/index.astro 等で別途継続保持。
  */
 
 export type Category = "learn" | "deploy" | "execute";
@@ -161,19 +165,6 @@ export const productCells: ProductCell[] = [
     href: "/courses/lv4/",
     isOz: true,
   },
-  /* ❹ AIネイティブ（OBコミュニティ = 集合学習） */
-  {
-    stage: 4,
-    category: "learn",
-    form: "training",
-    name: "OBコミュニティ",
-    price: "販売なし",
-    priceNote: "自走特典",
-    description: "AI駆動経営伴走支援から自走したOB向けの OB勉強会・スポット相談権",
-    href: "",
-    isUnavailable: true,
-  },
-
   /* ===== B. 組織に入れる（担当者チーム / ❶❷のみ）===== */
 
   /* ❶ 土台を組む */

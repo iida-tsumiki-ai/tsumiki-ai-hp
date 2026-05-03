@@ -43,7 +43,7 @@ const phases = [
     en: "Independence",
     jp: "自走する",
     duration: "6ヶ月目〜",
-    body: "ツミキAIの伴走を卒業し、社内担当者が新規業務にも自分でAIを組み込める状態に到達します。卒業後はOBコミュニティ（自走OBの勉強会・スポット相談）で孤立しない仕組みを用意しています。",
+    body: "ツミキAIの伴走を卒業し、社内担当者が新規業務にも自分でAIを組み込める状態に到達します。卒業後も緩やかに繋がる仕組みを今後整備予定で、自走後の孤立を防ぎます。",
   },
 ];
 
@@ -138,7 +138,7 @@ const cantDo = [
   },
   {
     title: "永続的なベンダーロックはしません",
-    body: "ツミキAIに依存し続ける設計にはしません。半年で自走していただくことを前提にしています。卒業後はOBコミュニティで孤立しない仕組みを用意していますが、契約継続を前提にした商品ではありません。",
+    body: "ツミキAIに依存し続ける設計にはしません。半年で自走していただくことを前提にしています。卒業後も緩やかに繋がる仕組みを今後整備予定ですが、契約継続を前提にした商品ではありません。",
   },
   {
     title: "業種・規模が合わない場合はお断りします",
@@ -202,7 +202,7 @@ const cantDo = [
           <div class="essence-num">03</div>
           <h3 class="essence-title">半年で自走モデル</h3>
           <p class="essence-body">
-            半年で「社内担当者が新規業務にも自分でAIを組み込める」状態を作ります。永続契約を前提とした設計はしていません。自走後はOBコミュニティで孤立しない仕組みを用意しています。
+            半年で「社内担当者が新規業務にも自分でAIを組み込める」状態を作ります。永続契約を前提とした設計はしていません。自走後も緩やかに繋がる仕組みを今後整備予定です。
           </p>
         </li>
       </ul>
@@ -312,7 +312,7 @@ const cantDo = [
         <p class="sec-kicker">§5 自走事例</p>
         <h2 class="sec-title">伴走を経て、社内で内製化が回るようになった会社の話。</h2>
         <p class="sec-lead">
-          実際にツミキAIの伴走を経て自走したOB企業のインタビューを、Phase 2 以降で順次公開します。
+          実際にツミキAIの伴走を経て自走した企業のインタビューを、Phase 2 以降で順次公開します。
           現在は守秘義務の都合で詳細公開は準備中です。<strong>初回ヒアリングでは、過去案件の構造（業務フロー再設計／AI組込／自走移行）を匿名でお話しできます。</strong>
         </p>
       </header>
@@ -326,42 +326,7 @@ const cantDo = [
     </div>
   </Section>
 
-  <!-- ========== §6 OBコミュニティ訴求（D4） ========== -->
-  <Section size="l" background="subtle">
-    <div class="support-container ob-block">
-      <header class="sec-head">
-        <p class="sec-kicker">§6 自走後の関係</p>
-        <h2 class="sec-title">「卒業したら終わり」では、ありません。</h2>
-      </header>
-      <div class="ob-grid">
-        <div class="ob-text">
-          <p>
-            半年で自走していただいた後も、<strong>OBコミュニティ</strong>を通じて緩やかに繋がり続ける仕組みを用意しています。
-          </p>
-          <ul class="ob-features">
-            <li>
-              <strong>OB勉強会</strong>（四半期1回）
-              <span>同じく自走した経営者同士で、AI活用の現場知見を交換</span>
-            </li>
-            <li>
-              <strong>スポット相談権</strong>（年数回・有料）
-              <span>新規業務の立ち上げ時など、必要なタイミングだけ相談できる</span>
-            </li>
-            <li>
-              <strong>Lv4講座への素材提供</strong>
-              <span>OBインタビューが Lv4講座（事例集）として循環し、次世代の経営者に届く</span>
-            </li>
-          </ul>
-        </div>
-        <aside class="ob-aside">
-          <div class="ob-aside-label">なぜOB制度を用意するのか</div>
-          <p>
-            内製化の一番難しい局面は、伴走終了後の最初の1年です。「自分たちだけで本当に大丈夫か」という不安に対して、いつでも戻ってこられる場所を残しておく。それが <strong>"自走モデル"</strong> の責任の取り方だと考えています。
-          </p>
-        </aside>
-      </div>
-    </div>
-  </Section>
+  <!-- §6 OBコミュニティ章は 2026-05-03 削除（実態未整備のため） -->
 
   <!-- ========== §7 できないこと（誠実さ①） ========== -->
   <Section size="l" background="default">
@@ -941,74 +906,7 @@ const cantDo = [
     text-decoration: underline;
   }
 
-  /* ============================================================
-   * §6 OB
-   * ============================================================ */
-  .ob-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: var(--space-8);
-    align-items: start;
-  }
-  .ob-text > p {
-    font-size: var(--text-body-lg);
-    line-height: var(--leading-body-lg);
-    color: var(--color-text-body);
-    margin: 0 0 var(--space-6) 0;
-  }
-  .ob-text strong {
-    color: var(--color-text);
-    font-weight: var(--weight-semibold);
-  }
-  .ob-features {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .ob-features li {
-    padding: var(--space-4) 0;
-    border-top: 1px solid var(--color-border);
-  }
-  .ob-features li:last-child {
-    border-bottom: 1px solid var(--color-border);
-  }
-  .ob-features li strong {
-    display: block;
-    font-family: var(--font-jp-serif);
-    font-size: var(--text-body-lg);
-    color: var(--color-text);
-    margin-bottom: 4px;
-  }
-  .ob-features li span {
-    font-size: var(--text-body-sm);
-    color: var(--color-text-muted);
-    line-height: 1.6;
-  }
-  .ob-aside {
-    padding: var(--space-6);
-    background: #fff;
-    border-left: 4px solid var(--color-accent);
-    border-radius: var(--radius-md);
-  }
-  .ob-aside-label {
-    font-family: var(--font-en);
-    font-size: var(--text-caption);
-    font-weight: var(--weight-semibold);
-    color: var(--color-accent);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: var(--space-3);
-  }
-  .ob-aside p {
-    font-size: var(--text-body);
-    line-height: var(--leading-body);
-    color: var(--color-text-body);
-    margin: 0;
-  }
-  .ob-aside strong {
-    color: var(--color-accent);
-    font-weight: var(--weight-semibold);
-  }
+  /* §6 OB セクション関連 CSS は 2026-05-03 削除（章自体を撤去したため） */
 
   /* ============================================================
    * §7 cantdo
@@ -1103,9 +1001,6 @@ const cantDo = [
     }
     .phase-card::after {
       display: none;
-    }
-    .ob-grid {
-      grid-template-columns: 1fr;
     }
     .plan-card--flagship {
       transform: none;

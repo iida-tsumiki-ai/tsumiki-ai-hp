@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import CourseLandingPage from "../../../components/CourseLandingPage.astro";
+import { noteUrls } from "../../../data/noteUrls";
 
 const audience = [
   { text: "クラウド基盤は全社共通で使えているが、AIを触る人と触らない人で分かれている会社" },
@@ -94,7 +95,7 @@ const faq = [
     ]}
     cantDo={cantDo}
     faq={faq}
-    ctaPrimary={{ label: "事前通知登録（Phase 3 リリース時に連絡）", href: "/contact/" }}
+    ctaPrimary={{ label: "Lv2講座を読む（note ¥3,000）", href: noteUrls.lv2 }}
     ctaSecondary={{ label: "DX診断で現在地を確認", href: "/diagnose/" }}
     ctaTertiary={{ label: "無料個別相談", href: "/contact/" }}
     variant="normal"

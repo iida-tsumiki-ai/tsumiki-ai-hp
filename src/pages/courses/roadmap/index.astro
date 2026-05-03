@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import CourseLandingPage from "../../../components/CourseLandingPage.astro";
+import { noteUrls } from "../../../data/noteUrls";
 
 const audience = [
   { text: "「うちはAI／DXで何ができるんだろう」と全体像を掴めずにいる経営者" },
@@ -92,8 +93,8 @@ const faq = [
     ]}
     cantDo={cantDo}
     faq={faq}
-    ctaPrimary={{ label: "DX診断で自分のLvを特定する（無料）", href: "/diagnose/" }}
-    ctaSecondary={{ label: "新記事の通知を受け取る（メアド登録）", href: "/contact/" }}
+    ctaPrimary={{ label: "ロードマップ講座を読む（note 無料）", href: noteUrls.roadmap }}
+    ctaSecondary={{ label: "DX診断で自分のLvを特定する（無料）", href: "/diagnose/" }}
     ctaTertiary={{ label: "無料個別相談", href: "/contact/" }}
     variant="normal"
   />

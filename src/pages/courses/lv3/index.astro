@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import CourseLandingPage from "../../../components/CourseLandingPage.astro";
+import { noteUrls } from "../../../data/noteUrls";
 
 const audience = [
   { text: "全社でAI活用の底上げが進み、個別効率化は形になった会社の経営者" },
@@ -95,7 +96,7 @@ const faq = [
     cantDo={cantDo}
     faq={faq}
     ctaPrimary={{ label: "★ AI駆動経営伴走支援の無料相談", href: "/support/" }}
-    ctaSecondary={{ label: "本講座の事前通知登録", href: "/contact/" }}
+    ctaSecondary={{ label: "Lv3講座を読む（note ¥3,000）", href: noteUrls.lv3 }}
     variant="subreader"
   />
 </Layout>

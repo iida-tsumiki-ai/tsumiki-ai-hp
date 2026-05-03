@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import CourseLandingPage from "../../../components/CourseLandingPage.astro";
+import { noteUrls } from "../../../data/noteUrls";
 
 const audience = [
   { text: "紙・口頭・FAX が主な伝達手段になっている会社の経営者" },
@@ -102,7 +103,7 @@ const checkList = [
     graduationItems={checkList}
     cantDo={cantDo}
     faq={faq}
-    ctaPrimary={{ label: "事前通知登録（メアドのみ・Phase 2 で公開）", href: "/contact/" }}
+    ctaPrimary={{ label: "★ Lv1講座を読む（note ¥3,000）", href: noteUrls.lv1 }}
     ctaSecondary={{ label: "DX診断で自分のLvを特定する（無料）", href: "/diagnose/" }}
     ctaTertiary={{ label: "無料個別相談（30分）", href: "/contact/" }}
     variant="normal"

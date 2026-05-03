@@ -189,6 +189,19 @@ export const productCells: ProductCell[] = [
     href: "/training/#stage2-training",
     isOz: true,
   },
+  /* ❸ 戦略を描く（2026-05-03 新設） */
+  {
+    stage: 3,
+    category: "deploy",
+    form: "training",
+    name: "❸戦略実装研修",
+    price: "¥50万 / 2日",
+    priceNote: "担当者向け技術ハンズオン+管理者限定セッション",
+    description:
+      "Claude Code・API・MCP の実装研修＋管理者限定の組織設計／インセンティブ設計セッション込み（2日構成）",
+    href: "/training/#stage3-training",
+    isOz: true,
+  },
 
   /* ===== C. 一緒に実行する（経営者+現場）===== */
 

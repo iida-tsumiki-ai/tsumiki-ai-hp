@@ -5,7 +5,7 @@
  * カテゴリB: 担当者チームに共通言語を入れる
  *
  * 構成:
- *   §HERO → §3カテゴリでの位置づけ → §❶入門研修 → §❷実践研修 →
+ *   §HERO → §3カテゴリでの位置づけ → §❶入門研修 → §❷実践研修 → §❸戦略実装研修 →
  *   §オズ方式注意 → §他の始め方へ → §最終CTA
  */
 import Layout from "../../layouts/Layout.astro";
@@ -24,6 +24,19 @@ const stage2Items = [
   "ミニアプリ実装ハンズオン（集計・通知・転記の3パターン）",
   "Lv3への進み方ガイド",
 ];
+const stage3Day1Items = [
+  "Claude Code とは — 経営判断ツールを内製する道具（2h）",
+  "API・MCP の基礎 — 何ができて何ができないか（2h）",
+  "ハンズオン①: Claude Code で自社向けミニツールを作る（2h）",
+];
+const stage3Day2MorningItems = [
+  "ハンズオン②: 基幹系データを Claude / API 経由で経営ダッシュボード化（3h）",
+];
+const stage3Day2AfternoonItems = [
+  "社内CTO機能の選定／運用／教育（1h）",
+  "DeNAパラドックス打ち手5つ（1h）",
+  "インセンティブ設計3パターン＋持ち帰り課題（1h）",
+];
 
 const cantDo = [
   {
@@ -31,8 +44,8 @@ const cantDo = [
     body: "本研修はカテゴリB（組織に入れる）／担当者チームが対象です。経営者本人が学ぶ場合は <a href=\"/courses/\">講座シリーズ</a> をご検討ください。",
   },
   {
-    title: "Lv3-4 の研修はありません",
-    body: "Lv3-4 は経営者が自ら学ぶ／一緒に実行するフェーズです。担当者向け集合研修は ❶入門・❷実践 までの設計です。",
+    title: "Lv4 の研修はありません",
+    body: "Lv4 は AI内製化が定着して事業組み替えに進むフェーズで、研修よりも <a href=\"/support/\">AI駆動経営伴走支援</a> の個別伴走が適しています。担当者向け集合研修は ❶入門・❷実践・❸戦略実装 までの3商品です。",
   },
   {
     title: "業種特化版はありません",
@@ -43,7 +56,7 @@ const cantDo = [
 
 <Layout
   title="担当者向け研修プログラム — ツミキAI"
-  description="❶入門研修（半日 ¥10万）／❷実践研修（1日 ¥25万）。組織に共通言語を入れる集合研修。カテゴリB「組織に入れる」の2商品。"
+  description="❶入門研修（半日 ¥10万）／❷実践研修（1日 ¥25万）／❸戦略実装研修（2日 ¥50万）。組織に共通言語を入れる集合研修。カテゴリB「組織に入れる」の3商品。"
 >
   <!-- ========== §HERO ========== -->
   <section class="page-section page-section--warm">
@@ -58,8 +71,8 @@ const cantDo = [
         3ヶ月後の自走率で測定する設計です。
       </p>
       <div class="hero-meta">
-        <span class="hero-price">¥10〜25万</span>
-        <span class="hero-price-note">半日／1日 / カテゴリB</span>
+        <span class="hero-price">¥10〜50万</span>
+        <span class="hero-price-note">半日〜2日 / カテゴリB（3商品）</span>
       </div>
       <div class="hero-ctas">
         <a class="btn btn-primary btn-lg" href="/contact/">無料個別相談を予約する</a>
@@ -150,6 +163,45 @@ const cantDo = [
           <ul class="program-items">
             {stage2Items.map((item) => <li>{item}</li>)}
           </ul>
+        </div>
+        <div class="program-cta">
+          <a class="btn btn-primary" href="/contact/">この研修について相談する</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========== §❸戦略実装研修（2026-05-03 新設） ========== -->
+  <section class="page-section page-section--subtle" id="stage3-training">
+    <div class="page-container">
+      <article class="program-card">
+        <div class="program-header">
+          <div class="program-tag">Lv3 ❸ 戦略を描く</div>
+          <h2 class="program-title">❸戦略実装研修</h2>
+          <p class="program-tagline">Claude Code・API・MCP の実装＋管理者限定の組織設計セッション込みの2日研修。</p>
+        </div>
+        <div class="program-meta">
+          <div class="program-meta-row"><span>料金</span><strong>¥50万 / 2日（12時間）</strong></div>
+          <div class="program-meta-row"><span>対象</span><strong>Lv3 担当者チーム（5〜10名）＋ 管理者層（部門長・経営者層）</strong></div>
+          <div class="program-meta-row"><span>形式</span><strong>担当者向け技術ハンズオン＋管理者限定セッション（後半）</strong></div>
+          <div class="program-meta-row"><span>本質</span><strong>Claude Code 内製の型と、組織制度設計の両輪</strong></div>
+        </div>
+        <div class="program-content">
+          <h3 class="program-content-label">Day 1（全員参加・6時間）</h3>
+          <ul class="program-items">
+            {stage3Day1Items.map((item) => <li>{item}</li>)}
+          </ul>
+          <h3 class="program-content-label">Day 2 午前（全員参加・3時間）</h3>
+          <ul class="program-items">
+            {stage3Day2MorningItems.map((item) => <li>{item}</li>)}
+          </ul>
+          <h3 class="program-content-label">Day 2 午後（管理者限定セッション・3時間）</h3>
+          <ul class="program-items">
+            {stage3Day2AfternoonItems.map((item) => <li>{item}</li>)}
+          </ul>
+          <p class="program-note">
+            ※ 担当者は Day 2 午後は退室可。管理者層（部門長・経営者層）は最終セッションまで参加。
+          </p>
         </div>
         <div class="program-cta">
           <a class="btn btn-primary" href="/contact/">この研修について相談する</a>
@@ -486,7 +538,18 @@ const cantDo = [
     font-size: var(--text-h4);
     font-weight: var(--weight-bold);
     color: var(--color-text);
-    margin: 0 0 var(--space-3) 0;
+    margin: var(--space-5) 0 var(--space-3) 0;
+  }
+  .program-content-label:first-child { margin-top: 0; }
+  .program-note {
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-body-sm);
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    background: var(--color-bg-subtle);
+    border-left: 3px solid var(--color-accent);
+    border-radius: 4px;
   }
   .program-items {
     list-style: none;

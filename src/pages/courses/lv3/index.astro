@@ -12,40 +12,30 @@ const audience = [
 const chapterParts = [
   {
     partLabel: "Part 1",
-    partTitle: "ロードマップ要約",
-    partDuration: "15分",
+    partTitle: "導入と全体像",
+    partDuration: "7分",
     chapters: [
-      { no: 1, title: "4段階ロードマップ — Lv3の位置づけと壁の正体", duration: "15分", body: "個別効率化から戦略転換へ。「AI駆動経営の本領」が始まる段階。" },
+      { no: "導入", title: "3段目の壁は、「やり方」ではなく「設計の問い」にある", duration: "0-3分", body: "Lv2 を終えた会社で見える「個別効率化と全体最適のギャップ」／Lv3 が「決めること」の連続になる理由。" },
+      { no: 1, title: "「Lv3：戦略を描く」とは何か — 全体像", duration: "3-7分", body: "AI領域の入口としての Lv3／4つのブロック（基幹系再選定／API・MCP連携／データ経営判断／組織役割設計）の意味と順番。" },
     ],
   },
   {
     partLabel: "Part 2",
-    partTitle: "Lv3で取り組むべきこと",
-    partDuration: "120分",
+    partTitle: "本論",
+    partDuration: "21分",
     chapters: [
-      { no: 2, title: "基幹系ツール再選定の原則", duration: "30分", body: "API・MCP対応を基準に入れ替え／「連携しやすさ」の見分け方／選定フロー。" },
-      { no: 3, title: "Claude Code / API連携 / MCP の現状", duration: "30分", body: "中小企業で現実的に使える範囲／ツールコストの考え方／先端領域の不確実性と向き合う姿勢。" },
-      { no: 4, title: "データを経営判断に使う", duration: "30分", body: "売上・顧客・在庫の横断分析／ダッシュボード設計／経営会議での使われ方。" },
-      { no: 5, title: "組織の役割設計 — 社内CTO機能をどう作るか", duration: "30分", body: "選定・運用・教育の3機能／外部専門家との役割分担／兼任か専任か。" },
+      { no: 2, title: "基幹系ツール再選定の原則", duration: "7-13分", body: "API・MCP対応を基準に入れ替え／「連携しやすさ」の見分け方／選定フロー。クラウド前提＋API公開がベストプラクティス。" },
+      { no: 3, title: "Claude / API連携 / MCP の現状＋データを経営判断に使う", duration: "13-22分", body: "中小企業で現実的に使える Claude Code の範囲／クラウド基盤＋Claude Code がベストプラクティス／売上・顧客・在庫の横断分析／ダッシュボード設計。" },
+      { no: 4, title: "組織の役割設計 — 社内CTO機能", duration: "22-28分", body: "選定・運用・教育の3機能／外部専門家との役割分担／兼任か専任か／DeNAパラドックスへの打ち手5つ／インセンティブ設計（時間／お金／キャリアの3パターン）。" },
     ],
   },
   {
     partLabel: "Part 3",
-    partTitle: "Lv4到達要件",
-    partDuration: "35分",
+    partTitle: "卒業条件と締め",
+    partDuration: "7分",
     chapters: [
-      { no: 6, title: "Lv4到達チェックリスト", duration: "15分", body: "基幹系再選定完了／API・MCPベースの連携実装／経営判断にAIデータ常用／社内CTO機能定着 など。" },
-      { no: 7, title: "自律化への壁", duration: "15分", body: "自動化→自律化（エージェント化）の違い／仕組み作りの工数／AI駆動経営伴走支援領域への接続。" },
-      { no: 8, title: "次の一手を決める（実習）", duration: "5分", body: "Lv4へのアクションプラン。" },
-    ],
-  },
-  {
-    partLabel: "補足",
-    partTitle: "受けない案件と次の商品",
-    partDuration: "10分",
-    chapters: [
-      { no: 9, title: "受けない案件／主力商品への接続", duration: "5分", body: "AI駆動経営伴走支援（Lv3向け＝基幹再設計フェーズ）への誘導。" },
-      { no: 10, title: "Lv3は講義で完結しない領域", duration: "5分", body: "実装フェーズは AI駆動経営伴走支援で扱います。" },
+      { no: 5, title: "Lv4到達チェックリスト＋自律化への壁", duration: "28-32分", body: "5項目チェックリスト（仕組み4＋制度設計1）／自動化→自律化の違い／AI駆動経営伴走支援領域への接続。" },
+      { no: "締め", title: "次の一歩 — 答えを出す場としての伴走支援", duration: "32-35分", body: "「頭の整理は記事で、実装の判断は伴走で」／AI駆動経営伴走支援（戦略再設計フェーズ）への接続。" },
     ],
   },
 ];
@@ -88,10 +78,10 @@ const faq = [
   <CourseLandingPage
     kicker="A. 経営者が先に学ぶ — Lv3講座（★副読本）"
     title={`Lv3：戦略を描く段階の<br /><span class="accent">"頭の整理"。</span>`}
-    lead={`基幹系再選定・組織役割設計の視点を、3時間で整理する講座です。<br />ただし<strong>Lv3は講義だけで完結する領域ではありません</strong>。実装は AI駆動経営伴走支援（戦略再設計フェーズ）で扱います。`}
-    subreaderNote={`<strong>この講座は、AI駆動経営伴走支援に進む前の "頭の整理" として読む副読本として設計されています。</strong>主CTAは伴走支援の無料相談、副CTAは本講座の事前通知登録です。`}
+    lead={`基幹系再選定・組織役割設計の視点を、読了35分で整理する note 有料記事です。<br />ただし<strong>Lv3は講義だけで完結する領域ではありません</strong>。実装は AI駆動経営伴走支援（戦略再設計フェーズ）で扱います。`}
+    subreaderNote={`<strong>この記事は、AI駆動経営伴走支援に進む前の "頭の整理" として読む副読本として設計されています。</strong>主CTAは伴走支援の無料相談、副CTAは本講座の事前通知登録です。`}
     price="¥3,000"
-    priceNote="共通版（GWS／MS365 問わず）"
+    priceNote="共通版（GWS／MS365 問わず）／ 読了35分"
     releasePhase="Phase 4（2027 Q1-Q2）リリース予定"
     audience={audience}
     chapterParts={chapterParts}

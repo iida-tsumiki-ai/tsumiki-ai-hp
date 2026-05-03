@@ -12,39 +12,30 @@ const audience = [
 const chapterParts = [
   {
     partLabel: "Part 1",
-    partTitle: "ロードマップ要約",
-    partDuration: "15分",
+    partTitle: "導入と全体像",
+    partDuration: "9分",
     chapters: [
-      { no: 1, title: "4段階ロードマップ — Lv4という到達地点", duration: "15分", body: "AIネイティブな会社の輪郭。卒業の定義。" },
+      { no: "導入", title: "「AIを使う会社」の先に何があるか", duration: "0-3分", body: "Lv4 を AI ネイティブとして語り直す／なぜ事例集なのか／中小企業の勝ち筋。" },
+      { no: 1, title: "AIネイティブの定義と4つの特徴", duration: "3-9分", body: "内製している／API繋いでいる／組織がAI前提／継続進化している／AIネイティブな会社で起きる5つの変化。" },
     ],
   },
   {
     partLabel: "Part 2",
-    partTitle: "AIネイティブな会社の姿",
-    partDuration: "120分",
+    partTitle: "本論",
+    partDuration: "19分",
     chapters: [
-      { no: 2, title: "AIネイティブの定義と4つの特徴", duration: "20分", body: "組織横断自動化／内製で即AI組込／AIと組織の共進化／自走の定義。" },
-      { no: 3, title: "エージェント設計の基本", duration: "30分", body: "自動化と自律化の違い／エージェントに任せる業務の選び方／人間の介在ポイント。" },
-      { no: 4, title: "自律運営の条件", duration: "25分", body: "ツール・データ・組織の3要件／ガバナンス設計／失敗時の復旧フロー。" },
-      { no: 5, title: "AI駆動経営伴走支援 自走OB インタビュー集（3〜5社）", duration: "45分", body: "内製化の軌跡／自走後の運営状況／印象に残った転換点。Phase 4 後半時点で蓄積されたOB事例を匿名/実名混載で掲載予定。" },
+      { no: 2, title: "エージェント設計の基本", duration: "9-15分", body: "自動化と自律化の違い／エージェントに任せる業務の選び方／人間の介在ポイント／中小企業で現実的な範囲。" },
+      { no: 3, title: "自律運営の3要件", duration: "15-21分", body: "ツール・データ・組織の3要件／ガバナンス設計／失敗時の復旧フロー／米国 AI-Native（Perplexity / Cursor / Lemonade 等）の構造分析。" },
+      { no: 4, title: "自走に至る道筋 — パターンと考え方", duration: "21-28分", body: "NOT A HOTEL（200名で2万人分）／公認会計士1人で60社の構造／「中小企業の勝ち筋＝既存事業のAI内製で組み替え」／自社が事例になる側に回る発想。" },
     ],
   },
   {
     partLabel: "Part 3",
-    partTitle: "自走後の世界",
-    partDuration: "35分",
+    partTitle: "次の商品と締め",
+    partDuration: "7分",
     chapters: [
-      { no: 6, title: "自走後に緩やかに繋がる仕組み", duration: "10分", body: "卒業後の関係性を Phase 2 以降に整備予定。自走後の孤立を防ぐ設計の方針を共有します。" },
-      { no: 7, title: "自社が「事例」になる側に回る", duration: "15分", body: "ノウハウを社会に還元する意味／登壇・執筆の道／ツミキAI事例集への貢献。" },
-      { no: 8, title: "次の一手を決める（実習）", duration: "10分", body: "自社の次の進化軸を決める実習。" },
-    ],
-  },
-  {
-    partLabel: "補足",
-    partTitle: "AI駆動経営伴走支援への接続",
-    partDuration: "10分",
-    chapters: [
-      { no: 9, title: "事例で終わらせず実践へ — AI駆動経営伴走支援への誘導", duration: "10分", body: "「読むだけでは内製化は完成しない」前提で、AI駆動経営伴走支援（Lv4向け＝自律化・自走）への接続を明記。" },
+      { no: 5, title: "AI駆動経営伴走支援への接続", duration: "28-32分", body: "「読むだけでは内製化は完成しない」前提／AI駆動経営伴走支援（Lv4向け＝自律化・自走）への接続／自走後に緩やかに繋がる仕組み（Phase 2 以降に整備予定）。" },
+      { no: "締め", title: "次の一歩 — 自走モデルの約束", duration: "32-35分", body: "卒業前提で伴走する宣言／無料個別相談・伴走支援への接続。" },
     ],
   },
 ];
@@ -101,10 +92,10 @@ const bridgeBlock = {
   <CourseLandingPage
     kicker="A. 経営者が先に学ぶ — Lv4講座（★副読本・事例集）"
     title={`Lv4：AIネイティブを<br /><span class="accent">目指す経営者へ。</span>`}
-    lead={`AIネイティブな会社の姿を、vision と事例で配る講座です。<br />本講座は<strong>AI駆動経営伴走支援でAIネイティブ化を目指す方のための事例集</strong>として設計しています。手を動かすのは AI駆動経営伴走支援で。`}
-    subreaderNote={`<strong>この講座は、AI駆動経営伴走支援でAIネイティブ化を目指す方のための事例集です。</strong>主CTAは AI駆動経営伴走支援 の無料個別相談、副CTAは本講座の事前通知登録です。`}
+    lead={`AIネイティブな会社の姿を、vision と事例で配る note 有料記事です。<br />本記事は<strong>AI駆動経営伴走支援でAIネイティブ化を目指す方のための事例集</strong>として設計しています。手を動かすのは AI駆動経営伴走支援で。`}
+    subreaderNote={`<strong>この記事は、AI駆動経営伴走支援でAIネイティブ化を目指す方のための事例集です。</strong>主CTAは AI駆動経営伴走支援 の無料個別相談、副CTAは本講座の事前通知登録です。`}
     price="¥3,000"
-    priceNote="共通版・自走OB事例集"
+    priceNote="共通版・自走OB事例集／ 読了35分・約11,500字"
     releasePhase="Phase 4 後半（2027 Q3-Q4）リリース予定"
     audience={audience}
     characterNote={characterNote}

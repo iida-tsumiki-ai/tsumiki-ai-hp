@@ -12,34 +12,29 @@ const audience = [
 const chapterParts = [
   {
     partLabel: "Part 1",
-    partTitle: "なぜ今、中小企業がAIなのか",
+    partTitle: "導入と全体マップ",
     partDuration: "10分",
     chapters: [
-      { no: 1, title: "中小企業が後回しにされてきた理由", duration: "5分", body: "240万社規模のインフラを支えてきた経験から見えた構造的な課題。" },
-      { no: 2, title: "AIで変わる前提条件", duration: "5分", body: "「DXで遅れた会社こそ、AI駆動経営で先に着く」逆説的ポジション。" },
+      { no: "導入", title: "速さで戦わない宣言", duration: "0-3分", body: "「DXで遅れた会社こそ、AI駆動経営で先に着く」逆説的ポジションと、ツミキAIのスタンスを共有。" },
+      { no: 1, title: "4ステージの地図", duration: "3-10分", body: "❶土台を組む／❷活用を広げる／❸戦略を描く／❹AIネイティブになる の全体像。DX領域❶❷とAI領域❸❹の境界。" },
     ],
   },
   {
     partLabel: "Part 2",
-    partTitle: "4段階ロードマップ：Lv1→Lv4",
-    partDuration: "30分",
+    partTitle: "経営インパクトと現在地特定",
+    partDuration: "14分",
     chapters: [
-      { no: 3, title: "Lv1 ❶ 土台を組む（DX領域）", duration: "8分", body: "クラウド基盤の導入と全社展開。1部門スモールスタート→全社へ。" },
-      { no: 4, title: "Lv2 ❷ 活用を広げる（DX領域）", duration: "8分", body: "AI活用の全社底上げ・業務棚卸し・ミニアプリの型。" },
-      { no: 5, title: "Lv3 ❸ 戦略を描く（AI領域）", duration: "7分", body: "基幹系再選定・組織役割設計。「AI駆動経営の本領」が始まる段階。" },
-      { no: 6, title: "Lv4 ❹ AIネイティブになる（AI領域）", duration: "7分", body: "自律化・内製化定着。ツミキAIから自走していただく到達域。" },
+      { no: 2, title: "経営インパクトの差＋半年で自走できる時間軸", duration: "10-17分", body: "Lv別の経営インパクト／自走モデルとは何か／半年で到達する時間軸の組み立て方。" },
+      { no: 3, title: "自社のLvを特定する：ミニ診断（5問）", duration: "17-24分", body: "5問のミニ診断で仮のLv判定。精緻化したい方は HPの無料DX診断（10問）へ。" },
     ],
   },
   {
     partLabel: "Part 3",
-    partTitle: "Lv間の壁とツミキAIの3カテゴリ",
-    partDuration: "25分",
+    partTitle: "次の一歩と締め",
+    partDuration: "6分",
     chapters: [
-      { no: 7, title: "Lv1→Lv2の壁：基盤の全社共通化", duration: "5分", body: "「触る人／触らない人」分断を防ぐ仕組み。" },
-      { no: 8, title: "Lv2→Lv3の壁：個別効率化から戦略転換へ", duration: "5分", body: "最も高い壁。基幹系再選定と組織設計のレイヤー。" },
-      { no: 9, title: "Lv3→Lv4の壁：自動化から自律化へ", duration: "5分", body: "エージェント化と人間の介在ポイント設計。" },
-      { no: 10, title: "ツミキAIの3カテゴリ商品マップ", duration: "5分", body: "A.経営者が先に学ぶ／B.組織に入れる／C.一緒に実行する の使い分け。" },
-      { no: 11, title: "次の一手を決める", duration: "5分", body: "DX診断の活用、Lv別の入口、無料個別相談へのつなぎ方。" },
+      { no: 4, title: "次の一歩：Lv別推奨講座＋4地雷予防接種＋ツール病の警告", duration: "24-28分", body: "Lv別に何を読むか／Lv1向け4地雷（60ライセンス／PoC死／現場拒否／ROI不明）の予防／ツール先行導入の落とし穴。" },
+      { no: "締め", title: "自走モデルの約束", duration: "28-30分", body: "卒業前提で伴走する宣言。次の一歩へのCTA。" },
     ],
   },
 ];
@@ -66,7 +61,7 @@ const faq = [
   },
   {
     q: "Lv1講座（¥3,000）と何が違うんですか？",
-    a: "本講座は<strong>全Lv共通の地図</strong>を65分で配ります。Lv1講座は地図のなかの「Lv1区画」だけを3時間かけて深掘りします。まず本講座→Lv1講座（必要なら）の順で読むのが王道です。",
+    a: "本講座は<strong>全Lv共通の地図</strong>を読了30分で配ります。Lv1講座は地図のなかの「Lv1区画」を読了30分で深掘りし、Lv2到達チェックリスト7項目まで持って帰っていただきます。まず本講座→Lv1講座（必要なら）の順で読むのが王道です。",
   },
   {
     q: "更新はありますか？",
@@ -77,14 +72,14 @@ const faq = [
 
 <Layout
   title="ロードマップ講座（無料）— ツミキAI"
-  description="中小企業AIの全体像を65分で。4段階ロードマップ＋3カテゴリ商品マップ。note無料記事。"
+  description="中小企業AIの全体像を読了30分で。4段階ロードマップ＋3カテゴリ商品マップ。note無料記事。"
 >
   <CourseLandingPage
     kicker="A. 経営者が先に学ぶ — ロードマップ講座"
-    title={`中小企業AIの<span class="accent">"全体地図"</span>を、65分で。`}
+    title={`中小企業AIの<span class="accent">"全体地図"</span>を、読了30分で。`}
     lead={`4段階ロードマップ（Lv1→Lv4）と、ツミキAIの3カテゴリ商品マップ。<strong>無料の note 記事</strong>として公開しています。読み終わったとき、自社の現在地と次の一手が言葉になります。`}
     price="無料"
-    priceNote="note 無料記事"
+    priceNote="note 無料記事 / 読了30分"
     releasePhase="Phase 2 リリース"
     audience={audience}
     chapterParts={chapterParts}

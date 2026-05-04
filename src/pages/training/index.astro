@@ -10,38 +10,135 @@
  */
 import Layout from "../../layouts/Layout.astro";
 
-const stage1Items = [
-  "Claude / ChatGPT の基礎（要約・下書き・検索）",
-  "AIに任せやすい業務の見分け方",
-  "個人プロンプト集（受講者ごとに5-10個持ち帰り）",
-  "セキュリティと社内ガイドライン整備の勘所",
-  "Lv2への進み方ガイド",
+const stage1PreItems = [
+  "§1 GWS全体像（30分） — エディション選定／哲学比較／月¥800の意味",
+  "§2 環境構築手順（120分・ハンズオン） — ドメイン認証＆DNS／管理コンソール初期設定／ユーザー＆グループ管理／共有ドライブ初期構造",
+  "30日経営判断シート（A〜G）作成（15分） — 契約／移行スケジュール／メール戦略／セキュリティ／ガバナンス／先行チーム選定／KPI",
 ];
-const stage2Items = [
-  "チーム共通プロンプト集の作り方",
-  "GAS（Google Apps Script）入門 / Power Automate の型",
-  "業務棚卸しワーク（やめる／AIに任せる／人がやる）",
-  "ミニアプリ実装ハンズオン（集計・通知・転記の3パターン）",
-  "Lv3への進み方ガイド",
+const stage1Day1Items = [
+  "§3 Googleドライブ活用（35分） — 共有ドライブ・権限・検索演算子",
+  "§4-1 Docs vs Word（25分） — 移行ティップス＋同時編集・Geminiインライン",
+  "§4-2 Sheets vs Excel（35分） — IMPORTRANGE／QUERY／フィルタビュー",
+  "§4-3 Forms（25分） — 業務申請フォーム・Sheets自動連携",
+  "§4-4 Slides（25分） — Geminiで構成案生成",
+  "§4-5 Chat（20分） — スペース・タスク管理",
+  "§4-6 Meet（25分） — 録画＋自動議事録（Take notes for me）",
+];
+const stage1Day2Items = [
+  "§5-1 Gemini for Workspace 基本（25分） — 3用途・ライセンス前提",
+  "§5-2 Canvas ハンズオン（30分） — 議事録ブラッシュアップ",
+  "§5-3 カスタム Gem 作成（35分） — 自社用「議事録整形 Gem」を1個作る",
+  "§5-4 ナノバナナ画像生成（30分） — 自社広告バナー1枚を Slides に直接挿入",
+  "§5-5 セキュリティ最低ライン（15分）",
+  "§6 アナログ消しハンズオン（30分） — 1業務をデジタル化設計",
+  "§7 業務棚卸しの実施方法（40分） — 三分仕分け／Lv2への入口",
+];
+const stage1Outputs = [
+  "GWS導入30日アクション宣言（経営判断シート A〜G）",
+  "管理コンソール初期設定済テナント",
+  "共有ドライブ構造のたたき台",
+  "Word→Docs／Excel→Sheets 移行チェックリスト",
+  "個人プロンプト集 5〜10個",
+  "自社用 Gem 1個（議事録整形等）",
+  "自社用 広告バナー 1枚（ナノバナナ生成）",
+  "アナログ業務 デジタル化設計図",
+  "業務棚卸しシート 自部署版（第1版）",
+];
+const stage1Bonuses = [
+  "Gem テンプレ 6個（議事録整形／顧客メール／週報／提案／検索／広告バナー）",
+  "30日経営判断シート（A〜G プリ印字済 Sheets テンプレ）",
+  "Word→Docs／Excel→Sheets 移行チェックリスト",
+  "IMPORTRANGE／QUERY 早見表",
+  "業務棚卸しシート（三分仕分け組込）",
+  "広告バナー用プロンプトテンプレ集 10パターン",
+  "セキュリティ社内ガイドライン雛形",
+];
+const stage2Day1Items = [
+  "§1 持ち回り型30分勉強会の設計＋3種拒否反応スクリプト（60分） — 全社AI底上げ",
+  "§2 共有Drive再構成ワーク＋命名規則・権限テンプレ（60分） — 情報置き場の共通化",
+  "§3前半 業務棚卸しの起動（90分） — 4ステップ／自部署20-30件一覧化／3分類仕分け／時間泥棒特定",
+];
+const stage2Day2MorningItems = [
+  "§4-0 Antigravity セットアップ＋ターミナル基礎＋視認性プラグイン4点（20分）",
+  "§4-1 GAS入門 — Apps Script Editor でコピペ式（15分）",
+  "§4-2 clasp 移行 — IDE で楽に開発する型（15分）",
+  "§4-3 パターン1 集計（25分・clasp ハンズオン）",
+  "§4-4 パターン2 通知（20分・clasp ハンズオン）",
+  "§4-5 パターン3 GCP API 連携 — Calendar / Gmail からデータを取る（35分）",
+  "§4-6 AIに書かせるコツ：プロンプトの型 4要素（5分）",
+];
+const stage2Day2AfternoonItems = [
+  "§3後半 業務棚卸し 経営判断ワーク（45分） — 「やめる」判定を経営者の前で可視化",
+  "§5-1 個別効率化の罠（DeNAパラドックス）（10分）",
+  "§5-2 基幹系の限界をどう見抜くか（10分）",
+  "§5-3 AI力＝マネジメント力＋Lv3 環境の先取り（10分）",
+];
+const stage2Outputs = [
+  "30日アクション宣言（A4 1枚）— Lv3到達チェックリスト 5項目分",
+  "持ち回り型30分勉強会 運営テンプレ（自社カスタマイズ済み）",
+  "共有ドライブ再構成 設計図（命名規則・権限テーブル）",
+  "業務棚卸しシート 自部署版（第1版・20-30件）",
+  "Antigravity 動作環境（視認性プラグイン4点・clasp セットアップ完了）",
+  "ミニアプリ 3本（集計／通知／API連携 の clasp プロジェクト）",
+  "やめる業務リスト（経営者承認済・最低1件）",
+  "Lv3到達チェックリスト 自社採点表",
+];
+const stage2Bonuses = [
+  "Antigravity セットアップガイド＋視認性プラグイン4点（白背景／MDプレビュー／アイコン／日本語化）",
+  "ターミナル基礎 5コマンド早見表（cd / ls / pwd / mkdir / cat）",
+  "GAS テンプレ集 5パターン（集計／通知／API連携／スケジュール／エラーリトライ）",
+  "clasp セットアップ手順書＋GCP API 有効化手順書（Calendar / Gmail）",
+  "業務棚卸しシート Lv2版（4ステップ組込・三分仕分けロジック）",
+  "30分勉強会 進行スクリプト＋3種拒否反応 返答スクリプト集",
+  "AI に書かせるプロンプト型 早見表（背景／やりたいこと／制約／エラー対応）",
+  "30日アクション宣言テンプレ＋「やめる業務」承認シート（経営者署名欄）",
 ];
 const stage3Day1Items = [
-  "Claude Code とは — 経営判断ツールを内製する道具（2h）",
-  "API・MCP の基礎 — 何ができて何ができないか（2h）",
-  "ハンズオン①: Claude Code で自社向けミニツールを作る（2h）",
+  "オープニング — Lv3 の性格（『決める』の連続／標準90日）（15分）",
+  "§1 基幹系再選定 — API/MCP 対応軸／リープフロッグ／自社評価マトリクス作成（90分）",
+  "§2-1 Claude Code とは — CLI 一択方針／インストール（30分）",
+  "§2-2 API・MCP の基礎 — 何ができて何ができないか（30分）",
+  "§2-3 ライブデモ — Antigravity 内蔵ターミナルで Claude Code を動かす（30分）",
+  "§2-4 ハンズオン — Claude Code で自社ミニツール作成＋Skill 化（135分）",
 ];
 const stage3Day2MorningItems = [
-  "ハンズオン②: 基幹系データを Claude / API 経由で経営ダッシュボード化（3h）",
+  "§3-1 経営ダッシュボード設計の型 — 集客の再設計（守りから攻めへ）（25分）",
+  "§3-2 基幹系データ取得ハンズオン — API/CSV/Webhook ルート判断（70分）",
+  "§3-3 ダッシュボード v1 構築 — Sheets＋自動更新トリガー＋AI で判断補助（60分）",
 ];
 const stage3Day2AfternoonItems = [
-  "社内CTO機能の選定／運用／教育（1h）",
-  "DeNAパラドックス打ち手5つ（1h）",
-  "インセンティブ設計3パターン＋持ち帰り課題（1h）",
+  "§4-1 社内CTO機能 — 選定／運用／教育の3機能（15分）",
+  "§4-2 DeNAパラドックス 打ち手5つ — 自社適用ワーク（30分）",
+  "§4-3 兼任 vs 専任、外部専門家との役割分担 — 経営判断ワーク（30分）",
+  "§5-1 「効率化された時間」を誰のものにするか（15分）",
+  "§5-2 インセンティブ3パターン — 時間／お金／キャリア（中小企業は①+③推奨）（30分）",
+  "§5-3 自社の3パターン適用案を経営者が決める — 経営判断ワーク（30分）",
+  "ラップアップ — Lv4到達採点＋AI駆動経営伴走支援への接続（30分）",
+];
+const stage3Outputs = [
+  "30日アクション宣言（A4 1枚）— Lv4到達チェックリスト 5項目分",
+  "基幹系再選定 評価マトリクス（販売管理／会計／CRM／在庫／勤怠）",
+  "Claude Code 動くサンプル（自社業務の Skill 1本）",
+  "経営ダッシュボード v1（Sheets／自動更新トリガー設定済み）",
+  "社内CTO機能 役割分担表（選定・運用・教育の担当者割付）",
+  "インセンティブ設計 3パターン 自社適用案（経営判断書・経営者署名欄）",
+  "Lv4到達チェックリスト 自社採点表（経営者署名済み）",
+];
+const stage3Bonuses = [
+  "Claude Code セットアップガイド（GWS連携・MCP 設定の最小構成）",
+  "API/MCP 対応 主要基幹系ツール 評価マトリクス（販売管理／会計／CRM）",
+  "経営ダッシュボード Sheets テンプレ（受注／入金／在庫／問い合わせ／集客）",
+  "Claude Code Skill サンプル集（議事録要約／売上異常検知／メール分類の3パターン）",
+  "社内CTO機能 役割分担シート＋DeNAパラドックス 5打ち手 自社適用ワークシート",
+  "インセンティブ設計 3パターン Q&Aシート（時間／お金／キャリア）",
+  "Lv4到達チェックリスト 採点用紙＋30日アクション宣言テンプレ（Lv3版）",
+  "AI駆動経営伴走支援 接続シート（5項目それぞれの引継ぎ点）",
 ];
 
 const cantDo = [
   {
-    title: "経営者向けではありません",
-    body: "本研修はカテゴリB（組織に入れる）／担当者チームが対象です。経営者本人が学ぶ場合は <a href=\"/courses/\">講座シリーズ</a> をご検討ください。",
+    title: "経営者『単独』受講の場ではありません",
+    body: "本研修は <strong>担当者チーム＋経営者・責任者で受講する設計</strong>です（Lv1 Pre研修＝経営者+IT/総務／Lv2・Lv3 の経営判断セッションは経営者・管理者層が参加必須）。経営者が単独で地図を持ちたい場合は <a href=\"/courses/\">講座シリーズ</a> を先にどうぞ。",
   },
   {
     title: "Lv4 の研修はありません",
@@ -55,13 +152,13 @@ const cantDo = [
 ---
 
 <Layout
-  title="担当者向け研修プログラム — ツミキAI"
-  description="❶入門研修（半日 ¥5万）／❷実践研修（1日 ¥10万）／❸戦略実装研修（2日 ¥20万）。組織に共通言語を入れる集合研修。カテゴリB「組織に入れる」の3商品。"
+  title="組織研修プログラム — ツミキAI"
+  description="❶入門研修（2日 ¥10万・Pre研修オプション ¥3万）／❷実践研修（2日 ¥15万）／❸戦略実装研修（2日 ¥20万）。組織に共通言語を入れる集合研修。カテゴリB「組織に入れる」の3商品。"
 >
   <!-- ========== §HERO ========== -->
   <section class="page-section page-section--warm">
     <div class="page-container hero">
-      <p class="kicker">B. 組織に入れる — 担当者向け研修</p>
+      <p class="kicker">B. 組織に入れる — 組織研修</p>
       <h1 class="hero-title">
         組織に <span class="hero-accent">共通言語を入れる。</span>
       </h1>
@@ -71,8 +168,8 @@ const cantDo = [
         3ヶ月後の自走率で測定する設計です。
       </p>
       <div class="hero-meta">
-        <span class="hero-price">¥5〜20万</span>
-        <span class="hero-price-note">半日〜2日 / カテゴリB（3商品）</span>
+        <span class="hero-price">¥3〜20万</span>
+        <span class="hero-price-note">半日〜2日 / カテゴリB（Pre研修＋本研修3商品）</span>
       </div>
       <div class="hero-ctas">
         <a class="btn btn-primary btn-lg" href="https://docs.google.com/forms/d/e/1FAIpQLSd1yUsmc94ZTZ_MqR3tLVXDWlCaOmLIYxt3o2BqSb-AVF83gg/viewform" target="_blank" rel="noopener noreferrer">無料個別相談を予約する</a>
@@ -122,19 +219,52 @@ const cantDo = [
         <div class="program-header">
           <div class="program-tag">Lv1 ❶ 土台を組む</div>
           <h2 class="program-title">❶入門研修</h2>
-          <p class="program-tagline">担当者チームに「触る人」を増やす半日研修。</p>
+          <p class="program-tagline">
+            Lv2到達7項目すべてに「研修中に体験＋30日アクション宣言」が紐づく2日研修。
+            GWS未導入の会社向けに <strong>Pre研修</strong> オプション付き。
+          </p>
         </div>
         <div class="program-meta">
-          <div class="program-meta-row"><span>料金</span><strong>¥5万 / 半日（4時間）</strong></div>
-          <div class="program-meta-row"><span>対象</span><strong>Lv1 経営者＋現場担当者チーム</strong></div>
-          <div class="program-meta-row"><span>定員</span><strong>5〜15名（御社の会議室で実施）</strong></div>
-          <div class="program-meta-row"><span>本質</span><strong>オフィス基盤と "はじめてのAI活用" を実習で</strong></div>
+          <div class="program-meta-row"><span>料金</span><strong>本研修 ¥10万 ／ セット ¥13万（Pre研修込み）</strong></div>
+          <div class="program-meta-row"><span>期間</span><strong>本研修 2日（4時間×2日） ／ Pre研修 半日（3時間）</strong></div>
+          <div class="program-meta-row"><span>対象</span><strong>本研修 = 先行チーム5〜10名（経営者＋一般社員） ／ Pre研修 = 経営者＋IT/総務担当 2〜3名</strong></div>
+          <div class="program-meta-row"><span>本質</span><strong>Lv2到達チェックリスト 7項目に確実に乗る</strong></div>
         </div>
         <div class="program-content">
-          <h3 class="program-content-label">想定される中身</h3>
+          <div class="program-pre-note">
+            <p class="program-pre-note-label">前段：Pre研修オプション（¥3万・半日3時間）</p>
+            <p class="program-pre-note-body">
+              GWS未導入の会社向け。経営者＋IT/総務担当の2〜3名で受講し、契約・管理コンソール・
+              <strong>30日経営判断シート（A〜G）</strong>を完成させる。すでに GWS Business Standard 以上を運用中の会社は不要。
+            </p>
+            <ul class="program-items">
+              {stage1PreItems.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+
+          <h3 class="program-content-label">Day 1（4時間）：Drive＆基本業務アプリ</h3>
           <ul class="program-items">
-            {stage1Items.map((item) => <li>{item}</li>)}
+            {stage1Day1Items.map((item) => <li>{item}</li>)}
           </ul>
+
+          <h3 class="program-content-label">Day 2（4時間）：AI活用＆実装</h3>
+          <ul class="program-items">
+            {stage1Day2Items.map((item) => <li>{item}</li>)}
+          </ul>
+
+          <h3 class="program-content-label">持ち帰り 9点セット</h3>
+          <ul class="program-items">
+            {stage1Outputs.map((item) => <li>{item}</li>)}
+          </ul>
+
+          <h3 class="program-content-label">特典（テンプレ・Gem）</h3>
+          <ul class="program-items">
+            {stage1Bonuses.map((item) => <li>{item}</li>)}
+          </ul>
+
+          <p class="program-note">
+            ※ 本研修は GWS版で先行（MS365版は別途相談）。Gem 機能は GWS Business Standard 以上のライセンス契約が必要です。
+          </p>
         </div>
         <div class="program-cta">
           <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSd1yUsmc94ZTZ_MqR3tLVXDWlCaOmLIYxt3o2BqSb-AVF83gg/viewform" target="_blank" rel="noopener noreferrer">この研修について相談する</a>
@@ -150,19 +280,48 @@ const cantDo = [
         <div class="program-header">
           <div class="program-tag">Lv2 ❷ 活用を広げる</div>
           <h2 class="program-title">❷実践研修</h2>
-          <p class="program-tagline">チームが自走する状態を作る1日研修。</p>
+          <p class="program-tagline">
+            Lv3到達5項目すべてに「研修中に体験＋30日アクション宣言」が紐づく2日研修。
+            <strong>Day 2 午後は経営者＋責任者限定セッション</strong>で「やめる」経営判断まで踏み込む。
+          </p>
         </div>
         <div class="program-meta">
-          <div class="program-meta-row"><span>料金</span><strong>¥10万 / 1日（7時間）</strong></div>
-          <div class="program-meta-row"><span>対象</span><strong>Lv2 経営者＋チーム（業務棚卸しに本格着手したい段階）</strong></div>
-          <div class="program-meta-row"><span>定員</span><strong>5〜15名（御社の会議室で実施）</strong></div>
-          <div class="program-meta-row"><span>本質</span><strong>AI活用底上げ／業務棚卸し／ミニアプリのハンズオン</strong></div>
+          <div class="program-meta-row"><span>料金</span><strong>¥15万 / 2日（4時間×2日 = 8時間）</strong></div>
+          <div class="program-meta-row"><span>対象</span><strong>Lv1終了済 / 先行チーム5〜10名＋経営者＋責任者</strong></div>
+          <div class="program-meta-row"><span>形式</span><strong>Day 1 全員参加 / Day 2 午前 全員 / Day 2 午後 経営者+責任者限定</strong></div>
+          <div class="program-meta-row"><span>本質</span><strong>業務棚卸しの「やめる」経営判断と GAS 3本内製を、2日で経営者と現場が一緒に達成</strong></div>
         </div>
         <div class="program-content">
-          <h3 class="program-content-label">想定される中身</h3>
+          <h3 class="program-content-label">Day 1（4時間・全員参加）：全社底上げ＋情報整理＋棚卸し起動</h3>
           <ul class="program-items">
-            {stage2Items.map((item) => <li>{item}</li>)}
+            {stage2Day1Items.map((item) => <li>{item}</li>)}
           </ul>
+
+          <h3 class="program-content-label">Day 2 午前（全員参加・150分）：ミニアプリ内製ハンズオン</h3>
+          <ul class="program-items">
+            {stage2Day2MorningItems.map((item) => <li>{item}</li>)}
+          </ul>
+
+          <h3 class="program-content-label">Day 2 午後（経営者＋責任者限定・75分）：経営判断＋Lv3への合図</h3>
+          <ul class="program-items">
+            {stage2Day2AfternoonItems.map((item) => <li>{item}</li>)}
+          </ul>
+
+          <h3 class="program-content-label">持ち帰り 8点セット</h3>
+          <ul class="program-items">
+            {stage2Outputs.map((item) => <li>{item}</li>)}
+          </ul>
+
+          <h3 class="program-content-label">特典（テンプレ・GAS・IDE 環境）</h3>
+          <ul class="program-items">
+            {stage2Bonuses.map((item) => <li>{item}</li>)}
+          </ul>
+
+          <p class="program-note">
+            ※ 担当者は Day 2 午後は退室可。経営者＋責任者は最終セッションまで参加。
+            事前準備として <strong>Google Antigravity（AI内蔵 IDE）と Node.js のインストール</strong>が必要です（事前ガイド送付）。
+            GWS版（GAS）で先行（Power Automate版は別途相談）。
+          </p>
         </div>
         <div class="program-cta">
           <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSd1yUsmc94ZTZ_MqR3tLVXDWlCaOmLIYxt3o2BqSb-AVF83gg/viewform" target="_blank" rel="noopener noreferrer">この研修について相談する</a>
@@ -178,29 +337,48 @@ const cantDo = [
         <div class="program-header">
           <div class="program-tag">Lv3 ❸ 戦略を描く</div>
           <h2 class="program-title">❸戦略実装研修</h2>
-          <p class="program-tagline">Claude Code・API・MCP の実装＋管理者限定の組織設計セッション込みの2日研修。</p>
+          <p class="program-tagline">
+            Lv4到達5項目すべてに「研修中の判断＋30日アクション宣言＋伴走支援接続点」が紐づく2日研修。
+            <strong>Claude Code 内製の型と組織制度設計の両輪</strong>を、経営者・管理者・現場が一緒に持ち帰る。
+          </p>
         </div>
         <div class="program-meta">
-          <div class="program-meta-row"><span>料金</span><strong>¥20万 / 2日（12時間）</strong></div>
-          <div class="program-meta-row"><span>対象</span><strong>Lv3 担当者チーム（5〜10名）＋ 管理者層（部門長・経営者層）</strong></div>
-          <div class="program-meta-row"><span>形式</span><strong>担当者向け技術ハンズオン＋管理者限定セッション（後半）</strong></div>
-          <div class="program-meta-row"><span>本質</span><strong>Claude Code 内製の型と、組織制度設計の両輪</strong></div>
+          <div class="program-meta-row"><span>料金</span><strong>¥20万 / 2日（6時間＋3時間＋3時間 = 12時間）</strong></div>
+          <div class="program-meta-row"><span>対象</span><strong>Lv2終了済 / 担当者チーム5〜10名＋管理者層（部門長・経営者層）2〜4名</strong></div>
+          <div class="program-meta-row"><span>形式</span><strong>Day 1 全員参加 / Day 2 午前 全員 / Day 2 午後 管理者限定</strong></div>
+          <div class="program-meta-row"><span>本質</span><strong>章＝Lv4到達5項目に 1:1 対応／"やる" より "決める" の連続</strong></div>
         </div>
         <div class="program-content">
-          <h3 class="program-content-label">Day 1（全員参加・6時間）</h3>
+          <h3 class="program-content-label">Day 1（全員参加・6時間）：基幹系再選定＋Claude Code 内製の型</h3>
           <ul class="program-items">
             {stage3Day1Items.map((item) => <li>{item}</li>)}
           </ul>
-          <h3 class="program-content-label">Day 2 午前（全員参加・3時間）</h3>
+
+          <h3 class="program-content-label">Day 2 午前（全員参加・3時間）：データを経営判断に — 経営ダッシュボード v1</h3>
           <ul class="program-items">
             {stage3Day2MorningItems.map((item) => <li>{item}</li>)}
           </ul>
-          <h3 class="program-content-label">Day 2 午後（管理者限定セッション・3時間）</h3>
+
+          <h3 class="program-content-label">Day 2 午後（管理者限定・3時間）：社内CTO機能＋制度・インセンティブ設計</h3>
           <ul class="program-items">
             {stage3Day2AfternoonItems.map((item) => <li>{item}</li>)}
           </ul>
+
+          <h3 class="program-content-label">持ち帰り 7点セット</h3>
+          <ul class="program-items">
+            {stage3Outputs.map((item) => <li>{item}</li>)}
+          </ul>
+
+          <h3 class="program-content-label">特典（テンプレ・経営判断ワークシート）</h3>
+          <ul class="program-items">
+            {stage3Bonuses.map((item) => <li>{item}</li>)}
+          </ul>
+
           <p class="program-note">
             ※ 担当者は Day 2 午後は退室可。管理者層（部門長・経営者層）は最終セッションまで参加。
+            <strong>Claude Code は CLI 一択</strong>（デスクトップアプリは扱わない／自動化に向かう道筋として CLI が最強）。
+            Lv2 で整えた <strong>Antigravity + Node.js + clasp 環境</strong>を引き継ぎ、Antigravity 内蔵ターミナルから即スタート。
+            自社固有の基幹系再選定・組織制度設計は <a href="/support/">AI駆動経営伴走支援</a> との組み合わせで前進する設計。
           </p>
         </div>
         <div class="program-cta">
@@ -275,7 +453,7 @@ const cantDo = [
   <!-- ========== §最終CTA ========== -->
   <section class="page-section page-section--warm">
     <div class="page-container final-cta">
-      <h2 class="final-title">担当者を次のステップへ。</h2>
+      <h2 class="final-title">組織を次のステップへ。</h2>
       <p class="final-lead">
         御社の現状をまずヒアリングさせてください。30分の無料相談から、御社にフィットする研修の組み方を一緒に決めます。
       </p>
@@ -551,6 +729,34 @@ const cantDo = [
     background: var(--color-bg-subtle);
     border-left: 3px solid var(--color-primary);
     border-radius: 4px;
+  }
+  .program-pre-note {
+    margin-bottom: var(--space-6);
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-bg-warm);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+  }
+  .program-pre-note-label {
+    font-family: var(--font-jp);
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-bold);
+    color: var(--color-primary);
+    letter-spacing: 0.04em;
+    margin: 0 0 var(--space-2) 0;
+  }
+  .program-pre-note-body {
+    font-size: var(--text-body-sm);
+    line-height: 1.7;
+    color: var(--color-text-body);
+    margin: 0 0 var(--space-3) 0;
+  }
+  .program-pre-note-body strong {
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+  }
+  .program-pre-note .program-items {
+    margin-top: 0;
   }
   .program-items {
     list-style: none;

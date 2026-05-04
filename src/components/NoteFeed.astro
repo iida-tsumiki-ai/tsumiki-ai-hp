@@ -20,6 +20,8 @@ type Article = {
   readingTime?: string;
 };
 
+const NOTE_CREATOR_URL = "https://note.com/tsumiki_ai";
+
 const articles: Article[] = [
   {
     title: "中小企業のDX → AI駆動経営、4ステージで上る道筋",
@@ -27,7 +29,7 @@ const articles: Article[] = [
       "AI駆動経営診断の結果から、自社がLv1〜Lv4のどこにいるかを把握できます。ロードマップ講座のダイジェスト版として、4ステージの輪郭を2,000字で解説しています。",
     category: "ロードマップ",
     publishedAt: "Coming soon",
-    href: "/courses/roadmap/",
+    href: NOTE_CREATOR_URL,
     readingTime: "8分",
   },
   {
@@ -36,7 +38,7 @@ const articles: Article[] = [
       "ツールを導入したのに使われません。個人では使えるのに全社展開できません。そんな詰まりポイントを、弥生6年＋現場観察から整理しています。",
     category: "現場ノート",
     publishedAt: "Coming soon",
-    href: "#",
+    href: NOTE_CREATOR_URL,
     readingTime: "6分",
   },
   {
@@ -45,7 +47,7 @@ const articles: Article[] = [
       "独立前のEC経営で痛感したのは、個別作業ではなく業務を一連の流れに繋ぐ難しさでした。AI効率化が万能に見えてしまう経営者に、最初に話す4つのことをまとめています。",
     category: "失敗談",
     publishedAt: "Coming soon",
-    href: "#",
+    href: NOTE_CREATOR_URL,
     readingTime: "7分",
   },
 ];
@@ -70,7 +72,7 @@ const articles: Article[] = [
     {
       articles.map((a) => (
         <li class="note-card">
-          <a class="note-card-link" href={a.href}>
+          <a class="note-card-link" href={a.href} target="_blank" rel="noopener noreferrer">
             <div class="note-card-meta">
               <span class="note-category">{a.category}</span>
               <span class="note-date">{a.publishedAt}</span>

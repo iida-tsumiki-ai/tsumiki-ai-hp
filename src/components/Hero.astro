@@ -33,7 +33,7 @@
       <a class="hero-cta hero-cta--primary" href="/diagnose/">
         <span class="hero-cta-label">AI駆動経営診断を受ける（無料）</span>
       </a>
-      <a class="hero-cta hero-cta--secondary" href="/contact/">
+      <a class="hero-cta hero-cta--secondary" href="https://docs.google.com/forms/d/e/1FAIpQLSd1yUsmc94ZTZ_MqR3tLVXDWlCaOmLIYxt3o2BqSb-AVF83gg/viewform" target="_blank" rel="noopener noreferrer">
         <span class="hero-cta-label">無料個別相談で話す</span>
       </a>
     </div>
@@ -43,6 +43,10 @@
   </div>
 
   <div class="hero-visual" aria-hidden="true">
+    <span class="hero-bg-block hero-bg-block--a"></span>
+    <span class="hero-bg-block hero-bg-block--b"></span>
+    <div class="hero-spotlight"></div>
+
     <div class="stack">
       <div class="block block--4">
         <span class="block-num">04</span><span class="block-name">AIネイティブ</span>
@@ -56,6 +60,7 @@
       <div class="block block--1">
         <span class="block-num">01</span><span class="block-name">土台を組む</span>
       </div>
+      <div class="stack-base"></div>
     </div>
   </div>
 </div>
@@ -64,12 +69,14 @@
   .hero-block {
     position: relative;
     isolation: isolate;
+    overflow: hidden;
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     gap: var(--space-16);
     align-items: center;
     min-height: 520px;
     padding: var(--space-8) 0;
+    border-radius: var(--radius-xl);
   }
   /* 背景: 和紙の繊維と積み木モチーフを淡く重ねる */
   .hero-block::before {
@@ -218,11 +225,53 @@
    * DESIGN.md §1 工芸品モチーフ / §5「積み木」表現
    * ======================================== */
   .hero-visual {
+    position: relative;
     display: flex;
     align-items: flex-end;
     justify-content: center;
     padding: var(--space-8);
+    isolation: isolate;
+    min-height: 460px;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
   }
+
+  /* 背景: 装飾の積み木モチーフ */
+  .hero-bg-block {
+    position: absolute;
+    border-radius: var(--radius-md);
+    pointer-events: none;
+    z-index: -2;
+  }
+  .hero-bg-block--a {
+    top: 5%;
+    right: 4%;
+    width: 110px;
+    height: 110px;
+    background: rgba(26, 58, 95, 0.06);
+    border: 1px solid rgba(26, 58, 95, 0.10);
+    transform: rotate(8deg);
+  }
+  .hero-bg-block--b {
+    bottom: 8%;
+    left: 6%;
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 107, 53, 0.10);
+    border: 1px solid rgba(255, 107, 53, 0.18);
+    transform: rotate(-6deg);
+  }
+
+  /* 背景: 中央スポットライト — 視線誘導 */
+  .hero-spotlight {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 80% at 55% 60%, rgba(255, 229, 214, 0.45) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
   .stack {
     position: relative;
     display: flex;
@@ -233,7 +282,18 @@
     max-width: 420px;
     animation: stack-reveal var(--duration-reveal) var(--ease-out-quint) both;
   }
+
+  /* 床面 — 積み木が「置かれている」感 */
+  .stack-base {
+    align-self: stretch;
+    height: 14px;
+    margin-top: 4px;
+    background:
+      radial-gradient(ellipse 60% 100% at 50% 0%, rgba(26, 58, 95, 0.18) 0%, transparent 70%);
+  }
+
   .block {
+    position: relative;
     display: flex;
     align-items: center;
     gap: var(--space-3);
@@ -242,6 +302,28 @@
     color: var(--color-text);
     box-shadow: var(--shadow-sm);
     animation: block-in var(--duration-reveal) var(--ease-out-quint) both;
+    transition:
+      transform var(--duration-hover) var(--ease-out-quint),
+      box-shadow var(--duration-hover) var(--ease-out-quint);
+    /* 上面ハイライト（微弱な照明感） */
+    background-image: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 30%);
+  }
+  /* 厚み（側面影）を擬似要素で表現 */
+  .block::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--block-side, rgba(26, 58, 95, 0.14));
+    transform: translate(5px, 7px);
+    z-index: -1;
+    transition: transform var(--duration-hover) var(--ease-out-quint);
+  }
+  .block:hover {
+    transform: translate(-2px, -3px);
+  }
+  .block:hover::after {
+    transform: translate(7px, 10px);
   }
   .block-num {
     font-family: var(--font-en);
@@ -262,6 +344,7 @@
     background: var(--color-bg-warm);
     border: 1px solid var(--color-border);
     animation-delay: 0ms;
+    --block-side: #E8DFCE;
   }
   .block--2 {
     width: 78%;
@@ -269,6 +352,7 @@
     border: 1px solid var(--color-border);
     margin-left: var(--space-6);
     animation-delay: 120ms;
+    --block-side: #DCD7C9;
   }
   .block--3 {
     width: 62%;
@@ -276,6 +360,7 @@
     color: #B84A1E;
     margin-left: var(--space-12);
     animation-delay: 240ms;
+    --block-side: #F4C5A4;
   }
   .block--4 {
     width: 44%;
@@ -284,6 +369,7 @@
     margin-left: var(--space-16);
     animation-delay: 360ms;
     box-shadow: var(--shadow-md);
+    --block-side: #102845;
   }
 
   @keyframes stack-reveal {
@@ -304,6 +390,27 @@
       transform: translateY(0);
     }
   }
+  /* 最後のブロックが降りた直後の微振動（積み終わり感） */
+  @keyframes block-settle {
+    0%, 100% { transform: translateY(0); }
+    40% { transform: translateY(1px); }
+    70% { transform: translateY(-0.5px); }
+  }
+  .block--4 {
+    animation:
+      block-in var(--duration-reveal) var(--ease-out-quint) 360ms both,
+      block-settle 280ms var(--ease-out-quint) 700ms 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .block,
+    .stack {
+      animation: none !important;
+    }
+    .block:hover {
+      transform: none;
+    }
+  }
 
   /* ========================================
    * Responsive
@@ -316,6 +423,7 @@
     }
     .hero-visual {
       padding: 0;
+      min-height: 360px;
     }
     .stack {
       max-width: 100%;
@@ -325,6 +433,19 @@
   @media (max-width: 640px) {
     .hero-title {
       font-size: var(--text-h1);
+    }
+    .hero-bg-block--a {
+      width: 70px;
+      height: 70px;
+    }
+    .hero-bg-block--b {
+      display: none;
+    }
+    .block::after {
+      transform: translate(3px, 5px);
+    }
+    .block:hover::after {
+      transform: translate(4px, 7px);
     }
     .block--1 {
       width: 100%;

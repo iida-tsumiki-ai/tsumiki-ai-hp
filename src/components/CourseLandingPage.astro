@@ -133,11 +133,11 @@ const {
     </div>
 
     <div class="hero-ctas">
-      <a class={`btn btn-primary ${variant === "subreader" ? "btn-accent" : ""}`} href={ctaPrimary.href}>
+      <a class={`btn btn-primary ${variant === "subreader" ? "btn-accent" : ""}`} href={ctaPrimary.href} target={ctaPrimary.href.startsWith("http") ? "_blank" : undefined} rel={ctaPrimary.href.startsWith("http") ? "noopener noreferrer" : undefined}>
         {ctaPrimary.label}
       </a>
       {ctaSecondary && (
-        <a class="btn btn-secondary" href={ctaSecondary.href}>
+        <a class="btn btn-secondary" href={ctaSecondary.href} target={ctaSecondary.href.startsWith("http") ? "_blank" : undefined} rel={ctaSecondary.href.startsWith("http") ? "noopener noreferrer" : undefined}>
           {ctaSecondary.label}
         </a>
       )}
@@ -308,16 +308,16 @@ const {
       迷ったら、まず無料の AI駆動経営診断（10問・3分）で現在地を確かめるところから。
     </p>
     <div class="final-ctas">
-      <a class={`btn btn-lg ${variant === "subreader" ? "btn-accent" : "btn-primary"}`} href={ctaPrimary.href}>
+      <a class={`btn btn-lg ${variant === "subreader" ? "btn-accent" : "btn-primary"}`} href={ctaPrimary.href} target={ctaPrimary.href.startsWith("http") ? "_blank" : undefined} rel={ctaPrimary.href.startsWith("http") ? "noopener noreferrer" : undefined}>
         {ctaPrimary.label}
       </a>
       {ctaSecondary && (
-        <a class="btn btn-secondary btn-lg" href={ctaSecondary.href}>
+        <a class="btn btn-secondary btn-lg" href={ctaSecondary.href} target={ctaSecondary.href.startsWith("http") ? "_blank" : undefined} rel={ctaSecondary.href.startsWith("http") ? "noopener noreferrer" : undefined}>
           {ctaSecondary.label}
         </a>
       )}
       {ctaTertiary && (
-        <a class="btn btn-ghost btn-lg" href={ctaTertiary.href}>
+        <a class="btn btn-ghost btn-lg" href={ctaTertiary.href} target={ctaTertiary.href.startsWith("http") ? "_blank" : undefined} rel={ctaTertiary.href.startsWith("http") ? "noopener noreferrer" : undefined}>
           {ctaTertiary.label}
         </a>
       )}

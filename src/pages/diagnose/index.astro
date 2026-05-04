@@ -156,7 +156,7 @@ import Layout from "../../layouts/Layout.astro";
             <h2>まずは話を聞いてみませんか？</h2>
             <p>千葉県印西市から、オンラインでも対面でも。無料相談は30分から。</p>
             <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-              <a class="diag-btn diag-btn-accent diag-btn-lg" href="/contact/">無料相談を予約する</a>
+              <a class="diag-btn diag-btn-accent diag-btn-lg" href="https://docs.google.com/forms/d/e/1FAIpQLSd1yUsmc94ZTZ_MqR3tLVXDWlCaOmLIYxt3o2BqSb-AVF83gg/viewform" target="_blank" rel="noopener noreferrer">無料相談を予約する</a>
               <a class="diag-btn diag-btn-secondary diag-btn-lg" href="/#product-matrix">商品ラインナップを見る</a>
             </div>
           </div>
@@ -1027,7 +1027,7 @@ import Layout from "../../layouts/Layout.astro";
     Lv4: { category: 'A', catLabel: '👨‍💼 A. 経営者が先に学ぶ', name: 'Lv4講座（事例集）＋ AI駆動経営伴走支援', stageTag: 'STAGE ❹ AIネイティブになる', price: '月3,000 + 月10〜30万', priceUnit: '（Lv4講座はメンバーシップ・事例集／伴走支援は C カテゴリ主力）', desc: 'Lv4はvisionと事例集の領域。Lv4講座は AI駆動経営伴走支援を自走した会社のインタビュー集として設計されており、「自社が次に何を目指せば良いか」の参照点になります。本格的な内製化にはAI駆動経営伴走支援を。', primaryCta: '★ AI駆動経営伴走支援の無料相談', secondaryCta: 'Lv4講座（事例集）の詳細', primaryHref: '/support/', secondaryHref: '/courses/lv4/' },
     TR1: { category: 'B', catLabel: '👥 B. 組織に入れる', name: '❶入門研修（担当者向け）', stageTag: 'STAGE ❶ 土台を組む', price: '10', priceUnit: '万円 / 半日', desc: '担当者チームが集まって受講する半日研修。Claude・ChatGPT基礎と個人プロンプト集を一気に作ります。経営者が「組織に共通言語を入れたい」タイミングで。', primaryCta: '入門研修の詳細', secondaryCta: '研修プログラム一覧', primaryHref: '/training/', secondaryHref: '/training/' },
     TR2: { category: 'B', catLabel: '👥 B. 組織に入れる', name: '❷実践研修（担当者向け）', stageTag: 'STAGE ❷ 活用を広げる', price: '25', priceUnit: '万円 / 日', desc: 'チーム向け1日研修。共通プロンプト＋GAS入門で、現場が自走できる状態を作ります。Lv2で組織展開を本格化するタイミングで。', primaryCta: '実践研修の詳細', secondaryCta: '研修プログラム一覧', primaryHref: '/training/', secondaryHref: '/training/' },
-    B: { category: 'C', catLabel: '🤝 C. 一緒に実行する', name: '★ AI駆動経営伴走支援（主力）', stageTag: 'Lv1-Lv4 共通 / 現在地に応じた進め方', price: '月 10〜30', priceUnit: '万円 / 半年で自走', desc: '社外CTOとして戦略→実装→運用→自走まで一気通貫で伴走します。Lv1なら導入設計・初期学習、Lv2なら業務棚卸し・全社展開、Lv3なら基幹系再選定・組織役割設計、Lv4なら自律運用と内製化──現在地に応じた進め方で、最終的にAIネイティブな会社まで持っていきます。', primaryCta: '無料個別相談を予約する', secondaryCta: 'AI駆動経営伴走支援の詳細', primaryHref: '/contact/', secondaryHref: '/support/' }
+    B: { category: 'C', catLabel: '🤝 C. 一緒に実行する', name: '★ AI駆動経営伴走支援（主力）', stageTag: 'Lv1-Lv4 共通 / 現在地に応じた進め方', price: '月 10〜30', priceUnit: '万円 / 半年で自走', desc: '社外CTOとして戦略→実装→運用→自走まで一気通貫で伴走します。Lv1なら導入設計・初期学習、Lv2なら業務棚卸し・全社展開、Lv3なら基幹系再選定・組織役割設計、Lv4なら自律運用と内製化──現在地に応じた進め方で、最終的にAIネイティブな会社まで持っていきます。', primaryCta: '無料個別相談を予約する', secondaryCta: 'AI駆動経営伴走支援の詳細', primaryHref: 'https://docs.google.com/forms/d/e/1FAIpQLSd1yUsmc94ZTZ_MqR3tLVXDWlCaOmLIYxt3o2BqSb-AVF83gg/viewform', secondaryHref: '/support/' }
   };
 
   const STAGES = [
@@ -1168,8 +1168,8 @@ import Layout from "../../layouts/Layout.astro";
       <div class="price">${mainProduct.price}<span class="unit">${mainProduct.priceUnit}</span></div>
       <p>${mainProduct.desc}</p>
       <div class="prescription-cta">
-        <a class="diag-btn diag-btn-accent" href="${mainProduct.primaryHref}">${mainProduct.primaryCta}</a>
-        <a class="diag-btn diag-btn-secondary" href="${mainProduct.secondaryHref}">${mainProduct.secondaryCta}</a>
+        <a class="diag-btn diag-btn-accent" href="${mainProduct.primaryHref}" ${mainProduct.primaryHref.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${mainProduct.primaryCta}</a>
+        <a class="diag-btn diag-btn-secondary" href="${mainProduct.secondaryHref}" ${mainProduct.secondaryHref.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${mainProduct.secondaryCta}</a>
       </div>
     `;
 

@@ -335,7 +335,7 @@ const cantDo = [
         <p class="sec-kicker">できないこと</p>
         <h2 class="sec-title">先に「お受けしないこと」をお伝えします。</h2>
         <p class="sec-lead">
-          情報の非対称性を自ら解消するために、ご提供できないこと・お断りする条件を先に明示します。
+          期待値ズレを防ぐため、ご提供できないこと・お断りする条件を先にお伝えします。
         </p>
       </header>
       <ul class="cantdo-list">
@@ -826,8 +826,10 @@ const cantDo = [
     flex-grow: 1;
   }
   .plan-features li {
-    position: relative;
-    padding: var(--space-2) 0 var(--space-2) var(--space-6);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
     font-size: var(--text-body-sm);
     line-height: 1.6;
     color: var(--color-text-body);
@@ -835,9 +837,7 @@ const cantDo = [
   }
   .plan-features li::before {
     content: "✓";
-    position: absolute;
-    left: 0;
-    top: var(--space-2);
+    flex: 0 0 auto;
     color: var(--color-primary);
     font-weight: var(--weight-bold);
   }

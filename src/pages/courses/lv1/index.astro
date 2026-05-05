@@ -4,10 +4,10 @@ import CourseLandingPage from "../../../components/CourseLandingPage.astro";
 import { noteUrls } from "../../../data/noteUrls";
 
 const audience = [
-  { text: "紙・口頭・FAX が主な伝達手段になっている会社の経営者" },
-  { text: "Excel が個人PCにバラバラ保存されていて困っている方" },
-  { text: "全社員に会社のメールアドレスが配られていない状態の方" },
-  { text: "「何から始めればいいかわからない」と立ち止まっている経営者" },
+  { text: "「Aさんのパソコンの中にしかない」ファイルが社内にある会社の経営者" },
+  { text: "発注を FAX で受けて手で Excel に打ち直す等、つなぎ目を手作業で凌いでいる方" },
+  { text: "部署間のやりとりがメール添付のファイル往復で成り立っている会社の経営者" },
+  { text: "全社員に会社のメールアドレスが配られていない、または使われていない状態の方" },
 ];
 
 const chapterParts = [
@@ -88,12 +88,12 @@ const checkList = [
 
 <Layout
   title="Lv1講座（メンバーシップ）— ツミキAI"
-  description="紙・FAXの会社から抜け出す第一歩。オフィス基盤×はじめてのAI活用。Lv2到達チェックリスト7項目付き。GWS版/MS365版。"
+  description="バラバラの業務を、繋げる第一歩。AIが社内データに到達できる土台を作るオフィス基盤選び＋1部門スモールスタート。Lv2到達チェックリスト7項目付き。GWS版/MS365版。"
 >
   <CourseLandingPage
     kicker="A. 経営者が先に学ぶ — Lv1講座"
-    title={`紙・FAXの会社から抜け出す<br /><span class="accent">第一歩。</span>`}
-    lead={`オフィス基盤×はじめてのAI活用を、読了30分で経営者自身が掴める note 有料記事です。<br />読み終わったとき、<strong>「Lv2到達まで何が足りないか」</strong>が7項目チェックリストで言葉になります。`}
+    title={`バラバラの業務を、<br /><span class="accent">繋げる第一歩。</span>`}
+    lead={`紙・FAX・Excel 手入力で凌いでいた<strong>つなぎ目を1箇所消す</strong>。Lv2 以降に <strong>AI が社内データへ到達できる土台</strong>を作る Lv1 講座。<br />読み終わったとき、「Lv2到達まで何が足りないか」が7項目チェックリストで言葉になります。`}
     price="メンバーシップ"
     priceNote="月¥3,000で Lv1〜Lv4 全講座読み放題／GWS版・MS365版を同梱／読了30分・約13,000字"
     audience={audience}
@@ -106,5 +106,6 @@ const checkList = [
     ctaSecondary={{ label: "AI駆動経営診断で自分のLvを特定する（無料）", href: "/diagnose/" }}
     ctaTertiary={{ label: "無料個別相談（30分）", href: "https://docs.google.com/forms/d/e/1FAIpQLSd1yUsmc94ZTZ_MqR3tLVXDWlCaOmLIYxt3o2BqSb-AVF83gg/viewform" }}
     variant="normal"
+    currentLevel="lv1"
   />
 </Layout>

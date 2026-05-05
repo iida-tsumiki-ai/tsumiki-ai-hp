@@ -225,15 +225,15 @@ const lastUpdated = "2026-05-03";
     margin: 0 0 var(--space-3) 0;
   }
   .policy-body :global(li) {
-    position: relative;
-    padding: var(--space-2) 0 var(--space-2) var(--space-6);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
     line-height: 1.7;
   }
   .policy-body :global(li::before) {
     content: "▸";
-    position: absolute;
-    left: 0;
-    top: var(--space-2);
+    flex: 0 0 auto;
     color: var(--color-primary);
   }
   .policy-body :global(strong) {

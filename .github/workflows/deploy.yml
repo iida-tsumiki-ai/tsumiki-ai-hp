@@ -28,6 +28,9 @@ jobs:
 
       - name: Install, build, and upload your site
         uses: withastro/action@v3
+        with:
+          # Astro 6+ は Node >=22.12.0 を要求するため明示指定
+          node-version: 22
         # withastro/action は内部で:
         #   - Node セットアップ
         #   - 依存インストール（npm ci）

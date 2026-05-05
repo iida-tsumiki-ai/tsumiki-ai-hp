@@ -1,0 +1,57 @@
+---
+/**
+ * note 記事サムネ画像プレビュー（個別バリアント）
+ * URL: /thumbnail-preview/{roadmap|roadmap-v2|lv1|lv2|lv3|lv4}/
+ *
+ * 1280×670 のキャンバスのみをレンダリング（ヘッダー/フッターなし）。
+ * headless Chrome でこの URL をスクショ → Pillow で 1280×670 ダウンサンプル
+ * → サムネ PNG として書き出す。
+ *
+ * 再生成スクリプト: tools/generate-thumbnails.sh
+ */
+import "../../styles/tokens.css";
+import "../../styles/global.css";
+import ThumbnailCard from "../../components/ThumbnailCard.astro";
+import { allVariants, type ThumbnailVariant } from "../../data/thumbnails.ts";
+
+export function getStaticPaths() {
+  return allVariants.map((v) => ({ params: { variant: v } }));
+}
+
+const { variant } = Astro.params as { variant: ThumbnailVariant };
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <title>Thumbnail Preview: {variant} — ツミキAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+      }
+      /* dev mode の Astro ツールバーを画像キャプチャから隠す */
+      astro-dev-toolbar,
+      astro-dev-overlay {
+        display: none !important;
+      }
+      /* キャンバスを viewport top-left に固定（1280×670 ぴったり）*/
+      .thumbnail {
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <ThumbnailCard variant={variant} />
+  </body>
+</html>

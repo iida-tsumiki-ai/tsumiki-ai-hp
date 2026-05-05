@@ -1,0 +1,145 @@
+/**
+ * note 記事サムネ画像のバリアント定義
+ * 1280×670（note OGP 1.91:1）/ シリーズ「ツミキAI 経営者講座」
+ *
+ * 使い方:
+ *   - /thumbnail-preview/[variant]/ で個別レンダリング → headless Chrome で PNG 化
+ *   - /thumbnail-preview/ で全6バリアント縦積みプレビュー
+ *
+ * ====================================================================
+ *  📝 新しい講座が増えたとき / コピーを変えたいときは
+ *      下の `variantContent` だけ編集すれば OK。
+ *      （level ラベル / 積み木の点灯状態 / ボトムストリップ文字列は
+ *        `lvDefaults` で自動的に決まる）
+ * ====================================================================
+ */
+
+export type ThumbnailVariant =
+  | "roadmap"
+  | "roadmap-v2"
+  | "lv1"
+  | "lv2"
+  | "lv3"
+  | "lv4";
+
+/** ブロックの状態（積み木4段の各段の見え方）*/
+export type BlockState = "lit" | "faded" | "overview";
+
+export interface ThumbnailConfig {
+  levelLabel: string;
+  /** メインタイトル（HTML 文字列、<br> 等可）*/
+  title: string;
+  subtitle: string;
+  /** ボトムストリップ左の <strong> 部分 */
+  stripMeta: string;
+  /** Lv4(上) → Lv3 → Lv2 → Lv1(下) の順番でブロック状態を指定 */
+  blocks: [BlockState, BlockState, BlockState, BlockState];
+  /**
+   * "punch" だと punchPre を表示し title 内 .hl を accent-soft 蛍光ペン化、
+   * フォントサイズも調整（roadmap-v2 専用）。デフォルトは "normal"。
+   */
+  variantStyle?: "normal" | "punch";
+  /** punch 用のリード文（タイトル直前）*/
+  punchPre?: string;
+}
+
+// ────────────────────────────────────────────────────────────────────
+// 👇 ここを編集する（タイトル / サブタイトル / punch リード文 のみ）
+// ────────────────────────────────────────────────────────────────────
+
+interface VariantContent {
+  title: string;
+  subtitle: string;
+  /** roadmap-v2 のような特殊レイアウトで使う場合のみ */
+  variantStyle?: "normal" | "punch";
+  /** punch 用リード文（HTML 可）*/
+  punchPre?: string;
+}
+
+const variantContent: Record<ThumbnailVariant, VariantContent> = {
+  roadmap: {
+    title: "AI駆動経営<br>ロードマップ講座",
+    subtitle: "4ステージで読み解く、AI駆動経営の全体像",
+  },
+  "roadmap-v2": {
+    title: '<span class="hl">AI駆動経営</span>で<br>先に着く',
+    subtitle: "中小企業のための4ステージ・ロードマップ",
+    variantStyle: "punch",
+    punchPre: 'DXで遅れた会社<span class="punch-emph">こそ、</span>',
+  },
+  lv1: {
+    title: "AI駆動経営<br>Lv1講座",
+    subtitle: "❶ 土台を組む — システムはあるのに、繋がっていない会社へ",
+  },
+  lv2: {
+    title: "AI駆動経営<br>Lv2講座",
+    subtitle: "❷ 活用を広げる — 「会話するだけのAI」から「仕事を動かすAI」へ",
+  },
+  lv3: {
+    title: "AI駆動経営<br>Lv3講座",
+    subtitle: "❸ 戦略を描く — 個別効率化の先にある、経営そのものの転換",
+  },
+  lv4: {
+    title: "AI駆動経営<br>Lv4講座",
+    subtitle: "❹ AIネイティブになる — AI内製で、進化し続ける会社",
+  },
+};
+
+// ────────────────────────────────────────────────────────────────────
+// 👇 ここから下は構造のデフォルト。基本いじらない。
+//    （新しい Lv が増えたら新しい variantKey と一緒に追加する）
+// ────────────────────────────────────────────────────────────────────
+
+interface VariantDefaults {
+  levelLabel: string;
+  stripMeta: string;
+  blocks: [BlockState, BlockState, BlockState, BlockState];
+}
+
+const variantDefaults: Record<ThumbnailVariant, VariantDefaults> = {
+  roadmap: {
+    levelLabel: "ROADMAP",
+    stripMeta: "全Lv共通",
+    blocks: ["overview", "overview", "overview", "overview"],
+  },
+  "roadmap-v2": {
+    levelLabel: "ROADMAP",
+    stripMeta: "全Lv共通",
+    blocks: ["overview", "overview", "overview", "overview"],
+  },
+  lv1: {
+    levelLabel: "Lv1",
+    stripMeta: "❶ 土台を組む（DX領域）",
+    blocks: ["faded", "faded", "faded", "lit"],
+  },
+  lv2: {
+    levelLabel: "Lv2",
+    stripMeta: "❷ 活用を広げる（DX領域）",
+    blocks: ["faded", "faded", "lit", "lit"],
+  },
+  lv3: {
+    levelLabel: "Lv3",
+    stripMeta: "❸ 戦略を描く（AI領域）",
+    blocks: ["faded", "lit", "lit", "lit"],
+  },
+  lv4: {
+    levelLabel: "Lv4",
+    stripMeta: "❹ AIネイティブになる（AI領域）",
+    blocks: ["lit", "lit", "lit", "lit"],
+  },
+};
+
+export const allVariants: ThumbnailVariant[] = [
+  "roadmap",
+  "roadmap-v2",
+  "lv1",
+  "lv2",
+  "lv3",
+  "lv4",
+];
+
+/** content と defaults をマージした最終 config（コンポーネントから読む）*/
+export const thumbnailConfigs: Record<ThumbnailVariant, ThumbnailConfig> =
+  Object.fromEntries(
+    allVariants.map((v) => [v, { ...variantDefaults[v], ...variantContent[v] }]),
+  ) as Record<ThumbnailVariant, ThumbnailConfig>;

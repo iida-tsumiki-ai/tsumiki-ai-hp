@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://new.tsumiki.ai/sitemap-index.xml

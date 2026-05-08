@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# note記事用の生成資産（HPには配信しない／別フォルダに移動済）
+note-assets/

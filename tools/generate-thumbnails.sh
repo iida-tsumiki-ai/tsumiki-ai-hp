@@ -2,7 +2,7 @@
 # note 記事サムネ画像（1280×670）を6バリアント分一括生成
 #
 # 使い方:
-#   ./tools/generate-thumbnails.sh                    # public/images/thumbnails/ に保存
+#   ./tools/generate-thumbnails.sh                    # note-assets/thumbnails/ に保存（git 管理外）
 #   ./tools/generate-thumbnails.sh /path/to/output    # 指定先に保存
 #
 # 前提:
@@ -19,7 +19,7 @@
 set -euo pipefail
 
 PROJECT_DIR="$HOME/Projects/tsumiki-ai-hp"
-OUTPUT_DIR="${1:-$PROJECT_DIR/public/images/thumbnails}"
+OUTPUT_DIR="${1:-$PROJECT_DIR/note-assets/thumbnails}"
 PORT=4322
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 VARIANTS=(roadmap roadmap-v2 lv1 lv2 lv3 lv4)
@@ -64,10 +64,9 @@ for v in "${VARIANTS[@]}"; do
   python3 - <<EOF
 from PIL import Image
 src = Image.open("$TMP_DIR/$v-2x.png")
-# 2x スクショは 2560×2680 想定。サムネは 1280×670 領域なので 2x で 2560×1340 を crop
+# 2x スクショは 2560×2680 想定。サムネ領域 2560×1340 を crop してそのまま保存（retina 鮮明化のため downsample しない）
 cropped = src.crop((0, 0, 2560, 1340))
-final = cropped.resize((1280, 670), Image.LANCZOS)
-final.save("$OUTPUT_DIR/thumbnail-$v.png")
+cropped.save("$OUTPUT_DIR/thumbnail-$v.png", optimize=True)
 EOF
   echo "[gen]   → $OUTPUT_DIR/thumbnail-$v.png"
 done

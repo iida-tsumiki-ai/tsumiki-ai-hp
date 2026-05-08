@@ -1,0 +1,659 @@
+---
+/**
+ * SlideCard — note 記事 本文中スライド画像（1280×720 / 16:9）
+ *
+ * 6 レイアウト型を 1 コンポーネントに統合:
+ *   A. section-cover  章扉
+ *   B. lv-card        Lv 定義（状態キャッチ + 取り組み3つ + 積み木）
+ *   C. compare-4      4 ステージ比較
+ *   D. quote          引用宣言
+ *   E. checklist      チェックリスト
+ *   F. cta            最終 CTA
+ *
+ * 使い方:
+ *   <SlideCard slug="01-cover-stage-map" />
+ */
+import type { Slide } from "../data/slides-roadmap.ts";
+
+interface Props {
+  slug: string;
+  slides: Slide[];
+}
+
+const { slug, slides } = Astro.props;
+const slide = slides.find((s) => s.slug === slug) as Slide | undefined;
+
+if (!slide) {
+  throw new Error(`Slide not found: ${slug}`);
+}
+
+const lv = slide.layout === "lv-card" ? slide.lv : null;
+---
+
+<div class:list={["slide", `slide--${slide.layout}`, lv ? `slide--lv${lv}` : null]}>
+  {/* ============================================================
+       A. section-cover  章扉
+       ============================================================ */}
+  {slide.layout === "section-cover" && (
+    <>
+      <div class="cover-text">
+        {slide.number && <span class="cover-number">{slide.number}</span>}
+        <h1 class="cover-title" set:html={slide.title} />
+        {slide.lead && <p class="cover-lead">{slide.lead}</p>}
+      </div>
+      <div class="cover-stack" aria-hidden="true">
+        <div class="stack">
+          <div class:list={["block", "block--4", { dim: slide.position && slide.position < 4 }]}>
+            <span class="block-num">04</span><span class="block-name">AIネイティブ</span>
+          </div>
+          <div class:list={["block", "block--3", { dim: slide.position && slide.position < 3 }]}>
+            <span class="block-num">03</span><span class="block-name">戦略を描く</span>
+          </div>
+          <div class:list={["block", "block--2", { dim: slide.position && slide.position < 2 }]}>
+            <span class="block-num">02</span><span class="block-name">活用を広げる</span>
+          </div>
+          <div class:list={["block", "block--1", { dim: slide.position && slide.position < 1 }]}>
+            <span class="block-num">01</span><span class="block-name">土台を組む</span>
+          </div>
+          <div class="stack-base"></div>
+        </div>
+      </div>
+    </>
+  )}
+
+  {/* ============================================================
+       B. lv-card  Lv 定義
+       ============================================================ */}
+  {slide.layout === "lv-card" && (
+    <>
+      <div class="lv-text">
+        <span class="lv-badge">Lv{slide.lv}</span>
+        <h1 class="lv-title">{slide.lvTitle}</h1>
+        <p class="lv-catch">{slide.catchPhrase}</p>
+        <ul class="lv-actions">
+          {slide.actions.map((a) => (
+            <li class="lv-action">{a}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="lv-stack" aria-hidden="true">
+        <div class="stack">
+          <div class:list={["block", "block--4", { dim: slide.lv < 4, current: slide.lv === 4 }]}>
+            <span class="block-num">04</span><span class="block-name">AIネイティブ</span>
+          </div>
+          <div class:list={["block", "block--3", { dim: slide.lv < 3, current: slide.lv === 3 }]}>
+            <span class="block-num">03</span><span class="block-name">戦略を描く</span>
+          </div>
+          <div class:list={["block", "block--2", { dim: slide.lv < 2, current: slide.lv === 2 }]}>
+            <span class="block-num">02</span><span class="block-name">活用を広げる</span>
+          </div>
+          <div class:list={["block", "block--1", { dim: slide.lv < 1, current: slide.lv === 1 }]}>
+            <span class="block-num">01</span><span class="block-name">土台を組む</span>
+          </div>
+          <div class="stack-base"></div>
+        </div>
+      </div>
+    </>
+  )}
+
+  {/* ============================================================
+       C. compare-4  4 ステージ比較
+       ============================================================ */}
+  {slide.layout === "compare-4" && (
+    <div class="compare-wrap">
+      <header class="compare-head">
+        <h1 class="compare-title">{slide.title}</h1>
+        {slide.subtitle && <p class="compare-sub">{slide.subtitle}</p>}
+      </header>
+      <ul class="compare-rows">
+        {slide.rows.map((r) => (
+          <li class:list={["compare-row", `compare-row--lv${r.lv}`]}>
+            <span class="compare-label">{r.label}</span>
+            <span class="compare-arrow" aria-hidden="true">→</span>
+            <span class="compare-msg">{r.message}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  {/* ============================================================
+       D. quote  引用宣言
+       ============================================================ */}
+  {slide.layout === "quote" && (
+    <div class="quote-wrap">
+      {slide.preLine && <p class="quote-pre">{slide.preLine}</p>}
+      <blockquote class="quote-main" set:html={slide.quote} />
+      {slide.attribution && <p class="quote-attr">{slide.attribution}</p>}
+    </div>
+  )}
+
+  {/* ============================================================
+       E. checklist  チェックリスト
+       ============================================================ */}
+  {slide.layout === "checklist" && (
+    <div class="checklist-wrap">
+      <header class="checklist-head">
+        <h1 class="checklist-title">{slide.title}</h1>
+        {slide.subtitle && <p class="checklist-sub">{slide.subtitle}</p>}
+      </header>
+      <ol class:list={["checklist-items", `checklist-items--${slide.numberStyle ?? "decimal"}`]}>
+        {slide.items.map((it, i) => (
+          <li class="checklist-item">
+            <span class="checklist-num">{
+              slide.numberStyle === "q"
+                ? `Q${i + 1}`
+                : slide.numberStyle === "circle"
+                  ? "①②③④⑤⑥⑦⑧⑨".charAt(i)
+                  : String(i + 1).padStart(2, "0")
+            }</span>
+            <span class="checklist-text" set:html={it} />
+          </li>
+        ))}
+      </ol>
+    </div>
+  )}
+
+  {/* ============================================================
+       F. cta  最終 CTA
+       ============================================================ */}
+  {slide.layout === "cta" && (
+    <div class="cta-wrap">
+      <header class="cta-head">
+        <h1 class="cta-headline" set:html={slide.headline} />
+        {slide.subline && <p class="cta-subline">{slide.subline}</p>}
+      </header>
+      <ul class="cta-list">
+        {slide.ctas.map((c) => (
+          <li class:list={["cta-item", `cta-item--l${c.level}`]}>
+            <span class="cta-level">L{c.level}</span>
+            <span class="cta-label">{c.label}</span>
+            {c.sub && <span class="cta-sub">{c.sub}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+</div>
+
+<style>
+  /* ========================================
+     共通: キャンバス
+     ======================================== */
+  .slide {
+    width: 1280px;
+    height: 720px;
+    position: relative;
+    overflow: hidden;
+    background: var(--color-bg-warm);
+    box-shadow: 0 8px 32px rgba(26, 58, 95, 0.18);
+    display: flex;
+    flex-direction: row;
+  }
+
+  /* ========================================
+     A. section-cover
+     ======================================== */
+  .slide--section-cover { display: flex; }
+  .cover-text {
+    flex: 0 0 60%;
+    padding: 56px 32px 48px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+  }
+  .cover-number {
+    font-family: var(--font-jp-serif);
+    font-size: 96px;
+    font-weight: 700;
+    color: var(--color-accent);
+    line-height: 1;
+  }
+  .cover-title {
+    font-family: var(--font-jp-serif);
+    font-weight: 700;
+    font-size: 88px;
+    line-height: 1.18;
+    color: var(--color-primary);
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .cover-lead {
+    font-family: var(--font-jp);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.6;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .cover-stack {
+    flex: 0 0 40%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 24px 48px 8px;
+  }
+
+  /* ========================================
+     B. lv-card
+     ======================================== */
+  .slide--lv-card { display: flex; }
+  .lv-text {
+    flex: 0 0 60%;
+    padding: 40px 24px 40px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+  .lv-badge {
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: 22px;
+    color: #fff;
+    background: var(--color-accent);
+    padding: 6px 20px;
+    border-radius: 999px;
+    letter-spacing: 0.06em;
+    width: fit-content;
+  }
+  .lv-title {
+    font-family: var(--font-jp-serif);
+    font-weight: 700;
+    font-size: 76px;
+    line-height: 1.18;
+    color: var(--color-primary);
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .lv-catch {
+    font-family: var(--font-jp-serif);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.55;
+    color: var(--color-text-body);
+    margin: 8px 0 12px 0;
+    border-left: 5px solid var(--color-accent);
+    padding-left: 18px;
+  }
+  .lv-actions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .lv-action {
+    font-family: var(--font-jp);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--color-primary);
+    padding-left: 32px;
+    position: relative;
+  }
+  .lv-action::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 20px;
+    height: 4px;
+    background: var(--color-accent);
+    border-radius: 2px;
+  }
+  .lv-stack {
+    flex: 0 0 40%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 32px 24px 40px 8px;
+  }
+
+  /* ========================================
+     共通: 階段スタック（積み木 4 段）
+     Hero / Thumbnail と同じ構造
+     ======================================== */
+  .stack {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    max-width: 440px;
+  }
+  .stack-base {
+    align-self: stretch;
+    height: 14px;
+    margin-top: 6px;
+    background: radial-gradient(
+      ellipse 60% 100% at 50% 0%,
+      rgba(26, 58, 95, 0.18) 0%,
+      transparent 70%
+    );
+  }
+  .block {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px;
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 30%);
+    box-shadow: var(--shadow-sm);
+    transition: opacity 200ms ease;
+  }
+  .block::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--block-side, rgba(26, 58, 95, 0.14));
+    transform: translate(5px, 7px);
+    z-index: -1;
+  }
+  .block-num {
+    font-family: var(--font-en);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: inherit;
+    opacity: 0.65;
+  }
+  .block-name {
+    font-family: var(--font-jp-serif);
+    font-weight: 600;
+    font-size: 19px;
+    white-space: nowrap;
+  }
+  .block--1 {
+    width: 96%;
+    background: var(--color-bg-warm);
+    border: 1px solid var(--color-border);
+    --block-side: #E8DFCE;
+  }
+  .block--2 {
+    width: 78%;
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    margin-left: 28px;
+    --block-side: #DCD7C9;
+  }
+  .block--3 {
+    width: 62%;
+    background: var(--color-accent-soft);
+    color: #B84A1E;
+    margin-left: 56px;
+    --block-side: #F4C5A4;
+  }
+  .block--4 {
+    width: 44%;
+    background: var(--color-primary);
+    color: #fff;
+    margin-left: 84px;
+    box-shadow: var(--shadow-md);
+    --block-side: #102845;
+  }
+  .block.dim { opacity: 0.32; }
+  .block.dim::after { opacity: 0.4; }
+  .block.current {
+    box-shadow: 0 0 0 4px var(--color-accent), var(--shadow-md);
+  }
+
+  /* ========================================
+     C. compare-4
+     ======================================== */
+  .slide--compare-4 { display: block; }
+  .compare-wrap {
+    width: 100%;
+    height: 100%;
+    padding: 40px 56px 40px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .compare-head { display: flex; flex-direction: column; gap: 10px; }
+  .compare-title {
+    font-family: var(--font-jp-serif);
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 1.2;
+    color: var(--color-primary);
+    margin: 0;
+  }
+  .compare-sub {
+    font-family: var(--font-jp);
+    font-size: 22px;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .compare-rows {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    justify-content: center;
+    width: 100%;
+    max-width: 820px;
+  }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 240px 24px 1fr;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 24px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+  .compare-row--lv1 { border-left: 6px solid #BFB7A4; }
+  .compare-row--lv2 { border-left: 6px solid #9CA3AF; }
+  .compare-row--lv3 { border-left: 6px solid var(--color-accent); }
+  .compare-row--lv4 { border-left: 6px solid var(--color-primary); }
+  .compare-label {
+    font-family: var(--font-jp-serif);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--color-primary);
+  }
+  .compare-arrow {
+    font-family: var(--font-en);
+    font-size: 22px;
+    color: var(--color-accent);
+    text-align: center;
+  }
+  .compare-msg {
+    font-family: var(--font-jp);
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--color-text-body);
+  }
+
+  /* ========================================
+     D. quote
+     ======================================== */
+  .slide--quote { display: block; }
+  .quote-wrap {
+    width: 100%;
+    height: 100%;
+    padding: 48px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 28px;
+  }
+  .quote-pre {
+    font-family: var(--font-jp);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--color-accent);
+    margin: 0;
+  }
+  .quote-main {
+    font-family: var(--font-jp-serif);
+    font-weight: 700;
+    font-size: 76px;
+    line-height: 1.4;
+    color: var(--color-primary);
+    letter-spacing: -0.01em;
+    margin: 0;
+    quotes: none;
+  }
+  .quote-main :global(.hl) {
+    color: var(--color-accent);
+  }
+  .quote-attr {
+    font-family: var(--font-jp);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* ========================================
+     E. checklist
+     ======================================== */
+  .slide--checklist { display: block; }
+  .checklist-wrap {
+    width: 100%;
+    height: 100%;
+    padding: 40px 56px 40px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .checklist-head { display: flex; flex-direction: column; gap: 10px; }
+  .checklist-title {
+    font-family: var(--font-jp-serif);
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1.2;
+    color: var(--color-primary);
+    margin: 0;
+  }
+  .checklist-sub {
+    font-family: var(--font-jp);
+    font-size: 22px;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .checklist-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
+  }
+  .checklist-item {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    align-items: start;
+    gap: 20px;
+    padding: 14px 20px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+  }
+  .checklist-num {
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--color-accent);
+    text-align: center;
+    padding: 6px 0;
+    border-radius: 8px;
+    background: var(--color-accent-soft);
+    line-height: 1;
+  }
+  .checklist-text {
+    font-family: var(--font-jp);
+    font-size: 21px;
+    line-height: 1.55;
+    color: var(--color-primary);
+    font-weight: 500;
+    padding-top: 4px;
+  }
+
+  /* ========================================
+     F. cta
+     ======================================== */
+  .slide--cta { display: block; }
+  .cta-wrap {
+    width: 100%;
+    height: 100%;
+    padding: 48px 56px 40px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    justify-content: center;
+  }
+  .cta-head { display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center; }
+  .cta-headline {
+    font-family: var(--font-jp-serif);
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 1.25;
+    color: var(--color-primary);
+    margin: 0;
+  }
+  .cta-subline {
+    font-family: var(--font-jp);
+    font-size: 22px;
+    color: var(--color-text-body);
+    margin: 0;
+  }
+  .cta-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .cta-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 24px 16px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+  .cta-item--l1 { border-top: 6px solid var(--color-accent); }
+  .cta-item--l2 { border-top: 6px solid #9CA3AF; }
+  .cta-item--l3 { border-top: 6px solid var(--color-primary); }
+  .cta-level {
+    font-family: var(--font-en);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+  }
+  .cta-label {
+    font-family: var(--font-jp-serif);
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--color-primary);
+  }
+  .cta-sub {
+    font-family: var(--font-jp);
+    font-size: 16px;
+    color: var(--color-text-muted);
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+/**
+ * note 記事「Lv1講座」本文中スライド画像プレビュー（個別 slug）
+ * URL: /slide-preview/lv1/{slug}/
+ *
+ * 1280×720 のキャンバスのみをレンダリング（ヘッダー/フッターなし）。
+ * headless Chrome でこの URL をスクショ → Pillow で 1280×720 ダウンサンプル
+ * → スライド PNG として書き出す。
+ *
+ * 再生成スクリプト: tools/generate-slides.sh lv1
+ */
+import "../../../styles/tokens.css";
+import "../../../styles/global.css";
+import SlideCard from "../../../components/SlideCard.astro";
+import { slides } from "../../../data/slides-lv1.ts";
+
+export function getStaticPaths() {
+  return slides.map((s) => ({ params: { slug: s.slug } }));
+}
+
+const { slug } = Astro.params as { slug: string };
+const articleSlides = slides;
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <title>Slide Preview Lv1: {slug} — ツミキAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+      }
+      astro-dev-toolbar,
+      astro-dev-overlay {
+        display: none !important;
+      }
+      .slide {
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <SlideCard slug={slug} slides={articleSlides} />
+  </body>
+</html>

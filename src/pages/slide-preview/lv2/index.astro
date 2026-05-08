@@ -1,0 +1,38 @@
+---
+import "../../../styles/tokens.css";
+import "../../../styles/global.css";
+import SlideCard from "../../../components/SlideCard.astro";
+import { slides } from "../../../data/slides-lv2.ts";
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <title>Slide Previews Lv2 — ツミキAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html, body { margin: 0; padding: 0; background: #D8D5D0; }
+      body { display: flex; flex-direction: column; align-items: center; gap: 32px; padding: 32px 0 64px; }
+      .preview-label { font-family: var(--font-en); font-size: 13px; font-weight: 600; color: #888; letter-spacing: 0.08em; text-transform: uppercase; }
+      .preview-label a { color: #333; text-decoration: none; }
+      .preview-label a:hover { text-decoration: underline; }
+      astro-dev-toolbar, astro-dev-overlay { display: none !important; }
+    </style>
+  </head>
+  <body>
+    {slides.map((s) => (
+      <>
+        <p class="preview-label">
+          <a href={`/slide-preview/lv2/${s.slug}/`}>[{s.layout}] {s.slug}</a>
+        </p>
+        <SlideCard slug={s.slug} slides={slides} />
+      </>
+    ))}
+  </body>
+</html>

@@ -16,8 +16,8 @@ const {
   ogImage = "/images/og-default.png",
 } = Astro.props;
 
-const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "https://new.tsumiki.ai";
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? "https://new.tsumiki.ai/").toString();
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "https://tsumiki.ai";
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? "https://tsumiki.ai/").toString();
 const ogImageUrl = ogImage.startsWith("http")
   ? ogImage
   : `${siteUrl}${ogImage.startsWith("/") ? "" : "/"}${ogImage}`;

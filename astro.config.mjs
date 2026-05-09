@@ -4,6 +4,6 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://new.tsumiki.ai',
+  site: 'https://tsumiki.ai',
   integrations: [sitemap()],
 });

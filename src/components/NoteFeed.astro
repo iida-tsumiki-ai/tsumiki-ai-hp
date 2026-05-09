@@ -4,11 +4,12 @@
  * 設計書: 11_HPリニューアル_設計書.md §1 §7 / B5 タスク
  *
  * 目的:
- *   - Phase 2 以降の note 公開が始まる時点から即効果が出る導線
+ *   - note 記事公開と連動した HP 側の導線
  *   - POSTS 東京の Insight 型レイアウトを参照
- *   - ロードマップ講座（無料note）への誘導補強
  *
- * NOTE: 現時点は **ダミー記事** を3本配置。Phase 2 開始後に note RSS 連動（または手動差し替え）で本記事化。
+ * 更新履歴:
+ *   - 2026-04-23 ダミー3本で初期実装
+ *   - 2026-05-09 ダミー → 「GWS×Gemini シリーズ」3本（請求書／Drive／Calendar）の実記事に差し替え
  */
 
 type Article = {
@@ -20,35 +21,33 @@ type Article = {
   readingTime?: string;
 };
 
-const NOTE_CREATOR_URL = "https://note.com/tsumiki_ai";
-
 const articles: Article[] = [
   {
-    title: "中小企業のDX → AI駆動経営、4ステージで上る道筋",
+    title: "請求書PDFは、もう開かなくていい。",
     excerpt:
-      "AI駆動経営診断の結果から、自社がLv1〜Lv4のどこにいるかを把握できます。ロードマップ講座のダイジェスト版として、4ステージの輪郭を2,000字で解説しています。",
-    category: "ロードマップ",
-    publishedAt: "Coming soon",
-    href: NOTE_CREATOR_URL,
-    readingTime: "8分",
+      "毎月20日からの請求書ラッシュを丸ごと自動化する設計。Google Workspace Studio + Gemini でメール受信→AI抽出→台帳追記→電帳法対応保存までを30〜60分で組み、税務調査で詰む4要件を経営者目線で整理。",
+    category: "業務自動化",
+    publishedAt: "2026-05-09",
+    href: "https://note.com/tsumiki_ai/n/ne9167965d273",
+    readingTime: "12分",
   },
   {
-    title: "AI活用が進まない会社に共通する、3つのつまずき",
+    title: "『あの資料どこ？』が消える日。",
     excerpt:
-      "ツールを導入したのに使われません。個人では使えるのに全社展開できません。そんな詰まりポイントを、弥生6年＋現場観察から整理しています。",
-    category: "現場ノート",
-    publishedAt: "Coming soon",
-    href: NOTE_CREATOR_URL,
-    readingTime: "6分",
+      "Google Drive の AI Overviews と Ask Gemini が日本語対応。ただし散らかった Drive では検索が効きません。30分でAI検索が効く骨格を立てる、現実的なリファクタ手順を経営者目線で。",
+    category: "AI検索",
+    publishedAt: "2026-05-09",
+    href: "https://note.com/tsumiki_ai/n/ndd8f5bfa611f",
+    readingTime: "12分",
   },
   {
-    title: "EC経営で痛感した「業務を流れに繋ぐ難しさ」",
+    title: "経営者の『1週間』を AI が映し出す。",
     excerpt:
-      "独立前のEC経営で痛感したのは、個別作業ではなく業務を一連の流れに繋ぐ難しさでした。AI効率化が万能に見えてしまう経営者に、最初に話す4つのことをまとめています。",
-    category: "失敗談",
-    publishedAt: "Coming soon",
-    href: NOTE_CREATOR_URL,
-    readingTime: "7分",
+      "「先週、経営者として何に時間を使ったか」を金曜30分で振り返る習慣化の設計。Calendar × Gemini × Time Insights の3レイヤー運用と、毎週そのまま使える4プロンプトをセットで紹介。",
+    category: "時間管理",
+    publishedAt: "2026-05-09",
+    href: "https://note.com/tsumiki_ai/n/n99b29f4ef2ca",
+    readingTime: "12分",
   },
 ];
 ---
@@ -91,9 +90,6 @@ const articles: Article[] = [
     }
   </ul>
 
-  <p class="note-note">
-    ※ ダミー記事（Coming soon）。Phase 2（2026 Q3〜）から本記事を順次公開予定。
-  </p>
 </div>
 
 <style>

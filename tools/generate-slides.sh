@@ -56,8 +56,13 @@ case "$ARTICLE" in
     OUTPUT_SUBDIR="lv4"
     URL_PREFIX="slide-preview/lv4"
     ;;
+  invoice)
+    DATA_FILE="src/data/slides-invoice-article.ts"
+    OUTPUT_SUBDIR="invoice-article"
+    URL_PREFIX="slide-preview/invoice-article"
+    ;;
   *)
-    echo "[gen] 未知の article: $ARTICLE（roadmap | lv1 | lv2 | lv3 | lv4 のみ対応）"
+    echo "[gen] 未知の article: $ARTICLE（roadmap | lv1 | lv2 | lv3 | lv4 | invoice のみ対応）"
     exit 1
     ;;
 esac

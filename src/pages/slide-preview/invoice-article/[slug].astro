@@ -1,0 +1,52 @@
+---
+/**
+ * note 記事「請求書を電帳法対応で自動台帳化」本文中スライド画像プレビュー（個別 slug）
+ * URL: /slide-preview/invoice-article/{slug}/
+ *
+ * 再生成スクリプト: tools/generate-slides.sh invoice
+ */
+import "../../../styles/tokens.css";
+import "../../../styles/global.css";
+import SlideCard from "../../../components/SlideCard.astro";
+import { slides } from "../../../data/slides-invoice-article.ts";
+
+export function getStaticPaths() {
+  return slides.map((s) => ({ params: { slug: s.slug } }));
+}
+
+const { slug } = Astro.params as { slug: string };
+const articleSlides = slides;
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <title>Slide Preview Invoice Article: {slug} — ツミキAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+      }
+      astro-dev-toolbar,
+      astro-dev-overlay {
+        display: none !important;
+      }
+      .slide {
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <SlideCard slug={slug} slides={articleSlides} />
+  </body>
+</html>

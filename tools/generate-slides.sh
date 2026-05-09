@@ -2,12 +2,12 @@
 # note 記事 本文中スライド画像（1280×720 / 16:9）を一括生成
 #
 # 使い方:
-#   ./tools/generate-slides.sh                  # roadmap（既定）→ note-assets/note-slides/lv-roadmap/
+#   ./tools/generate-slides.sh                  # roadmap（既定）→ Drive note-assets/note-slides/lv-roadmap/
 #   ./tools/generate-slides.sh roadmap          # 同上
-#   ./tools/generate-slides.sh lv1              # Lv1講座 → note-assets/note-slides/lv1/
-#   ./tools/generate-slides.sh lv2              # Lv2講座 → note-assets/note-slides/lv2/
-#   ./tools/generate-slides.sh lv3              # Lv3講座 → note-assets/note-slides/lv3/
-#   ./tools/generate-slides.sh lv4              # Lv4講座 → note-assets/note-slides/lv4/
+#   ./tools/generate-slides.sh lv1              # Lv1講座 → Drive note-assets/note-slides/lv1/
+#   ./tools/generate-slides.sh lv2              # Lv2講座 → Drive note-assets/note-slides/lv2/
+#   ./tools/generate-slides.sh lv3              # Lv3講座 → Drive note-assets/note-slides/lv3/
+#   ./tools/generate-slides.sh lv4              # Lv4講座 → Drive note-assets/note-slides/lv4/
 #   ./tools/generate-slides.sh lv1 /path/to/out # 出力先を上書き
 #
 # 前提:
@@ -19,11 +19,12 @@
 #   1. astro build → astro preview --port 4322 を起動
 #   2. /slide-preview/{article-prefix}/{slug}/ を 2x 解像度でスクショ
 #   3. Pillow で crop して PNG 保存（retina 用に 2x のまま）
-#   4. 出力: note-assets/note-slides/{output-subdir}/slide-{slug}.png（git 管理外）
+#   4. 出力: Drive 共有「note記事/note-assets/note-slides/{output-subdir}/slide-{slug}.png」
 
 set -euo pipefail
 
 PROJECT_DIR="$HOME/Projects/tsumiki-ai-hp"
+DRIVE_NOTE_ASSETS="$HOME/Library/CloudStorage/GoogleDrive-iida@tsumiki.ai/共有ドライブ/ツミキAI/01_マーケティング/note記事/note-assets"
 ARTICLE="${1:-roadmap}"
 PORT=4322
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -67,7 +68,7 @@ case "$ARTICLE" in
     ;;
 esac
 
-OUTPUT_DIR="${2:-$PROJECT_DIR/note-assets/note-slides/$OUTPUT_SUBDIR}"
+OUTPUT_DIR="${2:-$DRIVE_NOTE_ASSETS/note-slides/$OUTPUT_SUBDIR}"
 mkdir -p "$OUTPUT_DIR"
 cd "$PROJECT_DIR"
 

@@ -2,8 +2,8 @@
 # note 記事サムネ画像（1280×670）を6バリアント分一括生成
 #
 # 使い方:
-#   ./tools/generate-thumbnails.sh                    # note-assets/thumbnails/ に保存（git 管理外）
-#   ./tools/generate-thumbnails.sh /path/to/output    # 指定先に保存
+#   ./tools/generate-thumbnails.sh                    # Drive 共有「note記事/note-assets/thumbnails/」に保存
+#   ./tools/generate-thumbnails.sh /path/to/output    # 指定先に保存（開発時はローカル指定も可）
 #
 # 前提:
 #   - 既に preview server が動いていない場合は自動で起動・終了する
@@ -19,7 +19,8 @@
 set -euo pipefail
 
 PROJECT_DIR="$HOME/Projects/tsumiki-ai-hp"
-OUTPUT_DIR="${1:-$PROJECT_DIR/note-assets/thumbnails}"
+DRIVE_NOTE_ASSETS="$HOME/Library/CloudStorage/GoogleDrive-iida@tsumiki.ai/共有ドライブ/ツミキAI/01_マーケティング/note記事/note-assets"
+OUTPUT_DIR="${1:-$DRIVE_NOTE_ASSETS/thumbnails}"
 PORT=4322
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 VARIANTS=(roadmap roadmap-v2 lv1 lv2 lv3 lv4 gws-invoice gws-drive gws-calendar)

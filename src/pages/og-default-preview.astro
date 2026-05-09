@@ -6,12 +6,17 @@
  *       public/images/og-default.png として保存する。
  *
  * 再生成手順:
- *   1. `npm run dev` で localhost:4321 を稼働
+ *   1. `npm run build && npx astro preview --port 4322` を稼働
  *   2. /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
- *        --headless --hide-scrollbars --force-device-scale-factor=1 \
- *        --window-size=1200,630 --virtual-time-budget=5000 \
- *        --screenshot=public/images/og-default.png \
- *        http://localhost:4321/og-default-preview/
+ *        --headless=new --hide-scrollbars --force-device-scale-factor=1 \
+ *        --window-size=1200,900 --virtual-time-budget=5000 \
+ *        --screenshot=/tmp/og-large.png \
+ *        http://localhost:4322/og-default-preview/
+ *   3. python3 -c "from PIL import Image; Image.open('/tmp/og-large.png').crop((0,0,1200,630)).save('public/images/og-default.png', optimize=True)"
+ *
+ * 注: --window-size=1200,630 で直接撮ると Chrome のビューポート計算で
+ *     最下部数十pxが切れる現象あり（タグラインが見切れる）。1200×900 で撮って
+ *     上から 1200×630 を切り出すのが安全。
  *
  * Hero.astro / DESIGN.md 準拠（`--color-primary` `--color-accent-soft` 等の色を継承）。
  * noindex で検索対象外。

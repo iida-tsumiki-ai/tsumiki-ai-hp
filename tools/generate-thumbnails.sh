@@ -22,7 +22,7 @@ PROJECT_DIR="$HOME/Projects/tsumiki-ai-hp"
 OUTPUT_DIR="${1:-$PROJECT_DIR/note-assets/thumbnails}"
 PORT=4322
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-VARIANTS=(roadmap roadmap-v2 lv1 lv2 lv3 lv4)
+VARIANTS=(roadmap roadmap-v2 lv1 lv2 lv3 lv4 gws-invoice gws-drive gws-calendar)
 TMP_DIR="$(mktemp -d)"
 
 mkdir -p "$OUTPUT_DIR"

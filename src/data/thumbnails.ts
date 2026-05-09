@@ -20,7 +20,10 @@ export type ThumbnailVariant =
   | "lv1"
   | "lv2"
   | "lv3"
-  | "lv4";
+  | "lv4"
+  | "gws-invoice"
+  | "gws-drive"
+  | "gws-calendar";
 
 /** ブロックの状態（積み木4段の各段の見え方）*/
 export type BlockState = "lit" | "faded" | "overview";
@@ -69,19 +72,31 @@ const variantContent: Record<ThumbnailVariant, VariantContent> = {
   },
   lv1: {
     title: "AI駆動経営<br>Lv1講座",
-    subtitle: "❶ 土台を組む — システムはあるのに、繋がっていない会社へ",
+    subtitle: "① 土台を組む — システムはあるのに、繋がっていない会社へ",
   },
   lv2: {
     title: "AI駆動経営<br>Lv2講座",
-    subtitle: "❷ 活用を広げる — 「会話するだけのAI」から「仕事を動かすAI」へ",
+    subtitle: "② 活用を広げる — 「会話するだけのAI」から「仕事を動かすAI」へ",
   },
   lv3: {
     title: "AI駆動経営<br>Lv3講座",
-    subtitle: "❸ 戦略を描く — 個別効率化の先にある、経営そのものの転換",
+    subtitle: "③ 戦略を描く — 個別効率化の先にある、経営そのものの転換",
   },
   lv4: {
     title: "AI駆動経営<br>Lv4講座",
-    subtitle: "❹ AIネイティブになる — AI内製で、進化し続ける会社",
+    subtitle: "④ AIネイティブになる — AI内製で、進化し続ける会社",
+  },
+  "gws-invoice": {
+    title: "請求書PDFは、<br>もう開かなくていい。",
+    subtitle: "Google Workspace Studio で『電帳法対応の自動台帳』を作る",
+  },
+  "gws-drive": {
+    title: "『あの資料どこ？』<br>が消える日。",
+    subtitle: "Google Drive を AI が探せる状態に整える30分リファクタ",
+  },
+  "gws-calendar": {
+    title: "経営者の『1週間』を<br>AI が映し出す。",
+    subtitle: "Google Calendar × Gemini で回す金曜30分の週次レビュー",
   },
 };
 
@@ -109,23 +124,38 @@ const variantDefaults: Record<ThumbnailVariant, VariantDefaults> = {
   },
   lv1: {
     levelLabel: "Lv1",
-    stripMeta: "❶ 土台を組む（DX領域）",
+    stripMeta: "① 土台を組む（DX領域）",
     blocks: ["faded", "faded", "faded", "lit"],
   },
   lv2: {
     levelLabel: "Lv2",
-    stripMeta: "❷ 活用を広げる（DX領域）",
+    stripMeta: "② 活用を広げる（DX領域）",
     blocks: ["faded", "faded", "lit", "lit"],
   },
   lv3: {
     levelLabel: "Lv3",
-    stripMeta: "❸ 戦略を描く（AI領域）",
+    stripMeta: "③ 戦略を描く（AI領域）",
     blocks: ["faded", "lit", "lit", "lit"],
   },
   lv4: {
     levelLabel: "Lv4",
-    stripMeta: "❹ AIネイティブになる（AI領域）",
+    stripMeta: "④ AIネイティブになる（AI領域）",
     blocks: ["lit", "lit", "lit", "lit"],
+  },
+  "gws-invoice": {
+    levelLabel: "Lv1",
+    stripMeta: "明日から使える GWS×Gemini ①",
+    blocks: ["faded", "faded", "faded", "lit"],
+  },
+  "gws-drive": {
+    levelLabel: "Lv1",
+    stripMeta: "明日から使える GWS×Gemini ②",
+    blocks: ["faded", "faded", "faded", "lit"],
+  },
+  "gws-calendar": {
+    levelLabel: "Lv1",
+    stripMeta: "明日から使える GWS×Gemini ③",
+    blocks: ["faded", "faded", "faded", "lit"],
   },
 };
 
@@ -136,6 +166,9 @@ export const allVariants: ThumbnailVariant[] = [
   "lv2",
   "lv3",
   "lv4",
+  "gws-invoice",
+  "gws-drive",
+  "gws-calendar",
 ];
 
 /** content と defaults をマージした最終 config（コンポーネントから読む）*/

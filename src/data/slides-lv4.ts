@@ -1,5 +1,5 @@
 /**
- * note 記事「Lv4講座 — AIネイティブになる」用 本文中スライド画像
+ * note 記事「Lv4講座 — AI駆動経営へ」用 本文中スライド画像
  * 1280×720（16:9）/ シリーズ「ツミキAI 経営者講座」
  *
  * Lv4 は how-to ではなく vision + 事例集の性格。
@@ -11,7 +11,7 @@ export const slides: Slide[] = [
   {
     slug: "00-title-cover",
     layout: "section-cover",
-    title: "Lv4講座<br>AIネイティブになる",
+    title: "Lv4講座<br>AI駆動経営へ",
     lead: "「使う会社」から「進化し続ける会社」へ",
     position: 4,
   },
@@ -19,7 +19,7 @@ export const slides: Slide[] = [
     slug: "01-lv4-card",
     layout: "lv-card",
     lv: 4,
-    lvTitle: "AIネイティブになる",
+    lvTitle: "AI駆動経営へ",
     catchPhrase: "AI内製で、進化し続ける会社",
     actions: [
       "新業務もAIから設計できる",
@@ -37,7 +37,7 @@ export const slides: Slide[] = [
   {
     slug: "03-checklist-4-features",
     layout: "checklist",
-    title: "AIネイティブな会社の 4つの特徴",
+    title: "AI駆動経営の会社の 4つの特徴",
     subtitle: "規模ではなく、仕組みの問題",
     numberStyle: "decimal",
     items: [
@@ -50,7 +50,7 @@ export const slides: Slide[] = [
   {
     slug: "04-checklist-5-changes",
     layout: "checklist",
-    title: "AIネイティブな会社で起きる 5つの変化",
+    title: "AI駆動経営の会社で起きる 5つの変化",
     subtitle: "米国 AI-Native 企業群の設計論を、中小企業に翻訳",
     numberStyle: "decimal",
     items: [

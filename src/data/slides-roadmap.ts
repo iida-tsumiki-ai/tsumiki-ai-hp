@@ -150,7 +150,7 @@ export const slides: Slide[] = [
       { lv: 1, label: "❶ 土台を組む", message: "システムはあるのに、繋がっていない会社" },
       { lv: 2, label: "❷ 活用を広げる", message: "「会話するだけのAI」から「仕事を動かすAI」へ" },
       { lv: 3, label: "❸ 戦略を描く", message: "個別効率化の先にある、経営そのものの転換" },
-      { lv: 4, label: "❹ AIネイティブ", message: "AI内製で、進化し続ける会社" },
+      { lv: 4, label: "❹ AI駆動経営", message: "AI内製で、進化し続ける会社" },
     ],
   },
 
@@ -201,7 +201,7 @@ export const slides: Slide[] = [
     slug: "07-lv4-card",
     layout: "lv-card",
     lv: 4,
-    lvTitle: "AIネイティブになる",
+    lvTitle: "AI駆動経営へ",
     catchPhrase: "AI内製で、進化し続ける会社",
     actions: [
       "新業務もAIから設計できる",
@@ -229,7 +229,7 @@ export const slides: Slide[] = [
       { lv: 1, label: "❶ 土台を組む", message: "バックオフィス工数 10–20% 削減" },
       { lv: 2, label: "❷ 活用を広げる", message: "部門単位で 20–40% 削減" },
       { lv: 3, label: "❸ 戦略を描く", message: "経営判断の質とスピードが変わる" },
-      { lv: 4, label: "❹ AIネイティブ", message: "売上成長と人件費が比例しなくなる" },
+      { lv: 4, label: "❹ AI駆動経営", message: "売上成長と人件費が比例しなくなる" },
     ],
   },
 

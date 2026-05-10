@@ -84,7 +84,7 @@ const variantContent: Record<ThumbnailVariant, VariantContent> = {
   },
   lv4: {
     title: "AI駆動経営<br>Lv4講座",
-    subtitle: "④ AIネイティブになる — AI内製で、進化し続ける会社",
+    subtitle: "④ AI駆動経営へ — AI内製で、進化し続ける会社",
   },
   "gws-invoice": {
     title: "請求書PDFは、<br>もう開かなくていい。",
@@ -139,7 +139,7 @@ const variantDefaults: Record<ThumbnailVariant, VariantDefaults> = {
   },
   lv4: {
     levelLabel: "Lv4",
-    stripMeta: "④ AIネイティブになる（AI領域）",
+    stripMeta: "④ AI駆動経営へ（AI領域）",
     blocks: ["lit", "lit", "lit", "lit"],
   },
   "gws-invoice": {

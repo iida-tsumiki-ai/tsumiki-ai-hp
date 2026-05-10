@@ -61,7 +61,7 @@ export const slides: Slide[] = [
     slug: "05-quote-claude-code",
     layout: "quote",
     preLine: "現時点のベストプラクティス",
-    quote: "クラウド基盤 × Claude Code が、<br>中小企業がAIネイティブを目指す筋道。",
+    quote: "クラウド基盤 × Claude Code が、<br>中小企業がAI駆動経営を目指す筋道。",
     attribution: "経営者自身がコマンドラインを触り、限界と意味を体感する",
   },
   {
@@ -114,7 +114,7 @@ export const slides: Slide[] = [
     layout: "quote",
     preLine: "Lv3 と Lv4 の境界",
     quote: "ツール × データ ×<br>組織 × 制度 の4軸。",
-    attribution: "制度の見直しがないと、Lv4（AIネイティブ・自走）には届かない",
+    attribution: "制度の見直しがないと、Lv4（AI駆動経営・自走）には届かない",
   },
   {
     slug: "11-checklist-5-items",
@@ -151,7 +151,7 @@ export const slides: Slide[] = [
     subline: "AI駆動経営伴走支援（戦略再設計フェーズ）への副読本としてご活用ください",
     ctas: [
       { level: 1, label: "無料DX診断", sub: "10問・3分" },
-      { level: 2, label: "Lv4講座を読む", sub: "AIネイティブになる" },
+      { level: 2, label: "Lv4講座を読む", sub: "AI駆動経営へ" },
       { level: 3, label: "無料個別相談", sub: "30分・代表が直接" },
     ],
   },

@@ -36,7 +36,7 @@ export const stageLabels: Record<Stage, { short: string; full: string; num: stri
   1: { short: "Lv.1 土台", full: "Lv.1 土台を組む", num: "01" },
   2: { short: "Lv.2 広げる", full: "Lv.2 活用を広げる", num: "02" },
   3: { short: "Lv.3 描く", full: "Lv.3 戦略を描く", num: "03" },
-  4: { short: "Lv.4 ネイティブ", full: "Lv.4 AIネイティブになる", num: "04" },
+  4: { short: "Lv.4 駆動経営", full: "Lv.4 AI駆動経営へ", num: "04" },
 };
 
 export const categoryLabels: Record<
@@ -150,7 +150,7 @@ export const productCells: ProductCell[] = [
     description: "基幹系ツール再選定・組織役割設計の視点整理",
     href: "/courses/lv3/",
   },
-  /* ❹ AIネイティブ（講座） */
+  /* ❹ AI駆動経営（講座） */
   {
     stage: 4,
     category: "learn",
